@@ -3,11 +3,12 @@
 ## Lernziele
 
 - FUSEE installieren und bauen
-- Was heißt Echtzeit3D?
-  - Init und RenderAFrame
+- Was heißt Echtzeit?
+  - `Init` und `RenderAFrame`
 - Der Szenengraph
 - Kamera
-- Bewegung 
+- Animation
+- Ändern von Szeneneigenschaften
 
 ## FUSEE installieren und Bauen
 
