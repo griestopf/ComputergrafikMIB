@@ -2,21 +2,9 @@
 
 ## Lernziele
 
-- FUSEE installieren und bauen
-- Was heißt Echtzeit3D?
-  - Init und RenderAFrame
-- Der Szenengraph
-- Kamera und Input
+Verständnis einer Echtzeit-3D-Anwendung
 
-## FUSEE installieren und Bauen
-
-> TODO
->
-> - Installiert und baut FUSEE wie im 
->   [Getting Started Tutorial](https://github.com/FUSEEProjectTeam/Fusee/wiki/Getting-Started) 
->   beschrieben
-
-## Was heißt Echtzeit?
+### Was heißt Echtzeit?
 
 - Bilder müssen so schnell generiert werden, dass eine flüssige
   Animation möglich ist (aktuell > 30 fps)
@@ -79,7 +67,7 @@ Als Programmierer einer FUSEE-Applikation muss man "nur noch" die Methoden
 `Init()` und `RenderAFrame()` mit "Leben" füllen. 
 
 Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
-aufgerufen!
+auferufen!
 
 Die Datei [FirstSteps.cs](Core/FirstSteps.cs) enthält minimale Implementierungen
 für die beiden Methoden [`Init()`](Core/FirstSteps.cs#L20) und 
@@ -108,29 +96,4 @@ grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`
 
 ## Der Szenengraph
 
-Objekte, die in der Szene sichtbar sein sollen, werden in einem _Szenengraphen_ 
-zu einer Szene zusammengestellt. Einen Szenengraphen kann man sich wie die 
-Szenenbeschreibung in Blender's 
-[Outliner Editor](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter01/lecture01/#blender-screen-layout)
-vorstellen. Das Wort _Graph_ beschreibt den hierarchischen Aufbau, manchmal spricht man auch vom Szenen-_Baum_. Da es in diesen Bäumen vorkommen kann, dass Objekte an mehreren 
-Stellen eingehängt sein können, wird der hier mathematisch passendere Begrif _Graph_ verwendet.
-
-In FUSEE besteht ein Szenengraph aus Instanzen der folgenden Datentypen
-
-- `SceneContainer`
-- `SceneNodeContainer`
-- `SceneComponentContainer`
-
-Um diese Typen zu verstehen, ist im folgenden Bild ein Beispiel-FUSEE-Szenengraph abgebildet
-
-![FUSEEE Szenengraph](_images/SceneHierarchy.png)
-
-Eine Szene beginnt immer mit einem Objket vom Typ `SceneContainer` (orange). Dieser enthält
-eine Liste von Objekten vom Typ `SceneNodeContainer` (gelb). Diese stellen die 
-Objekte in der Szene dar. Wie man sehen kann, können Objekte wiederum Kind-Objekte 
-enthalten. D.h. jeder `SceneNodeContainer` enthält eine (u.u. leere) Liste, wiederum von 
-Objekten vom Typ `SceneNodeContainer`. Die eigentlichen Nutzdaten sind dann in 
-`SceneComponentContainer` Objekten (grün) gespeichert. Hier gibt es unterschiedliche
-Komponenten-Typen. Die wichtigsten sind
-- `MeshContainer` - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
-- `MaterialContainer` - enthalten Materialbeschreibungen und Textur-Informationen
+Nun soll ein 
