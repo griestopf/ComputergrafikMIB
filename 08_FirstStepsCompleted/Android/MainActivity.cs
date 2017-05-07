@@ -72,7 +72,7 @@ namespace Fusee.Tutorial.Android
                     });
                 AssetStorage.RegisterProvider(fap);
 
-                var app = new Core.Tutorial();
+                var app = new Core.FirstSteps();
 
 		        // Inject Fusee.Engine InjectMe dependencies (hard coded)
 		        RenderCanvasImp rci = new RenderCanvasImp(ApplicationContext, null, delegate { app.Run(); });

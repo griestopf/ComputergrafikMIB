@@ -19,6 +19,7 @@ namespace Fusee.Tutorial.Core
         private SceneContainer _scene;
         private SceneRenderer _sceneRenderer;
         private float _camAngle = 0;
+        private TransformComponent _cubeTransform;
 
         // Init is called on startup. 
         public override void Init()
@@ -28,7 +29,7 @@ namespace Fusee.Tutorial.Core
 
             // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
-            var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
             var cubeMaterial = new MaterialComponent
             {
                 Diffuse = new MatChannelContainer {Color = new float3(0, 0, 1)},
@@ -39,7 +40,7 @@ namespace Fusee.Tutorial.Core
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNodeContainer();
             cubeNode.Components = new List<SceneComponentContainer>();
-            cubeNode.Components.Add(cubeTransform);
+            cubeNode.Components.Add(_cubeTransform);
             cubeNode.Components.Add(cubeMaterial);
             cubeNode.Components.Add(cubeMesh);
 
@@ -55,14 +56,20 @@ namespace Fusee.Tutorial.Core
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
+            Diagnostics.Log(TimeSinceStart);
+
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
             // Animate the camera angle
-            _camAngle = _camAngle + 0.01f;
+            _camAngle = _camAngle + 90.0f * M.Pi/180.0f * DeltaTime ;
+
+            // Animate the cube
+            _cubeTransform.Translation = new float3(0, 5 * M.Sin(3 * TimeSinceStart), 0);
 
             // Setup the camera 
             RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
+
 
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);

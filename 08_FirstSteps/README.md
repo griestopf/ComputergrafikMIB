@@ -222,7 +222,7 @@ Um den Code zu verstehen, ist es am besten, ein wenig damit herumzuspielen:
 
 ## Kamera
 
-Mit oben durchgeführten Änderungen befindet sich der Würfelin einem linkshändigen 
+Mit oben durchgeführten Änderungen befindet sich der Würfel in einem linkshändigen 
 Koordinatensystem, in dem die Y-Achse die Hoch-Achse ist. Die Kamera steht im 
 Zentrum des Koordinatensystems und schaut entlang der positiven Z-Achse. Der Würfel 
 steht an der Position (0, 0, 50).
@@ -299,9 +299,94 @@ Drehwinkel für jedes Bild abgeändert werden.
 >   // Setup the camera 
 >   RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
 >  ``` 
+>
+>  - Lasst Euch den aktuellen Drehwinkel mit der Methode `Diagnistics.Log()` im 
+>    Output-Fenster von Visual Studio ausgeben.
 
 Erstellen und Laufen lassen sollte nun den Würfel mit einer animierten Kamera zeigen, die sich
 um den Würfel herum dreht.
+
+### Unabhängigkeit von der Frame-Rate 
+
+Die so erstellte Animation erhöht den Drehwinkel in jedem gerenderten Bild um einen konstanten
+Wert (0.01 Radiant). Das führt auf unterschiedlichen Rechnern zu unterschiedlich schnellen 
+Animationen: Auf leistungsstarken Rechnern, die viele Frames pro Sekunde berechnen können,
+läuft die Animation schnell. Auf schwächeren Rechnern, die wenig Frames pro Sekunde berechnen 
+können, dreht sich der Würfel langsamer.
+
+Auch auf ein- und dem selben Rechner kann die Animation zu unterschiedlichen Zeiten unterschiedlich
+schnell dargestellt werden, z.B. wenn der Rechner auf Grund von anderen, gleichzeitig laufenden
+Prozessen stark beansprucht wird.
+
+Um die Animation unabhängig von der aktuellen Frame-Rate zu machen, werden typischerweise alle
+Werte, die Geschwindigkeiten repräsentieren, mit der so genannten _Delta-Time_ skaliert.
+
+Dabei handelt es sich um die Zeit, die seit dem Rendern des letzten Frame vergangen ist. In 
+Fusee kann über die Eigenschaft `DeltaTime` der statischen Klasse `Time` auf diesen Wert,
+gemessen in Sekunden, zugegriffen werden. Da typischerweise das Rendern eines Frames sehr
+schnell geht (Gefordert sind höchstens 1/30 Sekunde), ist dieser Wert sehr klein.
+
+Sollen Geschwindigkeiten (Inkremente) damit skaliert werden, müssen typischerweise gegenüber
+pro-Frame-Inkrementen größere Werte angenommen werden, da dies ja nun pro-Sekunde-Inkremente sind.
+
+> **TODO**
+>
+> - Ändert den Befehl, der pro Frame die aktuelle Kamera-Drehung berechnet wie folgt:
+> ```C#
+>   // Animate the camera angle
+>   _camAngle = _camAngle + 90.0f * M.Pi/180.0f * DeltaTime;
+> ```
+
+Dadurch dreht sich der Würfel exakt mit einer Vierteldrehung (= 90°) pro Sekunde, egal
+mit wieviel Frames die Animation läuft.
+
+## Ändern von Szenen-Eigenschaften
+
+Um die Eigenschaften von Objekten wie z.B. Positionen, Skalierungen, Rotation und Farben
+während des Renderns zu ändern, müssen Referenzen auf die jeweiligen Komponenten gespeichert
+werden. Im Folgenden Beispiel soll der Würfel in Abhängigkeit von der vergangenen Zeit
+sinus-förmige Auf- und Abbewegungen durchführen
+
+> **TODO**
+>
+> - Fügt in die KLasse `FirstSteps` ein Feld ein, das die Transform-Komponente des Würfels
+>   speichern kann, so dass wir nicht nur aus `Init()`, sondern auch aus `RenderAFrame()`
+>   darauf zugreifen können.
+>
+> ```C#
+>  private TransformComponent _cubeTransform;
+> ```
+>
+> - Beim Erzeugen der Szene in `Init()`, ersetzt die lokale Variable `cubeTransform` durch
+>   das neu angelegte Feld `_cubeTransform`.
+>
+> ```C#
+>   _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+>  ...
+>  cubeNode.Components.Add(_cubeTransform);
+> ```
+>
+> - In `RenderAFrame()` ändert die Position des Würfels in der Transform-Komponente als 
+>   Funktion der Zeit. Da wir diesmal die Zeit seit Beginn der Applikation (und nicht die
+>   Delta-Zeit seit dem letzten Frame) verwenden wollen, greifen wir auf `TimeSinceStart` zu.
+>
+> ```C#
+>  // Animate the cube
+>  _cubeTransform.Translation = new float3(0, 5 * M.Sin(3 * TimeSinceStart), 0);
+> ```
+>
+> - Verdeutlicht Euch die Wirkung der Faktoren 5 und 3 für Amplitude und Frequenz der 
+>   Bewegung, in dem Ihr die Werte ändert.
+
+
+## Aufgabe
+
+- Fügt mehrere Würfel in der Init-Methode in Eure Szene ein
+- Animiert weitere Eigenschaften wie z.B. Positionen, Skalierungen, Rotationen und Farben.
+- Eventuell können auch mit Schleifen und Berechnungen sehr viele Würfel eingefügt werden
+- Um die Eigenschaften vieler Objekte zu verändern, können Referenzen auf deren Komponenten
+  in Arrays oder Listen Feldern gehalten werden und ebenfalls in Schleifen verändert werden. 
+
 
 
 
