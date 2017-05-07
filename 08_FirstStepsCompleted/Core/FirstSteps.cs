@@ -18,6 +18,7 @@ namespace Fusee.Tutorial.Core
     {
         private SceneContainer _scene;
         private SceneRenderer _sceneRenderer;
+        private float _camAngle = 0;
 
         // Init is called on startup. 
         public override void Init()
@@ -27,7 +28,7 @@ namespace Fusee.Tutorial.Core
 
             // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
-            var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 50)};
+            var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
             var cubeMaterial = new MaterialComponent
             {
                 Diffuse = new MatChannelContainer {Color = new float3(0, 0, 1)},
@@ -57,10 +58,16 @@ namespace Fusee.Tutorial.Core
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
+            // Animate the camera angle
+            _camAngle = _camAngle + 0.01f;
+
+            // Setup the camera 
+            RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
+
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rerndered farame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
             Present();
         }
 

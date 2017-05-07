@@ -6,7 +6,8 @@
 - Was heißt Echtzeit3D?
   - Init und RenderAFrame
 - Der Szenengraph
-- Kamera und Input
+- Kamera
+- Bewegung 
 
 ## FUSEE installieren und Bauen
 
@@ -141,7 +142,7 @@ Komponenten-Typen. Die wichtigsten sind
 
 > **TODO**
 >
-> - Fügt in die Klasse [`FirstSteps`](Core/FirstSteps.cs#L27) die beiden Felder
+> - Fügt in die Klasse [`FirstSteps`](Core/FirstSteps.cs#L17) die beiden Felder
 >   - `_scene` und
 >   - `_sceneRenderer` 
 >  ein.
@@ -218,5 +219,97 @@ Um den Code zu verstehen, ist es am besten, ein wenig damit herumzuspielen:
 > - Setzt einen Breakpoint auf die Zeile `_sceneRenderer = new SceneRenderer(_scene);` und
 >   betrachtet den Inhalt von `_scene` im Watch-Fenster. Verfolgt den hierarchischen Aufbau der 
 >   Szene.
+
+## Kamera
+
+Mit oben durchgeführten Änderungen befindet sich der Würfelin einem linkshändigen 
+Koordinatensystem, in dem die Y-Achse die Hoch-Achse ist. Die Kamera steht im 
+Zentrum des Koordinatensystems und schaut entlang der positiven Z-Achse. Der Würfel 
+steht an der Position (0, 0, 50).
+
+> **TODO**
+>
+> - Führt Euch die Situation vor Augen. Zeichnet ein Bild der Szene mit Koordinatenachseen,
+>   Kamera-Position und Kamera-Blickrichtung.
+
+In vielen Anwendungen soll die Kamera in der Szene bewegt werden. Dazu muss in FUSEE die so
+genannte _View-Matrix_ verändert werden. Glücklicherweise lässt sich die View-Matrix mit einigen 
+sehr komfortablen Methoden ändern, ohne dass sehr tief in die Matrix-Rechnung eingetaucht werden
+muss.
+
+Im Folgenden soll der Würfel in die Mitte der Szene gebracht werden und die Kamera von schräg
+hinten auf die Szene schauen.
+
+> **TODO**
+>
+> - Ändert die Transform-Komponente des Würfels so ab, dass dieser nun im Zentrum des
+>   Koordinatensystems steht ((0, 0, 0) statt (0, 0, 50).
+>    
+> ```C#
+> var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+> ```
+> - Fügt VOR dem Rendern der Szene Code ein, der die View-Matrix des RenderContext verändert,
+>   und somit die Kamera platziert und rotiert:
+
+```C#
+  public override void RenderAFrame()
+  {
+      // Clear the backbuffer
+      RC.Clear(ClearFlags.Color | ClearFlags.Depth);
+
+      // Setup the camera 
+      RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(0.2f);
+
+      // Render the scene on the current render context
+      _sceneRenderer.Render(RC);
+
+      // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+      Present();
+  }
+```
+
+Nun erscheint der Würfel leicht gedreht. Die View-Matrix enthält die Transformationen der Kamera
+aus ihrer Lage im Zentrum des Koordinatensystems mit Blickrichtung in positive Z-Achse an
+ihre Ziel-Position und -Orientierung. **Dies allerdings in umgekehrter Reihenfolge und in umgekehrtem Koordinaten-Sinn**. Die Anweisung ``float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(0.2f);`` erzeugt also eine Kamera-Transformation, die die Kamera 
+ZUERST um -50 Einheiten entlang der Z-Achse bewegt UND DANN um -0.2 Radiant um die (Welt-)Y-Achse dreht.
+
+> **TODO**
+>
+> - Auch das ist nur mit einer Skizze zu verstehen. Zeichnet ein Bild der Szene mit 
+>   Koordinatenachseen, Kamera-Position und Kamera-Blickrichtung und den beiden 
+>   Transformationen.
+
+## Animation
+
+Nun soll sich die Kamera um den Würfel drehen. Dazu muss in `RenderAFrame()` der aktuelle
+Drehwinkel für jedes Bild abgeändert werden.
+
+> **TODO**
+>
+> - Fügt der Klasse `FirstSteps` ein weiteres Feld hinzu, das den aktuellen Drehwinkel
+>   der Kamera in Radiant enthält und initialisiert den Winkel mit 0.
+>  ```C#
+>   private float _camAngle = 0;
+>  ``` 
+> - Ändert in der Methode `RenderAFrame()` das Setzen der Kamera-Matrix folgendermaßen ab:
+>  ```C#
+>   // Animate the camera angle
+>   _camAngle = _camAngle + 0.01f;
+>
+>   // Setup the camera 
+>   RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
+>  ``` 
+
+Erstellen und Laufen lassen sollte nun den Würfel mit einer animierten Kamera zeigen, die sich
+um den Würfel herum dreht.
+
+
+
+
+
+
+
+
+
 
 
