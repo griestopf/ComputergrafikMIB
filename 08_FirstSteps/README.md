@@ -69,6 +69,8 @@ Als Programmierer einer FUSEE-Applikation muss man "nur noch" die Methoden
 Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
 auferufen!
 
+Die Datei [FirstSteps.cs](Core/FirstSteps.cs) enthält minimale Implementierungen
+für die beiden Methoden
 
 
 
