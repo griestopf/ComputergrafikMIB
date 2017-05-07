@@ -70,8 +70,30 @@ Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
 auferufen!
 
 Die Datei [FirstSteps.cs](Core/FirstSteps.cs) enthält minimale Implementierungen
-für die beiden Methoden
+für die beiden Methoden [`Init()`](Core/FirstSteps.cs#L20) und 
+[`RenderAFrame()`](Core/FirstSteps.cs#L27)
 
+> TODO
+>
+> - Öffnet die Solution 'FirstSteps.sln' in Visual Studio
+> - Setzt 'FirstSteps.Desktop als Startup-Projekt
+> - Setzt 'x86' als Solution Platform
+> - Startet die Applikation
 
+Wie man sieht, sieht man nichts - ein Fenster in hellgrün. Das liegt daran, dass
+in `Init()` die so genannte _ClearColor_, also die Hintergrundfarbe, mit der
+beim Rendern zunächst mal der gesamte zu rendernde Bereich gelöscht wird, auf
+hellgrün gesetzt wird. 
+
+In `RenderAFrame()` wird dann für jedes zu rendernde Bild zunächst das gesamte Bild
+tatsächlich mit der vorher gesetzten Farbe gelöscht (mit `RC.Clear(...)`) und 
+schließlich das im Hintergrund gerenderte Bild, das aus nicht anderem als der 
+grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`).
+
+> TODO
+>
+> - Ändert die Hintergrundfarbe in der [`Init()`-Methode](Core/FirstSteps.cs#L23)
 
 ## Der Szenengraph
+
+Nun soll ein 
