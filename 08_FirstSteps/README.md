@@ -382,9 +382,9 @@ sinus-förmige Auf- und Abbewegungen durchführen
 
 ## Aufgabe
 
-- Fügt mehrere Würfel in der Init-Methode in Eure Szene ein
-- Animiert weitere Eigenschaften wie z.B. Positionen, Skalierungen, Rotationen und Farben.
-- Eventuell können auch mit Schleifen und Berechnungen sehr viele Würfel eingefügt werden
+- Fügt mehrere Würfel in der Init-Methode in Eure Szene ein!
+- Animiert weitere Eigenschaften wie z.B. Positionen, Skalierungen, Rotationen und Farben!
+- Eventuell können auch mit Schleifen und Berechnungen sehr viele Würfel eingefügt werden.
 - Um die Eigenschaften vieler Objekte zu verändern, können Referenzen auf deren Komponenten
   in Arrays oder Listen Feldern gehalten werden und ebenfalls in Schleifen verändert werden. 
 
