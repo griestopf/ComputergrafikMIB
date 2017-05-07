@@ -16,11 +16,39 @@ namespace Fusee.Tutorial.Core
 {
     public class FirstSteps : RenderCanvas
     {
+        private SceneContainer _scene;
+        private SceneRenderer _sceneRenderer;
+
         // Init is called on startup. 
         public override void Init()
         {
             // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
             RC.ClearColor = new float4(0.7f, 1, 0.5f, 1);
+
+            // Create a scene with a cube
+            // The three components: one XForm, one Material and the Mesh
+            var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 50)};
+            var cubeMaterial = new MaterialComponent
+            {
+                Diffuse = new MatChannelContainer {Color = new float3(0, 0, 1)},
+                Specular = new SpecularChannelContainer {Color = float3.One, Shininess = 4}
+            };
+            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+
+            // Assemble the cube node containing the three components
+            var cubeNode = new SceneNodeContainer();
+            cubeNode.Components = new List<SceneComponentContainer>();
+            cubeNode.Components.Add(cubeTransform);
+            cubeNode.Components.Add(cubeMaterial);
+            cubeNode.Components.Add(cubeMesh);
+
+            // Create the scene containing the cube as the only object
+            _scene = new SceneContainer();
+            _scene.Children = new List<SceneNodeContainer>();
+            _scene.Children.Add(cubeNode);
+
+            // Create a scene renderer holding the scene above
+            _sceneRenderer = new SceneRenderer(_scene);
         }
 
         // RenderAFrame is called once a frame
@@ -29,6 +57,8 @@ namespace Fusee.Tutorial.Core
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
+            // Render the scene on the current render context
+            _sceneRenderer.Render(RC);
 
             // Swap buffers: Show the contents of the backbuffer (containing the currently rerndered farame) on the front buffer.
             Present();
