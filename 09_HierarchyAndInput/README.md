@@ -360,6 +360,36 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >   };
 >   ```
 
+Damit sollten die Bestandteile des Roboters (noch immer ohne blauen Unterarm) mit beliebigen Dreheungen
+der roten Säule um die Y-Achse und des grünen Arms um die X-Achse glaubhaft aussehen, ohne dass die 
+Einzelteile auseinander gerissen werden.
+
+Schließlich fehlt noch der blaue Unterarm.
+
+> **TODO**
+>
+> - Fügt nach dem selben Schema wie oben den blauen Unterarm als Kindobjekt des grünen Arms ein.
+>   Dabei muss der blaue Arm auch aus zwei Hierarchie-Ebenen bestehen: Einer, die den Nullpunkt
+>   in das Scharnier zwischen Grün und Blau setzt und einer Kind-Ebene, die die Geometrie mit ihrem
+>   Nullpunkt in der Mitte an die richtige Stelle setzt.
+>
+> - Macht u.U. Skizzen: Zeichnet den Szenengraphen auf und malt die Ursprünge der lokalen Koordinatensysteme
+>   in o.A. Zeichnung ein. Setzt alle Drehwinkel auf 0 zurück, um den Roboter in der nach oben gestreckten
+>   Grundhaltung aufzubauen.
+>
+> - Sollte es gar nicht klappen, verwendet ***AUSNAHMSWEISE*** als Vorgriff die Implementierung im
+>   [_Completed_-Projekt](../09_HierarchyAndInputCompleted/Core/HierarchyInput.cs#L27)
+
+Als Ergebnis sollte der Roboter mit allen Armen so konstruiert sein, dass Drehung der roten Säule um die
+Y-Achse und Drehungen der beiden Arme (grün, blau) jeweils um die X-Achse den Roboter in beliebige Stellunge
+bringen, ohen die Einzelteile auseinander zu reißen.
+
+![Cuboter Fertig](_images/RoboCompleted.png)
+
+## Eingabe
+
+
+
 
 
 
