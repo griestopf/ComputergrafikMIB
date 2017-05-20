@@ -245,7 +245,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
 > **TODO**
 >
 > - Fügt mit Hife des obenstehenden Code den grünen Arm als Kind der roten Säule hinzu.
-> - erzeugt die `_upperArmTransform`-Komponente analog zu den beiden anderen Transform-Komponenten
+> - erzeugt die `_upperArmTransform`-Komponente analog zu den beiden anderen Transform-Komponenten.
 > - Setzt die Koordinaten des `Translation`-Feldes der Transform-Komponte so, dass der grüne Arm
 >   exakt wie in o.a. Skizze und in folgdendem Screenshot erscheint.
 >
@@ -373,20 +373,109 @@ Schließlich fehlt noch der blaue Unterarm.
 >   in das Scharnier zwischen Grün und Blau setzt und einer Kind-Ebene, die die Geometrie mit ihrem
 >   Nullpunkt in der Mitte an die richtige Stelle setzt.
 >
-> - Macht u.U. Skizzen: Zeichnet den Szenengraphen auf und malt die Ursprünge der lokalen Koordinatensysteme
->   in o.A. Zeichnung ein. Setzt alle Drehwinkel auf 0 zurück, um den Roboter in der nach oben gestreckten
+> - Macht Skizzen: 
+>   - Zeichnet den gewünschten  Szenengraphen in der üblichen Knoten-Komponenten-Darstellung auf 
+>   - Zeichnet die Ursprünge der lokalen Koordinatensysteme in o.A. Zeichnung ein. 
+>
+> - Bei Schwierigkeiten: Setzt alle Drehwinkel auf 0 zurück, um den Roboter in der nach oben gestreckten
 >   Grundhaltung aufzubauen.
 >
 > - Sollte es gar nicht klappen, verwendet ***AUSNAHMSWEISE*** als Vorgriff die Implementierung im
 >   [_Completed_-Projekt](../09_HierarchyAndInputCompleted/Core/HierarchyInput.cs#L27)
+>
+
+
 
 Als Ergebnis sollte der Roboter mit allen Armen so konstruiert sein, dass Drehung der roten Säule um die
-Y-Achse und Drehungen der beiden Arme (grün, blau) jeweils um die X-Achse den Roboter in beliebige Stellunge
-bringen, ohen die Einzelteile auseinander zu reißen.
+Y-Achse und Drehungen der beiden Arme (grün, blau) jeweils um die X-Achse den Roboter in beliebige Stellungen
+bringen, ohne die Einzelteile auseinander zu reißen.
 
 ![Cuboter Fertig](_images/RoboCompleted.png)
 
 ## Eingabe
+
+Nun sollen Benutzer in die Lage versetzt werden, den Roboter interaktiv zu steuern. Dazu müssen wir Benutzereingaben
+entgegen nehmen und diese in Gelenkstellungen umwandeln.
+
+In FUSEE können wir auf Benutzereingaben von diversen Eingabegeräte über die Klasse `Input` zugreifen. Diese besitzt
+bereits statische Felder (Klassenvariablen) für die gebräuchlichsten Eingabegeräte, wie
+
+- Maus (`Mouse`)
+- Tastatur (`Keyboard`)
+- Touch (`Touch`)
+
+Mit der Anweisung 
+```C#
+using static Fusee.Engine.Core.Input;
+```
+ganz oben in der Datei [HierarchyInput.cs](Core/HierarchyInput.cs#L12) können wir im Code direkt auf die o.G.
+Felder für die Eingabegeräte zugreifen. 
+
+> **TODO**
+>
+> - Tippt in einer neuen Zeile im Rumpf der Methode `RenderAFrame()` jeweils 
+>   - `Mouse`
+>   - `Keyboard`
+>   - `Touch`
+>
+>   gefolgt von einem Punkt (`.`). Intellisense müsste dann ein Auswahlfenster mit den Eigenschaften der
+>   jeweiligen Eingabegeräte anzeigen.
+
+Im Folgenden sind für die Eingabegeräte Maus und Tastatur die wichtigsten auslesbaren Eigenschaften angezeigt. Diese
+können jeweils in `RenderAFrame()` ausgelesen werden und die zurückgelieferten Werte für die Interaktion
+verwendet werden.
+
+### Maus
+
+Eigenschaft              | Datentyp |  Beschreibung
+-------------------------|----------|--------------------------
+`Mouse.LeftButton`       | `bool`   | Gibt an, ob die linke Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
+`Mouse.MidlleButton`     | `bool`   | Gibt an, ob die mittlere Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
+`Mouse.RightButton`      | `bool`   | Gibt an, ob die rechte Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
+`Mouse.Position`         | `float2` | Aktuelle Position des Maus-Cursor in Pixeln ((0, 0) = linke obere Ecke des Render-Fensters).
+`Mouse.Velocity`         | `float2` | Aktuelle Geschwindigkeit des Maus-Cursor in Pixel/Sekunde entlang X- und Y-Achse.
+
+### Tastatur
+
+Eigenschaft                     | Datentyp |  Beschreibung
+--------------------------------|----------|--------------------------
+`Keyboard.GetKey(<KeyCode>)`    | `bool`   | Gibt an, ob die übergebene Taste gerade gedrückt ist (`true`) oder nicht (`false`).
+`Keyboard.IsKeyDown(<KeyCode>)` | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame heruntergedrückt wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste noch gedrückt gehalten wird, aber nicht im aktuellen Frame heruntergedrückt wurde.
+`Keyboard.IsKeyUp(<KeyCode>)`   | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame losgelassen wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste gerade nicht gedrückt ist, aber nicht im aktuellen Frame losgelassen wurde.
+`Keyboard.IsKeyUp(<KeyCode>)`   | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame losgelassen wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste gerade nicht gedrückt ist, aber nicht im aktuellen Frame losgelassen wurde.
+`Keyboard.LeftRightAxis`        | `float`   | 'Virtuelle' Achse, die durch Pfeil-Links und Pfeil-Rechts gesteuert wird. Wert zwischen -1 und 1. 
+`Keyboard.UpDownAxis`           | `float`   | 'Virtuelle' Achse, die durch Pfeil-Hoch und Pfeil-Runter gesteuert wird. Wert zwischen -1 und 1. 
+`Keyboard.LeftRightAxis`        | `float`   | 'Virtuelle' Achse, die durch Pfeil-Links und Pfeil-Rechts gesteuert wird. Wert zwischen -1 und 1. 
+`Keyboard.ADAxis`               | `float`   | 'Virtuelle' Achse, die durch Taste 'A' und Taste 'D' gesteuert wird. Wert zwischen -1 und 1. 
+`Keyboard.WSAxis`               | `float`   | 'Virtuelle' Achse, die durch Taste 'W' und Taste 'S' gesteuert wird. Wert zwischen -1 und 1. 
+
+Mit den `...Axis` EigenSchaften der Tastatur lassen sich über die Tastatur Game-artige Steuerkreuze für die Pfeil und die 'WASD'-Tasten
+implementieren, ohne aufwändige Einzelabfragen per "GetKey". Die Werte der Achsen im Intervall [-1...1] lassen sich als Geschwindigkeiten verwenden. Der aktuelle Achsenwert wird zudem bei Tastenänderung mit gewisser Trägheit beschleunigt/abgebremst.
+
+Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotation des Roboters um die rote Säule zu kontrollieren.
+
+> **TODO**
+>
+> - Fügt folgenden Code an den Anfang des Rumpfes von `RenderAFrame()`
+>
+>   ```C#
+>    public override void RenderAFrame()
+>    {
+>        float bodyRot = _bodyTransform.Rotation.y;
+>        bodyRot += 0.1f * Keyboard.LeftRightAxis;
+>        _bodyTransform.Rotation = new float3(0, bodyRot, 0);
+>        ...
+>   ```
+> 
+
+## Aufgabe
+
+- Macht die Bewegung des Roboters unabhängig von der Framerate.
+- Fügt Steuerungen für die beiden anderen Achsen des Roboters ein.
+- Fügt eine Möglichkeit ein, dass Benutzer die Kamera mit der Maus um das Geschehen drehen (mittels '_camAngle').
+
+
+ 
 
 
 

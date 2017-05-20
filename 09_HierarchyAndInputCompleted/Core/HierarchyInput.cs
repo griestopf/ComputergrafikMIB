@@ -49,7 +49,7 @@ namespace Fusee.Tutorial.Core
             {
                 Rotation = new float3(0.8f, 0, 0),
                 Scale = new float3(1, 1, 1),
-                Translation = new float3(2, 8, 0)
+                Translation = new float3(-2, 8, 0)
             };
 
             // Setup the scene graph
@@ -170,6 +170,10 @@ namespace Fusee.Tutorial.Core
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
+            float bodyRot = _bodyTransform.Rotation.y;
+            bodyRot += 0.1f * Keyboard.LeftRightAxis;
+            _bodyTransform.Rotation = new float3(0, bodyRot, 0);
+
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
