@@ -442,10 +442,8 @@ Eigenschaft                     | Datentyp |  Beschreibung
 `Keyboard.GetKey(<KeyCode>)`    | `bool`   | Gibt an, ob die übergebene Taste gerade gedrückt ist (`true`) oder nicht (`false`).
 `Keyboard.IsKeyDown(<KeyCode>)` | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame heruntergedrückt wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste noch gedrückt gehalten wird, aber nicht im aktuellen Frame heruntergedrückt wurde.
 `Keyboard.IsKeyUp(<KeyCode>)`   | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame losgelassen wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste gerade nicht gedrückt ist, aber nicht im aktuellen Frame losgelassen wurde.
-`Keyboard.IsKeyUp(<KeyCode>)`   | `bool`   | Gibt an, ob die übergebene Taste im aktuellen Frame losgelassen wurde (`true`) oder nicht (`false`). Der Rückgabewert ist auch dann `false`, wenn die Taste gerade nicht gedrückt ist, aber nicht im aktuellen Frame losgelassen wurde.
 `Keyboard.LeftRightAxis`        | `float`   | 'Virtuelle' Achse, die durch Pfeil-Links und Pfeil-Rechts gesteuert wird. Wert zwischen -1 und 1. 
 `Keyboard.UpDownAxis`           | `float`   | 'Virtuelle' Achse, die durch Pfeil-Hoch und Pfeil-Runter gesteuert wird. Wert zwischen -1 und 1. 
-`Keyboard.LeftRightAxis`        | `float`   | 'Virtuelle' Achse, die durch Pfeil-Links und Pfeil-Rechts gesteuert wird. Wert zwischen -1 und 1. 
 `Keyboard.ADAxis`               | `float`   | 'Virtuelle' Achse, die durch Taste 'A' und Taste 'D' gesteuert wird. Wert zwischen -1 und 1. 
 `Keyboard.WSAxis`               | `float`   | 'Virtuelle' Achse, die durch Taste 'W' und Taste 'S' gesteuert wird. Wert zwischen -1 und 1. 
 
