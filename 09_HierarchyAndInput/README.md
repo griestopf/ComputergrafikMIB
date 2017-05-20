@@ -249,10 +249,121 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
 > - Setzt die Koordinaten des `Translation`-Feldes der Transform-Komponte so, dass der grüne Arm
 >   exakt wie in o.a. Skizze und in folgdendem Screenshot erscheint.
 >
->   ![Gründer Arm](_images/GreenArm.png)
+>   ![Grüner Arm](_images/GreenArm.png)
 > 
 > - Erklärt Euch anhand der Skizze, wie diese Koordinaten zustande kommen.
 
-## Pivot
+## Pivot Point
 
-N
+Da nun der grüne Oberarm ein Kind der roten Säule ist, müsste dieser ja alle Bewegungen des roten Armes 
+mitmachen. Das wollen wir ausprobierern
+
+> **TODO**
+> 
+> - Rotiert die rote Säule (`Body`) ein wenig um die Y-Achse, indem Ihr deren Transform-Komponente verändert:
+>
+>   ```C#
+>      _bodyTransform = new TransformComponent
+>      {
+>          Rotation = new float3(0, 0.2f, 0),
+>          Scale = new float3(1, 1, 1),
+>          Translation = new float3(0, 6, 0)
+>      };
+>   ```
+>
+> - Um wieviel Grad wird mit o. a. Transform-Komponente die rote Säule um Y rotiert?
+>
+
+Als Ergebnis müsste die Säule jetzt inklusive dem daran hängenden Unterarm rotiert sein. Nun soll sich der grüne
+Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
+
+> **TODO**
+> 
+> - Rotiert den grünen Arm (`UpperArm`) ungefähr 90° um die X-Achse, indem Ihr dessen Transform-Komponente verändert:
+>
+>   ```C#
+>      _upperArmTransform = new TransformComponent
+>      {
+>          Rotation = new float3(1.5f, 0, 0),
+>          Scale = new float3(1, 1, 1),
+>          Translation = new float3(2, 8, 0)
+>      };
+>   ```
+>
+> - Warum ist die Angabe 1,5f ungefähr 90°?
+
+Ergebnis? Der Roboter sieht ziemlich kapputt aus:
+
+![Grüner Arm Futsch](_images/RobotBroken.png)
+
+Der Grüne Arm scheint aus dem Gelenk gesprungen zu sein. Das lieg daran, dass der Koordinatenursprung des Cuboid-Körpers
+immer in der Mitte des Quaders liegt. Sämtliche Transformationen in der `TransformComponent` beziehen sich auf
+den Ursprung, so auch die Rotation. Das Rotationszentrum eines Körpers bezeichnet man auch mit ***Pivot Point***.
+
+Notiz am Rande: Mit dem `Translation`-Feld (`Translation = new float3(2, 8, 0)`) haben wir die Mitte des grünen
+Quaders so weit nach oben geschoben, bis wir die gewünschte Position erreicht haben. 
+
+Wir wollen nun den Pivot Point verändern. Das können wir, indem wir eine weitere Ebene in unsere Hierachie einfügen, 
+die allerdings kein Mesh (und auch kein Material enthält). Ausgehend von der Mitte der roten Säule schieben wir unser
+Koordinatensystem mit Hilfe eines "leeren" `SceneNodeContainer` zunächst so weit nach oben, dass der Ursprung des 
+neuen Koordinatensystem im Scharnier zwischen Grün und Rot liegt. In diese Node fügen wir dann eine weitere Child-Node
+ein, die die eigentliche Geometrie enthält und diese an die richtige (relative) Position schiebt.
+
+> **TODO**
+>
+> - Schreibt den Teil des Szenengraphen für den grünen Oberarm so um, dass dieser nun aus zwei Hierarchiestufen
+>   besteht: Einer äußeren Node für den _Pivot Point_ und einer inneren Node für die Geometrie.
+>
+>   ```C#
+>    // GREEN UPPER ARM
+>    new SceneNodeContainer
+>    {
+>        Components = new List<SceneComponentContainer>
+>        {
+>            _upperArmTransform,
+>        },
+>        Children = new List<SceneNodeContainer>
+>        {
+>            new SceneNodeContainer
+>            {
+>                Components = new List<SceneComponentContainer>
+>                {
+>                    new TransformComponent
+>                    {
+>                        Rotation = new float3(0, 0, 0),
+>                        Scale = new float3(1, 1, 1),
+>                        Translation = new float3(0, 4, 0)
+>                    },
+>                    new MaterialComponent
+>                    {
+>                        Diffuse = new MatChannelContainer { Color = new float3(0, 1, 0) },
+>                        Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+>                    },
+>                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+>                }
+>            }
+>        }
+>    }
+>   ```
+>
+> - Verändert die `TransformComponent`für den grünen Upper Arm, so dass dessen Pivot Point nun auf der Y-Achse
+>   des Welt-Koordinatensystems bei 10 zum liegen kommt. Gemessen von der Mitte der roten Säule (die ja das 
+>   Eltern-Objekt ist und daher der Ursprung des lokalen Koordinatensystems für dessen Kinder), sind das
+>   4 Einheiten nach oben
+>
+>   ```C#
+>   _upperArmTransform = new TransformComponent
+>   {
+>       Rotation = new float3(1.5f, 0, 0),
+>       Scale = new float3(1, 1, 1),
+>       Translation = new float3(2, 4, 0)
+>   };
+>   ```
+
+
+
+
+
+
+
+

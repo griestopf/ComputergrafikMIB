@@ -22,6 +22,7 @@ namespace Fusee.Tutorial.Core
         private TransformComponent _baseTransform;
         private TransformComponent _bodyTransform;
         private TransformComponent _upperArmTransform;
+        private TransformComponent _foreArmTransform;
 
         SceneContainer CreateScene()
         {
@@ -34,13 +35,19 @@ namespace Fusee.Tutorial.Core
             };
             _bodyTransform = new TransformComponent
             {
-                Rotation = new float3(0, 0, 0),
+                Rotation = new float3(0, 1.2f, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(0, 6, 0)
             };
             _upperArmTransform = new TransformComponent
             {
-                Rotation = new float3(0, 0, 0),
+                Rotation = new float3(0.8f, 0, 0),
+                Scale = new float3(1, 1, 1),
+                Translation = new float3(2, 4, 0)
+            };
+            _foreArmTransform = new TransformComponent
+            {
+                Rotation = new float3(0.8f, 0, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(2, 8, 0)
             };
@@ -90,14 +97,58 @@ namespace Fusee.Tutorial.Core
                                 Components = new List<SceneComponentContainer>
                                 {
                                     _upperArmTransform,
-                                    new MaterialComponent
-                                    {
-                                        Diffuse = new MatChannelContainer { Color = new float3(0, 1, 0) },
-                                        Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
-                                    },
-                                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                 },
-                            }
+                                Children = new List<SceneNodeContainer>
+                                {
+                                    new SceneNodeContainer
+                                    {
+                                        Components = new List<SceneComponentContainer>
+                                        {
+                                            new TransformComponent
+                                            {
+                                                Rotation = new float3(0, 0, 0),
+                                                Scale = new float3(1, 1, 1),
+                                                Translation = new float3(0, 4, 0)
+                                            },
+                                            new MaterialComponent
+                                            {
+                                                Diffuse = new MatChannelContainer { Color = new float3(0, 1, 0) },
+                                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                            },
+                                            SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+                                        }
+                                    },
+                                    // BLUE FOREARM
+                                    new SceneNodeContainer
+                                    {
+                                        Components = new List<SceneComponentContainer>
+                                        {
+                                            _foreArmTransform,
+                                        },
+                                        Children = new List<SceneNodeContainer>
+                                        {
+                                            new SceneNodeContainer
+                                            {
+                                                Components = new List<SceneComponentContainer>
+                                                {
+                                                    new TransformComponent
+                                                    {
+                                                        Rotation = new float3(0, 0, 0),
+                                                        Scale = new float3(1, 1, 1),
+                                                        Translation = new float3(0, 4, 0)
+                                                    },
+                                                    new MaterialComponent
+                                                    {
+                                                        Diffuse = new MatChannelContainer { Color = new float3(0, 0, 1) },
+                                                        Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                                    },
+                                                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
                         }
                     }
                 }
