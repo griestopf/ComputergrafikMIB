@@ -476,12 +476,13 @@ Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotati
     soll die X-Komponente der aktuellen Mausgeschwindigkeit 
     ([`Mouse.Velocity.x`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L101))
     als Parameter der Berechnung einer Änderungsrate für '_camAngle' verwendet werden.
-  - Baut eine Dämpfung ein, die den üblichen "Swipe"-Effekt nachstellt: Durch Maustaste-Drücken, 
+  -  _Für Fortgeschrittene_: Baut eine Dämpfung ein, die den üblichen "Swipe"-Effekt nachstellt: Durch Maustaste-Drücken, 
     horizontales Bewegen und Loslassen während der Bewegung soll die aktuelle Drehgeschwindigkeit
     zunächst beibehalten werden und dann mit der Zeit abnehmen, bis die Drehung nach einer
     gewissen Zeit zum Stillstand kommt.
 - Fügt eine Greifhand (aus zwei oder drei weiteren Quadern) in die Hierarchie ein und ermöglicht Benutzern, diese
-  zu Öffnen und zu Schließen.
+  zu Öffnen und zu Schließen. Wie kann gewährleistet werden, dass es Zustände wie "ganz offen" und "ganz geschlossen"
+  gibt, die nicht über- oder unterschritten werden können?
 - _Für Fortgeschrittene_: Schön wäre es, das Öffnen und Schließen jeweils durch einen einmaligen Tastendruck
   ([`Keyboard.GetKey()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/KeyboardDevice.cs#L46))
   triggern zu können, nachdem der jeweilige Vorgang (Öffnen oder Schließen) dann selbständig abläuft.
