@@ -56,20 +56,95 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 >     *Ergebnis*: Der Programm-Ablauf hält am roten Breakpoint an.
 >   - Öffnet das Watch-Fenster des Debuggers (Menü->Debug->Windows->Watch->Watch 1) und fügt als zu beobachtende
 >     Variable folgenden Ausdruck ein: `_scene.Children[0].Components[2]`. Es soll also die als **drittes**  
->     (Null-basierterIndex; **2**) eingefügte Komponente des **ersten** Kindes (Null-basierterIndex; **0**)
->     unserer Szene beobachtet werden.
+>     (Null-basierter Index; **2**) eingefügte Komponente des **ersten** Kindes (Null-basierter Index; **0**)
+>     unserer Szene beobachtet werden. Das ist natürlich die Mesh-Komponente.
 >
 >     ![Mesh im Watch-Fenster](_images/WatchMesh.png)
 >
->   - Eine Mesh-Komponente enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
+>   - Diese enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
 >     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Vergegenwertigt Euch, dass dies
 >     das Resultat des Aufrufs von 
 >     [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_MeshAndPick/Core/SimpleMeshes.cs#L11
 )
 >     ist.
 
-Wir wollen nun verstehen, wie diese Daten einen Würfel erzeugen. Zunächst mal betrachten wir die Liste
-der Vertices und sehen, dass dort 3D-Positionen angegeben sind 
+### Vertices
+
+Wir wollen nun verstehen, wie diese Daten einen Würfel erzeugen. Zunächst mal betrachten wir den Inhalt 
+des `Vertices` Array. Wie uns der Name sagt, sind das die Eckpunkte unserer Geometrie, an denen die Flächen
+aufgehängt sind. Wie wir sehen, sind dort 3D-Positionen angegeben und diese liegen alle 5 Einheiten
+in jeweils beid möglichen Richtungen entlang jeder Hauptachse (x, Y und Z) vom Ursprung entfent. 
+
+Damit liegen wohl alle Punkte an den Eckpunkten eines Würfels mit dem Zentrum in `(0, 0, 0)` und der Kantenlänge 10
+(jeweils von -5 bis 5 - so haben wir es ja im Aufruf von `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))`
+angegeben).
+
+> **TODO**
+> - Falls das nicht klar ist, zeichnet ein paar der Vertices in ein 3D-Koordinatensystem ein.
+
+Eine Frage stellt sich jedoch: Warum sind es 24 Array-Einträge? Ein Würfel hat doch nur 8 Eckpunkte und dies
+ist auch die Anzahl der überhaupt möglichen unterschiedlichen Eckpunkte mit den Koordinaten "Betrag von 5 in
+allen Dimensionen". Wie wir an den Array-Einträgen sehen, existiert jeder Eckpunkt dann auch drei mal.
+
+Diese Frage, warum hier offenbar drei mal soviel Eckpunkte angegeben sind wie notwendig, klären wir unten, 
+wenn es um Normalen geht. 
+
+### Triangles
+
+FUSEE versteht nur Meshes, die aus Dreicken aufgebaut sind. Sollen Flächen mit mehr Eckpunkten dargestellt
+werden, müssen diese aus Dreiecken zusammengepuzzelt werden. Da ein Würfel aus sechs Quadraten besteht, muss
+jedes Quadrat aus zwei Dreiecken gebildet werden. Der Array `Triangles` enthält die Information, welche Eckpunkte
+mit welchen anderen Eckpunten im `Vertices`-Array Dreiecke bilden. Dazu wird der Inhalt des `Triangles` 
+folgendermaßen interpretiert:
+
+- Der Array enthält 36 Einträge, allerdings keine 3D-Koordinaten, sondern Ganzzahl-Werte 
+  ([`ushort`](https://docs.microsoft.com/de-de/dotnet/articles/csharp/language-reference/keywords/ushort),
+  ähnlich wie int). 
+  Wie man sieht liegen diese Arrayeinträge im Bereich [0..23]. Diese Zahlen sind Indizes in den `Vertices`
+  Array (und in den `Normals` Array, aber dazu später...).
+- Jeweils drei aufeinanderfolgende Indizes im Array bilden ein Dreieck, d.h. die ersten drei Einträge,
+  `0`. `6` und `3` bedeuten, dass die an Positionen 0, 6, und 3 im `Vertices`-Array-abgespeicherten Eckpunte
+  ein Dreieck bilden. Dann kommen im `Triangles` array die drei Einträge `3`, `6` und `9`. Somit bilden 
+  die drei Punkte, die man an diesen Indizes im `Vertices`-Array findet, den nächsten Eintrag.
+
+  ![Triangles Array](_images/Triangles.png)
+
+> **TODO**
+> - Zeichnet die ersten vier im `Triangles`-Array angegebenen Dreiecke (d.h. die ersten 12 Einträge verwenden!)
+>   in ein 3D-Koordinatensystem ein.
+
+Damit ist klar, dass die 36 Einträge insgesamt 12 Dreiecke (12 * 3 = 36) aufspannen. Das sind genau zwei Dreiecke, 
+um jede der sechs quadratischen Würfelflächen darzustellen.
+
+### Normals
+
+Wie bereits im ersten Teil der Veranstaltung klar wurde, wird die Farbgebung der Oberflächen über
+Normalenvektoren beeinflusst. Diese geben die Ausrichtung der Fläche im Raum an. Um gerundete Oberflächen
+zu simulieren (indem kontinuierliche Farbverläufe wie bei gerundeten Flächen errechnet werden),
+werden Normalen nicht pro Fläche oder pro Dreieck angegeben, sondern pro Eckpunkt. Somit enthält der 
+`Normals` Array genauso viel Einträge, wie der `Vertices` Array (nämlich 24). Korrespondierende Indizes in 
+beiden Array liefern die Koordinate und die Normale eines Eckpunktes. Da ein Würfel nicht aus gerundeten
+sondern aus ebenen Flächen besteht, die an deutlich sichtbaren Kanten aufeinander stoßen sollen, muss jeder
+Eckpunkt drei mal vorhanden sein, und zwar mit unterschiedlichen Normalen. Nur so können im 
+`Triangles`-Array Eckpunkte indiziert werden, die für die jeweilige Flächenausrichtung die passende Normale
+besitzen. Folgende Skizze verdeutlicht den Aufbau des Würfels aus Eckpunkten und Normalen und gibt die Indizes 
+der Eckpunkte jeweils mit unterschiedlichen Normalen wieder.
+
+![Cube Normalen](_images/VertsAndNormals.png)
+
+> **TODO**
+>
+> - Sucht beliebige Indizes im 'Triangles'Array, findet jeweils den damit identifzierten Eckpunt im 'Vertices'-Array 
+>   und die dazugehörende Normale im `Normals`-Array und vergleicht diese mit der Skizze.
+
+
+
+
+
+
+
+
+
 
       
 
