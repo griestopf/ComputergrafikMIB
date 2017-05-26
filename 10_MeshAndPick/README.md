@@ -5,7 +5,7 @@
 - Mesh als Geometrie-Bausteine verstehen
   - Aufbau einer Mesh-Komponente
   - Algorithmisch Meshes erzeugen
-- Picking: Mit der Maus Szenenbestandteile 
+- Picking: Mit der Maus Szenenbestandteile identifizieren
   - Dem Picking bei der Arbeit zusehen
   - Selbst Objekte picken
 
@@ -99,7 +99,7 @@ folgendermaßen interpretiert:
 
 - Der Array enthält 36 Einträge, allerdings keine 3D-Koordinaten, sondern Ganzzahl-Werte 
   ([`ushort`](https://docs.microsoft.com/de-de/dotnet/articles/csharp/language-reference/keywords/ushort),
-  ähnlich wie int). 
+  ähnlich wie `int`). 
   Wie man sieht liegen diese Arrayeinträge im Bereich [0..23]. Diese Zahlen sind Indizes in den `Vertices`
   Array (und in den `Normals` Array, aber dazu später...).
 - Jeweils drei aufeinanderfolgende Indizes im Array bilden ein Dreieck, d.h. die ersten drei Einträge,
@@ -118,7 +118,9 @@ um jede der sechs quadratischen Würfelflächen darzustellen.
 
 ### Normals
 
-Wie bereits im ersten Teil der Veranstaltung klar wurde, wird die Farbgebung der Oberflächen über
+Wie bereits in 
+[Lektion 4](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter04/lecture01/)
+klar wurde, wird die Farbgebung der Oberflächen über
 Normalenvektoren beeinflusst. Diese geben die Ausrichtung der Fläche im Raum an. Um gerundete Oberflächen
 zu simulieren (indem kontinuierliche Farbverläufe wie bei gerundeten Flächen errechnet werden),
 werden Normalen nicht pro Fläche oder pro Dreieck angegeben, sondern pro Eckpunkt. Somit enthält der 
@@ -135,7 +137,49 @@ der Eckpunkte jeweils mit unterschiedlichen Normalen wieder.
 > **TODO**
 >
 > - Sucht beliebige Indizes im 'Triangles'Array, findet jeweils den damit identifzierten Eckpunt im 'Vertices'-Array 
->   und die dazugehörende Normale im `Normals`-Array und vergleicht diese mit der Skizze.
+>   und die dazugehörende Normale im `Normals`-Array und vergleicht die Zahlenwerte mit der Skizze.
+
+### UVs
+
+Wie auch in Blender heißen Texturkoordinaten in FUSEE `UVs`.  Auch diese werden für jeden Eckpunkt angegeben. In dieser
+Lektion spielen Texturkoordinaten zunächst keine Rolle.
+
+## Ein eigenes Mesh
+
+In der Aufgabe am Ende soll die Methode 
+
+```C#
+SimpleMeshes.CreateCylinder(float radius, float height, int segments)
+```
+
+implementiert werden. Diese soll eine Mesh-Komponente in Form eines Zylinders erzeugen.
+Eine Dummy-Implementierung existiert bereits in der Datei 
+[SimpleMeshes.cs](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_MeshAndPick/Core/SimpleMeshes.cs#L157).
+Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat folgende Konsequenzen:
+
+- Die Mantefläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber 
+  durch den Benutzer vorgegeben werden. Somit müssen sowohl die Mantelfläche als auch die beiden
+  Deckflächen mit Hilfe einer Schleife erzeugt werden, bei der die Anzahl der Durchläufe durch den 
+  Parameter `segments` bestimmt wird.
+- Die Normalen rund um die Mantefläche müssen zu einem kontinuierlichen Farbverlauf führen
+
+Das Bild aus Lektion 4 verdeutlicht noch mal den Aufbau eines Zylinders.
+
+![Zylinder mit Flächen und Normalen](_images/CylinderPolysVertsNormals.png)
+
+Bis auf die beiden Mittelpunkte der Deckflächen haben müssen alle Eckpunkte doppelt angegeben werden, da sie jeweils
+Bestandteil zweier unterschiedlicher Flächen mit unterschiedlichen Ausrichtungen sind.
+
+Es soll nun 
+
+
+
+
+
+
+
+
+
 
 
 
