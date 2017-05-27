@@ -410,9 +410,18 @@ Lasst den Code laufen. Nun sollte das Achteck als Annährung des Kreises bis auf
 
 ## Aufgabe
 
-Der bis hierher erabeitete Code soll nun so erweitert werden, dass ein Zylinder entsteht. Dazu soll schrittweise
-vorgegangen werden. Mit den oben erlernten Debug- und Watch-Techniken können und sollen auch Zwischenergebnisse überprüft
-werden. 
+Der bis hierher erabeitete Code soll nun so erweitert werden, dass ein Zylinder entsteht. 
+
+In dieser Übung sollen - neben dem Verständnis für Geometriedaten - auch Herangehensweisen an komplexe Aufgaben
+geübt werden. Es ist klar, das vieles nicht auf Anhieb funktionert. Wichtig ist, dass man sich Strategien 
+zur Fehleranalyse aneignet. Einen ersten Versuch zusammenhacken, ausprobieren, merken, dass es nicht geht und 
+dann aufgeben gehört nicht dazu. Dazu gehört: 
+- In kleinen Schritten arbeiten und Zwischenergebnisse testen.
+- Skizzen anfertigen
+- von Hand ausrechnen, was zu erwarten ist, dann im Debugger die Daten analysieren, 
+- Code-Teile auskommentieren, auf Verdacht abändern 
+- Parameter ändern (z.B. mal mit 3 oder 4 statt 8 Segmenten testen) und das Ergebnis interpretieren
+
 
 ### Tipps und Hinweise
 
@@ -496,6 +505,8 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 ### Einzelschritte
 
+
+
 1. Verändert im bestehenden Code alle Vertex-Koordinaten so, dass diese um `0.5f * height` Einheiten entlang der Y-Achse    nach oben verschoben werden (Mittelpunkt nicht vergessen).
 
 2. Erweitert die Arrays auf die o.A. Größen und verändert zunächst die Berechnungen der bestehenden Indizes nach
@@ -509,33 +520,4 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 5. Falls noch nicht geschehen: Fügt das Dreiecksvermaschen für alle Flächen des letzten Segmentes außerhalb der
    Schleife hinzu.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
-
-
-
-
-
+   
