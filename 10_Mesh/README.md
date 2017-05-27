@@ -62,7 +62,7 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 >   - Diese enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
 >     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Vergegenwertigt Euch, dass dies
 >     das Resultat des Aufrufs von 
->     [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_MeshAndPick/Core/SimpleMeshes.cs#L11
+>     [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_Mesh/Core/SimpleMeshes.cs#L11
 )
 >     ist.
 
@@ -161,6 +161,8 @@ Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat
   Parameter `segments` bestimmt wird.
 - Die Normalen rund um die Mantefläche müssen zu einem kontinuierlichen (_smooth_) Shading führen
 
+### Zylinder-Aufbau
+
 Das Bild aus Lektion 4 verdeutlicht noch mal den Aufbau eines Zylinders.
 
 ![Zylinder mit Flächen und Normalen](_images/CylinderPolysVertsNormals.png)
@@ -171,6 +173,8 @@ Bestandteil zweier unterschiedlicher Flächen mit unterschiedlichen Ausrichtunge
 Zunächst soll ein Algorithmus entwickelt werden, der eine kreisförmige Deckfläche des Zylinders als Fächer von 
 Dreiecken aufspannt. Die Anzahl der Dreiecke - die Segmente, die später die tortenstückartigen Einzelteile des Zylinders
 werden - soll dabei vom Benutzer bestimmt werden. 
+
+### Idee des Algorithmus
 
 Die folgende Skizze soll uns helfen, den Algorithmus aufzubauen.
 
@@ -198,7 +202,9 @@ Die folgende Skizze soll uns helfen, den Algorithmus aufzubauen.
 > - Rechnet für ein paar der Punkte deren Koordinaten nach o.g. Formel aus.
 > - Zeichnet eine vergleichbare Skizze mit einem anderen Wert als 8 für `segments`, z.B. 5, 6, 7 oder 9. Wie groß
 >   ist dann δ?
- 
+
+### Die zentrale Schleife
+
 Es ist klar, dass das Erstellen der Punkte in einer Schleife stattfinden muss, denn zur Compilezeit der Methode ist nicht
 bekannt, wie groß der Parameter `segments` sein wird. Wir verwenden eine Schleife mit einer Zählvariablen `i`, die 
 nicht - wie sonst üblich - bei 0 losläuft, sondern bei 1. Der letzte Schleifendurchlauf läuft für `i == segements-1`, 
@@ -222,6 +228,8 @@ als weiße Zahl auf blauem Grund angegeben.
 >    }
 >  ```
 >
+
+### Initialisierungen
 
 Noch passiert in der Schleife nichts. Ebenso ist die zurückgegebene Mesh-Komponente noch leer. Was wir
 bereits wissen, ist, dass wir bei n Segmenten n+1 `Vertices` benötigen (denn der Mittelpunkt kommt noch dazu.
@@ -265,7 +273,7 @@ Arrays), noch ein wenig Initialisierungsarbeit geleistet werden.
 >   ```C#
 >      float delta = 2 * M.Pi / segments;
 >   ```
->   _Fun Fact_: C#-Datein sind in Unicode gespeicher, d.h. es könnten u.A. auch griechische Buchstaben 
+>   _Fun Fact_ :-): C#-Datein sind in Unicode gespeichert, d.h. es könnten u.A. auch griechische Buchstaben 
 >   als Variablennamen verwendet werden. Folgender Code ginge auch, ist aber unpraktisch, weil schwer zu tippen...
 >   ```C#
 >      float δ = 2 * M.Pi / segments;
@@ -292,6 +300,9 @@ Arrays), noch ein wenig Initialisierungsarbeit geleistet werden.
 >    ```
 >    Dieser Punkt 0 wird gleichzeitig auch Bestandteil des letzten Kuchenstücks, aber dazu später mehr.
 
+
+### Schleifenrumpf: Punktkoordinaten berechnen
+
 Jetzt können wir in der Schleife die Koordinaten aller Punkte von 1..segements-1 (in der Skizze von 1 bis 7) errechnen
 und diese im `verts`-Array jeweils an der Stelle `i` abspeichern.
 
@@ -316,7 +327,89 @@ Wir können aber mit dem Debugger überprüfen, ob soweit alles stimmt:
 
 > **TODO**
 >
-> - In der Methode Ersetzt den Aufruf von 
+> - In der Methode `CreateScene()` (Datei Mesh.cs) Ersetzt den Aufruf von `SimpleMeshes.CreateCuboid()` durch
+>
+>   ```C#
+>      // MESH COMPONENT
+>      SimpleMeshes.CreateCylinder(5, 10, 8)
+>   ```
+>   _Kontrollfrage_: Wenn durch diesen Aufruf bereits ein sichtbarer Zylinder erzeugt würde, wie groß wäre dieser?
+>
+> - Startet den Debugger. Falls der Breakpoint nicht mehr gesetzt ist, setzt diesen Erneut _nach_ dem Aufruf
+>   von `CreateScene()` und begutachtet dann wie beim Würfel den Inhalt der Mesh-Komponente (siehe oben).
+>
+> - Überzeugt euch, dass
+>   - die Arrays `Vertices` und `Normals` jeweils neun Einträge enthalten.
+>   - Alle Einträge im `Normals` Array den "Hoch-Vektor" `(0, 1, 0)` enthalten.
+>   - Die Einträge 0..7 im `Vertices` Array auf einem Kreis mit dem Radius 5 liegen. Das sollte vor allem für 
+>     die Koordinatenwerte der Punkte an den Indizes 0, 2, 4 und 6 gut sichtbar sein (Warum? Antwort siehe Skizze).
+>   - Der Eintrag am Index 8 im `Vertices` Array im Koordinatenursprung liegt.
+
+### Dreiecksliste erzeugen
+
+Wenn mit "F5" oder "Continue" der Programmlauf nach dem Breakpoint fortgesetzt wird, erscheint keine Geometrie, 
+denn es sind keine Dreiecke vorhanden. Diese müssen wir jetzt noch einfügen. Dazu soll bei jedem Schleifendurchlauf
+die zu `i`  zugehörigen drei Eckpunkt-Indizes in den `tris`-Array eingetragen werden. Für unser Beispiel mit 8 Segmenten
+gilt folgende Zuordnung
+
+| Schleifendurchlauf / Vertex-Index  | Indizes der Segment-Eckpunkte |
+|:----------------------------------:|:-----------------------------:|
+| 1 | 8, 1, 0 |
+| 2 | 8, 2, 1 |
+| 3 | 8, 3, 2 |
+| 4 | 8, 4, 3 |
+| 5 | 8, 5, 4 |
+| 6 | 8, 6, 5 |
+| 7 | 8, 7, 6 |
+| `i` | 8, `i`, `i-1` |
+
+> **TODO**
+>
+> - Vergegenwärtigt Euch obige Tabelle anhand der Skizze
+>
+> - Fügt folgenden Code in den Schleifenrumpf ein:
+>
+>   ```C#
+>      // Stitch the current segment (using the center, the current and the previous point)
+>      tris[3*i - 1] = (ushort) segments; // center point
+>      tris[3*i - 2] = (ushort) i;        // current segment point
+>      tris[3*i - 3] = (ushort) (i-1);    // previous segment point
+>   ```
+>
+> - Setzt einen Breakpoint in die Schleife und schaut, wie aus den o.A. Anweisungen die in der Tabelle
+>   stehenden Indizes berechnet werden und an die richtigen Stellen im `tris`-Array gespeicher werden.
+>
+> - Betrachtet nach dem Schleifendurchlauf den Inhalt des `tris`-Array und überzeugt Euch, dass der Inhalt
+>   korrekt ist.
+
+Lasst den Code laufen. Nun sollte das Achteck als Annährung des Kreises bis auf das letzte Segment erscheinen
+(das graue Feld in der Skizze fehlt). Das letzte Segment können wir nicht innerhalb der Schleife erzeugen, denn
+- die Punkte-Indizes lassen sich nicht nach obiger Regel aus `i` berechnen,
+- das Segment wird aus dem letzten Punkt auf dem Kreis (7) und dem allerersten (0) zusammengesetzt.
+
+
+> **TODO**
+>
+> - Fügt folgenden Code Hinter die Schleife ein:
+>
+>   ```C#
+>      // Stitch the last segment
+>      tris[3 * segments - 1] = (ushort)segments;          // center point
+>      tris[3 * segments - 2] = (ushort)0;                 // wrap around
+>      tris[3 * segments - 3] = (ushort)(segments - 1);    // last segment point
+>   ```
+>
+> - Macht Euch klar, dass dieser Code für beliebige Werte für `segments` (nicht nur für 8) immer die
+>   richtigen Indizes liefert.
+>
+> - Ruft den Code für unterschiedliche Segment-Anzahlen und für unterschiedliche Radien auf und kontrolliert
+>   visuell das Ergebnis.
+
+## Aufgabe
+
+
+
+
 
 
 
