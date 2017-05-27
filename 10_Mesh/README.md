@@ -483,8 +483,8 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
    ```C#
       // top triangle
       tris[12*(i-1) + 0] = (ushort) 4*segments;       // top center point
-      tris[12*(i-1) + 1] = (ushort) 4*i     + 1;      // current top segment point
-      tris[12*(i-1) + 2] = (ushort) 4*(i-1) + 1;      // previous top segment point
+      tris[12*(i-1) + 1] = (ushort) 4*i     + 0;      // current top segment point
+      tris[12*(i-1) + 2] = (ushort) 4*(i-1) + 0;      // previous top segment point
 
       // side triangle 1
       tris[12*(i-1) + 3] = (ushort) 4*(i-1) + 2;      // previous lower shell point
