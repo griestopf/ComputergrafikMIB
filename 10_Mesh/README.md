@@ -505,8 +505,6 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 ### Einzelschritte
 
-
-
 1. Verändert im bestehenden Code alle Vertex-Koordinaten so, dass diese um `0.5f * height` Einheiten entlang der Y-Achse    nach oben verschoben werden (Mittelpunkt nicht vergessen).
 
 2. Erweitert die Arrays auf die o.A. Größen und verändert zunächst die Berechnungen der bestehenden Indizes nach
@@ -520,4 +518,3 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 5. Falls noch nicht geschehen: Fügt das Dreiecksvermaschen für alle Flächen des letzten Segmentes außerhalb der
    Schleife hinzu.
-   
