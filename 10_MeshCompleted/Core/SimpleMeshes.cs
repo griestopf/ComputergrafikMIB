@@ -154,19 +154,6 @@ namespace Fusee.Tutorial.Core
             };
         }
 
-
-        public static MeshComponent CreateNoCylinder(float radius, float height, int segments)
-        {
-            for (int i = 1; i < segments; i++)
-            {
-            }
-
-            return new MeshComponent
-            {
-            };
-        }
-
-
         public static MeshComponent CreateCylinder(float radius, float height, int segments)
         {
             float3[] verts = new float3[segments+1];
@@ -217,7 +204,6 @@ namespace Fusee.Tutorial.Core
         {
             throw new NotImplementedException();
         }
-
 
         public static MeshComponent CreatePyramid(float baselen, float height)
         {

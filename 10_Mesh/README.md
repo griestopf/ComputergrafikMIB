@@ -518,3 +518,16 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 5. Falls noch nicht geschehen: Fügt das Dreiecksvermaschen für alle Flächen des letzten Segmentes außerhalb der
    Schleife hinzu.
+
+### Alternativen / Ausblick / Für Fortgeschrittene
+
+Wem der Einstieg zu schwierig ist und wer noch etwas mehr Sicherheit mit den Grundlagen benötigt, sollte zunächst mal versuchen,
+die Methode `SimpleMeshes.CreateTetrahedron()` oder `SimpleMeshes.CreatePyramid()` zu implementieren. Bei beiden 
+Körpern steht, wie beim Cuboid, zur Compilezeit fest, aus wieviel Punkten und Flächen sie bestehen. Somit kann
+ohne Schleifen und variable Indexberechnung gearbeitet werden. Stattdessen können, wie beim Cuboid, direkt die Punkte
+und Flächen ein die entsprechnden Arrays eingetragen werden und die Indizes direkt als Zahlenwerte eingetragen werden.
+
+Wer mit dem Zylinder gut zurecht kam, kann sich überlegen, wie aus den dabei gewonnenen Erkenntnissen die Methoden
+`SimpleMeshes.CreateConeFrustum()` (leicht) oder auch die Methode `SimpleMeshes.CreateTorus()` (schwerer) implementiert
+werden können.
+
