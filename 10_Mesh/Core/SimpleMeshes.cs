@@ -156,7 +156,94 @@ namespace Fusee.Tutorial.Core
 
         public static MeshComponent CreateCylinder(float radius, float height, int segments)
         {
-            return CreateConeFrustum(radius, radius, height, segments);
+            float3[] verts = new float3[4*segments + 2];  //ein vertex pro segment und einen für den mittelpunkt
+            float3[] norms = new float3[4*segments + 2];  //eine normale für jeden vertex
+            ushort[] tris = new ushort[4*3*segments * 3]; // ein dreieck für jedes segment. jedes dreieck besteht aus drei indizes
+            float delta = 2 * M.Pi / segments;            // berechnung des winkels delta
+
+            // Mittelpunkt Deckel
+            verts[4 * segments] = new float3(0, 0.5f * height, 0);
+            norms[4 * segments] = float3.UnitY;
+
+            // Seite [1]
+            verts[0] = new float3(radius, 0.5f * height, 0);
+            norms[0] = float3.UnitY;
+            verts[1] = new float3(radius, 0.5f * height, 0);
+            norms[1] = float3.UnitX;
+            verts[2] = new float3(radius, -0.5f * height, 0);
+            norms[2] = float3.UnitX;
+            verts[3] = new float3(radius, -0.5f * height, 0);
+            norms[3] = -float3.UnitY;
+
+            // Seite [2]
+            verts[4 * segments + 1] = new float3(0, -0.5f * height, 0);
+            norms[4 * segments + 1] = -float3.UnitY;
+
+            // Mittelpunkt Boden
+            verts[4 * segments + 1] = new float3(0, -0.5f * height, 0);
+            norms[4 * segments + 1] = -float3.UnitY;
+
+
+
+            for (int i = 1; i < segments; i++)
+            {
+                // die vier eines Segment + normalen dazu
+                verts[4 * i + 0] = new float3(radius * M.Cos(i * delta), 0.5f * height, radius * M.Sin(i * delta));
+                norms[4 * i + 0] = float3.UnitY;
+                verts[4 * i + 1] = new float3(radius * M.Cos(i * delta), 0.5f * height, radius * M.Sin(i * delta));
+                norms[4 * i + 1] = new float3(M.Cos(i * delta), 0, M.Sin(i * delta));
+                verts[4 * i + 2] = new float3(radius * M.Cos(i * delta), -0.5f * height, radius * M.Sin(i * delta));
+                norms[4 * i + 2] = new float3(M.Cos(i * delta), 0, M.Sin(i * delta)); ;
+                verts[4 * i + 3] = new float3(radius * M.Cos(i * delta), -0.5f * height, radius * M.Sin(i * delta));
+                norms[4 * i + 3] = -float3.UnitY;
+
+                // Deckel 3eck
+                tris[12 * (i - 1) + 0] = (ushort)(4 * (i - 1) + 0);       // top center point
+                tris[12 * (i - 1) + 1] = (ushort)(4 * i + 0);          // current top segment point
+                tris[12 * (i - 1) + 2] = (ushort)(4 * segments);    // previous top segment point
+                 
+                // Seiten 3eck [1]
+                tris[12 * (i - 1) + 3] = (ushort)(4 * (i - 1) + 2);    // previous lower shell point
+                tris[12 * (i - 1) + 4] = (ushort)(4 * i + 2);          // current lower shell point
+                tris[12 * (i - 1) + 5] = (ushort)(4 * i + 1);          // current top shell point
+
+                // Seiten 3eck [2]
+                tris[12 * (i - 1) + 6] = (ushort)(4 * (i - 1) + 2);    // previous lower shell point
+                tris[12 * (i - 1) + 7] = (ushort)(4 * i + 1);          // current top shell point
+                tris[12 * (i - 1) + 8] = (ushort)(4 * (i - 1) + 1);    // previous top shell point
+
+                // Boden 3eck
+                tris[12 * (i - 1) + 9] = (ushort)(4 * i + 3);   // bottom center point
+                tris[12 * (i - 1) + 10] = (ushort)(4 * (i - 1) + 3);   // current bottom segment point
+                tris[12 * (i - 1) + 11] = (ushort)(4 * segments + 1);         // previous bottom segment point
+
+            }
+            // Deckel 3eck
+            tris[12 * (segments) - 1] = (ushort)(4 * segments);        // das letzte Kuchenstück muss einzeln ergänzt werden!!
+            tris[12 * (segments) - 2] = 0;                 
+            tris[12 * (segments) - 3] = (ushort)(4 * segments - 4);
+
+            //Seiten 3eck [1]
+            tris[12 * (segments) - 4] = (ushort)(4 * segments - 3);    // das letzte Kuchenstück muss einzeln ergänzt werden!!
+            tris[12 * (segments) - 5] = 1;
+            tris[12 * (segments) - 6] = (ushort)(4 * segments - 2);
+
+            //Seiten 3eck [2]
+            tris[12 * (segments) - 7] = 1;                             // das letzte Kuchenstück muss einzeln ergänzt werden!!
+            tris[12 * (segments) - 8] = 2;
+            tris[12 * (segments) - 9] = (ushort)(4 * segments - 2);
+
+            // Boden 3eck
+            tris[12 * (segments) - 10] = (ushort)(4 * segments - 1);   // das letzte Kuchenstück muss einzeln ergänzt werden!!
+            tris[12 * (segments) - 11] = 3;
+            tris[12 * (segments) - 12] = (ushort)(4 * segments + 1);
+
+            return new MeshComponent
+            {
+                Vertices = verts,
+                Normals = norms,
+                Triangles = tris,
+            };
         }
 
         public static MeshComponent CreateCone(float radius, float height, int segments)

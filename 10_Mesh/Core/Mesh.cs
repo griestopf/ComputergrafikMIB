@@ -46,12 +46,12 @@ namespace Fusee.Tutorial.Core
                             // MATERIAL COMPONENT
                             new MaterialComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
+                                Diffuse = new MatChannelContainer { Color = new float3(0.5f, 0, 0) },
                                 Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
                             },
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
+                            SimpleMeshes.CreateCylinder(5, 10, 16)
                         }
                     },
                 }
@@ -62,7 +62,7 @@ namespace Fusee.Tutorial.Core
         public override void Init()
         {
             // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
-            RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
+            RC.ClearColor = new float4(0.51f, 0.61f, 0.63f, 1.0f);
 
             _scene = CreateScene();
 
@@ -73,7 +73,7 @@ namespace Fusee.Tutorial.Core
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
+            _baseTransform.Rotation = new float3(M.MinAngle(TimeSinceStart), M.MinAngle(TimeSinceStart), 0);
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
