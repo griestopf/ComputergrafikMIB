@@ -375,7 +375,7 @@ Mit diesem Modell soll dann eine erste Applikation erzeugt werden
 - Erzeugt eine Interaktion, die
   - Den Benutzer über Maus-Klicks das zu bewegende Teil auswählen lässt
   - Die Farbe des gerade selektierten Teils verändert
-  - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen legt
+  - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen des gerade selektierten (Teil-)Objektes legt
 
 - Das Modell soll dann in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
   werden und der Bewegliche Aufbau soll die Grundlage einer (simplen & selbst ausgedachten) Spielidee
