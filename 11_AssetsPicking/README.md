@@ -221,7 +221,7 @@ Die in einer Zeile zusammengesetzte Anweisung besagt in etwa:
 - Von den so gefundenen Nodes nimm die erste, falls eine existiert (`.FirstOrDefault()`).
 - Liefere die dort enthaltene Transform-Komponente (`.GetTransform()`)
 
-Die seltsam anmutenden "`.?`" Operatoren heißen übrigens _Elvis-Operator_ (warum wohl?) und bedeuten,
+Die seltsam anmutenden "`?.`" Operatoren heißen übrigens _Elvis-Operator_ (warum wohl?) und bedeuten,
 dass nur auf das im vorangestellten Aufruf zurückgelieferter Objekt zugegriffen werden soll,
 falls auch tatsächlich eines existiert, ansonsten soll null zurückgegeben werden.
 Falls also gar kein Objekt gefunden wurde, 
