@@ -1,12 +1,19 @@
 # Assets & Picking
 
+## Lernziele
+
+- Mit Blender 3D-Modelle erstellen und in FUSEE darstellen
+- Auf Einzelteile einer 3D-Szene zugreifen und verändern
+- Suchen nach Namen in Szenengraphen
+- Picking: Auf Objekte klicken
+
+## Voraussetzung: FUSEE-Export-AddOn für Blender
+
 In diesem Kapitel sollen 3D-Geometrien (Meshes) nicht mehr durch Code erzeugt werden, sondern als Modelle,
 die mit Blender erstellt wurden, geladen werden können. 
 
 Hierarchien im bereits bekannten FUSEE-Szenengraphen-Format (bestehend aus Nodes und Komponenten)
 können als `.fus`-Dateien gespeichert und geladen werden. 
-
-## Voraussetzung: FUSEE-Export-AddOn für Blender
 
 Um mit Blender erstellte 3D-Modelle als .fus-Datei zur Verwendung in FUSEE-Applikationen zu verwenden, muss das 
 FUSEE-Export-AddOn für Blender installiert werden. Dies erfordert im derzeitigen Entwicklungszustand noch ein
@@ -368,7 +375,7 @@ Erstellt ein eigenes 3D-Modell in Blender mit folgenden Anforderungen:
   - Die Farbe des gerade selektierten Teils verändert
   - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen legt
 
-- Das Modell soll in der darauffolgenden Übung (Lektinon 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
+- Das Modell soll in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
   werden und der Bewegliche Aufbau soll die Grundlage einer (simplen & selbst ausgedachten) Spielidee
   werden. Gerne kann jetzt schon auf diese Anforderungen in der kommenden Woche Rücksicht genommen werden.
 
