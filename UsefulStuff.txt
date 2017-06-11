@@ -1,0 +1,13 @@
+
+FROM https://stackoverflow.com/questions/21611551/recursively-renaming-files-with-powershell:
+
+Get-ChildItem -File -Recurse | % { Rename-Item -Path $_.PSPath -NewName $_.Name.replace(".mkv.mp4",".mp4")}
+
+
+FROM https://stackoverflow.com/questions/2837785/powershell-script-to-find-and-replace-for-all-files-with-a-specific-extension
+Get-ChildItem  -Path C:\YOUR_ROOT_PATH\*.* -recurse 
+ | ForEach {If (Get-Content $_.FullName | Select-String -Pattern '\\foo\\') 
+           {(Get-Content $_ | ForEach {$_ -replace '\\foo\\', '\bar\'}) | Set-Content $_ }
+           }
+		   
+		   
