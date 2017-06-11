@@ -222,8 +222,8 @@ Die in einer Zeile zusammengesetzte Anweisung besagt in etwa:
 - Liefere die dort enthaltene Transform-Komponente (`.GetTransform()`)
 
 Die seltsam anmutenden "`?.`" Operatoren heißen übrigens _Elvis-Operator_ (warum wohl?) und bedeuten,
-dass nur auf das im vorangestellten Aufruf zurückgelieferter Objekt zugegriffen werden soll,
-falls auch tatsächlich eines existiert, ansonsten soll null zurückgegeben werden.
+dass nur auf das im vorangestellten Aufruf zurückgelieferte Objekt zugegriffen werden soll,
+falls auch tatsächlich eines existiert, ansonsten soll `null` zurückgegeben werden.
 Falls also gar kein Objekt gefunden wurde, 
 das den gesuchten Namen trägt ODER ein Objekt gefunden wurde, dieses aber keine Transform-Komponente 
 enthält, resultiert der gesamte Aufruf darin, dass `_rightRearTransform` den Wert `null` zugewiesen
@@ -242,7 +242,7 @@ mit deren Hilfe diese Aufgabe bewerkstelligt werden kann.
 Wie der `SceneRenderer` und auch die weiter oben beschriebene `FindNodes()` Methode wird beim Picking
 eine Traversierung des Szenengraphs durchgeführt, d.h. alle Nodes und alle notwendigen Komponenten
 werden besucht. Während beim Rendern der Besuch dazu führt, dass jede Komponente ihren Beitrag am
-zu rendernden Bild leistet und beim Suchen beim Besuch ein Suchkriterium überprüft wird, wird beim 
+zu rendernden Bild leistet und beim Suchen beim Besuch ein Suchkriterium überprüft wird, werden beim 
 Picking - ähnlich wie beim Rendern - die Eckpunkte jedes Dreieck der Geometrie in Bildschirm-Koordinaten
 umgewandelt, so dass dann ein Punkt-im-Dreieck-Test durchgeführt werden kann.
 
@@ -298,14 +298,14 @@ Welt- oder Bildschirmkoordinaten.
 >   wie die Namen der Objekte beim Anklicken durch die `Diagnostics.Log()` Anweisung angezeigt werden.
 > - Setzt einen Breakpoint innerhalb des `if`-Zweigs, geht schrittweise mit `F10` durch den Code
 >   und versucht, den Code zu verstehen. Hinweise:
->   - Zunächst wird die aktuelle Mausposition, die Pixel-Koordinaten enthält, in so genannte 2D-Clip-
->     Koordinaten umgerechnet. Diese haben den Ursprung in der Mitte des Ausgabefensters und 
+>   - Zunächst wird die aktuelle Mausposition, die Pixel-Koordinaten enthält, in so genannte 
+>     2D-Clip-Koordinaten umgerechnet. Diese haben den Ursprung in der Mitte des Ausgabefensters und 
 >     am Fenster-Rand jeweils 1 (rechts und oben), bzw. -1 (links und unten).
 >   - Der Scene-Picker bekommt die aktuelle Projection und View-Matrix mitgeteilt, damit er 
 >     aus den Modell-Koordinaten gültige Screen-Koordinaten berechnen kann.
 >   - Der Aufruf von `_scenePicker.Pick()` führt die Traversierung durch und liefert eine unsortierte Liste
 >     von Pick-Ergebnissen.
->   - Falls die Liste nicht leer ist, wird diese sortiert (`pickResults.Sort()) und zwar nach der 
+>   - Falls die Liste nicht leer ist, wird diese sortiert (`pickResults.Sort()`) und zwar nach der 
 >     z-Bildschirm-Koordinate der Pick-Ereignisse. Kleinere z-Werte kommen nach vorne. Das Pick
 >     Ereignis mit dem kleinsten z-Wert ist das, was dem Betrachter am nächsten ist.
 >   - Das Pick-Ereignis mit dem Index 0, also das vorne liegende, wird ausgegeben (bzw. der Name der
@@ -368,16 +368,18 @@ Erstellt ein eigenes 3D-Modell in Blender mit folgenden Anforderungen:
 - Die Hierarchie muss so aufgebaut sein, dass sich durch Drehungen oder Positonsänderungen sinvolle
   Animationen erzugen lassen.
 
+Mit diesem Modell soll dann eine erste Applikation erzeugt werden
 
-- Ladet das Modell ein eine eigene FUSEE-Applikation und sucht die relevanten Komponenten
+- Ladet das Modell ein eine eigene FUSEE-Applikation und sucht die relevanten Komponenten mit `FindNode()` wie oben.
+  Speichert die Komponenten in Feldern, so dass aus `RenderAFrame()` darauf zugegriffen werden kann.
 - Erzeugt eine Interaktion, die
   - Den Benutzer über Maus-Klicks das zu bewegende Teil auswählen lässt
   - Die Farbe des gerade selektierten Teils verändert
   - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen legt
 
-- Das Modell soll in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
+- Das Modell soll dann in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
   werden und der Bewegliche Aufbau soll die Grundlage einer (simplen & selbst ausgedachten) Spielidee
-  werden. Gerne kann jetzt schon auf diese Anforderungen in der kommenden Woche Rücksicht genommen werden.
+  werden. Gerne kann jetzt schon auf diese zukünftige Anforderungen der kommenden Lektion 12 Rücksicht genommen werden.
 
 
 
