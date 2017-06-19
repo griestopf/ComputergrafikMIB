@@ -36,7 +36,7 @@ gerade in `rotVel` enthaltenen Wert erhöht oder erniedrigt.
   _carTrans.Rotation = new float3(0, newYRot, 0);
 ```
 
-> *** TODO ***
+> ***TODO***
 >
 > - Zeichnet eine Skizze eines Objektes im 3D-Koordinatensystem und zeichnet dessen
 >   aktuelle Rotation um die Y-Achse, sowie seine Position in der X-Z-Ebene ein.
@@ -141,7 +141,7 @@ in der Mathematik) ausgerichtet ist, und zudem der Vektor `v` oben in
 umgekehrter Richtung errechnet wurde, als für die Winkelberechnung benötigt,
 muss noch geklärt werden, welcher Koordinatenwert (x oder z) von `v` für welchen 
 Parameter von `Atan2` verwendet wird. Ggf. müssen die Werte vertauscht und/oder
-mit negiert werden.
+negiert werden.
 
 
 
@@ -179,7 +179,8 @@ mit negiert werden.
     1. `System.Math.Atan2(-v.x, v.z)` oder
     1. `System.Math.Atan2(v.x, -v.z)` oder
     1. `System.Math.Atan2(-v.x, -v.y)`
-    bzw. eine der obigen Möglichkeiten mit vertauschen x- und z-Werten.
+    
+    bzw. eine der obigen Möglichkeiten mit vertauschten x- und z-Werten.
     Hier muss wiederum jeweils visuell kontrolliert werden, ob die Berechnung korrekt ist.
   - Wenn Positions- und Winkelberechnung visuell auf dem Cube bei Bewegung des Fahrzeugs stimmen,
     können diese auf die `RC.View`-Matrix angewendet werden (mit negierten Werten und in umgekehrter Reihenfolge von Position und Orientierung), so dass die Kamera dann dem Fahrzeug folgen sollte.
