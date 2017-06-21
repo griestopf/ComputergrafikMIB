@@ -149,70 +149,75 @@ namespace Fusee.Tutorial.Core
 
             if (_currentPick != null)
             {
-                switch (_currentPick.Node.Name)
+                if (_currentPick.Node.Name == "radhintenli")
                 {
-                    case "radhintenli":
-                        float radhintenli = _radhintenliTransform.Rotation.x;
-                        radhintenli -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _radhintenliTransform.Rotation = new float3(radhintenli, 0, 0);
-                        break;
+                    float radhintenli = _radhintenliTransform.Rotation.x;
+                    radhintenli -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _radhintenliTransform.Rotation = new float3(radhintenli, 0, 0);
+                }
 
-                    case "radhintenre":
-                        float radhintenre = _radhintenreTransform.Rotation.x;
-                        radhintenre -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _radhintenreTransform.Rotation = new float3(radhintenre, 0, 0);
-                        break;
+                if (_currentPick.Node.Name == "radhintenre")
+                {
+                    float radhintenre = _radhintenreTransform.Rotation.x;
+                    radhintenre -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _radhintenreTransform.Rotation = new float3(radhintenre, 0, 0);
+                }
 
-                    case "radvorneli":
-                        float radvorneli = _radvorneliTransform.Rotation.x;
-                        radvorneli -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _radvorneliTransform.Rotation = new float3(radvorneli, 0, 0);
-                        break;
+                if (_currentPick.Node.Name == "radvorneli")
+                {
+                    float radvorneli = _radvorneliTransform.Rotation.x;
+                    radvorneli -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _radvorneliTransform.Rotation = new float3(radvorneli, 0, 0);
+                }
 
-                    case "radvornere":
-                        float radvornere = _radvornereTransform.Rotation.x;
-                        radvornere -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _radvornereTransform.Rotation = new float3(radvornere, 0, 0);
-                        break;
+                if (_currentPick.Node.Name == "radvornere")
+                {
+                    float radvornere = _radvornereTransform.Rotation.x;
+                    radvornere -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _radvornereTransform.Rotation = new float3(radvornere, 0, 0);
+                }
 
-                    case "Achsehinten":
-                        float achsehinten = _AchsehintenTransform.Rotation.x;
-                        achsehinten -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _AchsehintenTransform.Rotation = new float3(achsehinten, 0, 0);
-                        break;
+                if (_currentPick.Node.Name == "Achsehinten")
+                {
+                    float achsehinten = _AchsehintenTransform.Rotation.x;
+                    achsehinten -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _AchsehintenTransform.Rotation = new float3(achsehinten, 0, 0);
+                }
 
-                    case "Achsevorne":
-                        float achsevorne = _AchsevorneTransform.Rotation.x;
-                        achsevorne -= Keyboard.WSAxis * 2.0f * (DeltaTime);
-                        _AchsevorneTransform.Rotation = new float3(achsevorne, 0, 0);
-                        break;
+                if (_currentPick.Node.Name == "Achsevorne")
+                {
+                    float achsevorne = _AchsevorneTransform.Rotation.x;
+                    achsevorne -= Keyboard.WSAxis * 2.0f * (DeltaTime);
+                    _AchsevorneTransform.Rotation = new float3(achsevorne, 0, 0);
+                }
 
-                    case "Tower":
-                        float tower = _TowerTransform.Rotation.y;
-                        tower -= Keyboard.LeftRightAxis * 2.0f * (DeltaTime);
-                        _TowerTransform.Rotation = new float3(0, tower, 0);
-                        break;
+                if (_currentPick.Node.Name == "Tower")
+                {
+                    float tower = _TowerTransform.Rotation.y;
+                    tower -= Keyboard.LeftRightAxis * 2.0f * (DeltaTime);
+                    _TowerTransform.Rotation = new float3(0, tower, 0);
+                }
 
-                    case "lauf":
-                        float lauf = _laufTransform.Rotation.x;
-                        if (Keyboard.GetKey(KeyCodes.Up))
+                if (_currentPick.Node.Name == "lauf")
+                {
+                    float lauf = _laufTransform.Rotation.x;
+                    if (Keyboard.GetKey(KeyCodes.Up))
+                    {
+                        if (lauf <= 0.2f)
                         {
-                            if (lauf <= 0.2f)
-                            {
-                                lauf += 0.2f * (DeltaTime);
-                                _laufTransform.Rotation = new float3(lauf, 0, 0);
-                            }                            
+                            lauf += 0.2f * (DeltaTime);
+                            _laufTransform.Rotation = new float3(lauf, 0, 0);
                         }
-                        if (Keyboard.GetKey(KeyCodes.Down))
+                    }
+                    if (Keyboard.GetKey(KeyCodes.Down))
+                    {
+                        if (lauf >= -0.2f)
                         {
-                            if (lauf >= -0.2f)
-                            {
-                                lauf -= 0.2f * (DeltaTime);
-                                _laufTransform.Rotation = new float3(lauf, 0, 0);
-                            }
+                            lauf -= 0.2f * (DeltaTime);
+                            _laufTransform.Rotation = new float3(lauf, 0, 0);
                         }
-                        break;
-                        
+                    }
+                                        
                 }
 
 
