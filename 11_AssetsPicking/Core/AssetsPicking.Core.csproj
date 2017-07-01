@@ -79,6 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutFuseeAssets.txt" />
+    <Content Include="Assets\tankfinal.fus">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <!-- ItemGroup>
     <Reference Include="Fusee.SerializationSerializer">
