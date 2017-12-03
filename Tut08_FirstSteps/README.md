@@ -83,9 +83,9 @@ Als Programmierer einer FUSEE-Applikation muss man "nur noch" die Methoden
 Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
 aufgerufen!
 
-Die Datei [FirstSteps.cs](Core/FirstSteps.cs) enthält minimale Implementierungen
-für die beiden Methoden [`Init()`](Core/FirstSteps.cs#L20) und 
-[`RenderAFrame()`](Core/FirstSteps.cs#L27)
+Die Datei [FirstSteps.cs](FirstSteps.cs) enthält minimale Implementierungen
+für die beiden Methoden [`Init()`](FirstSteps.cs#L20) und 
+[`RenderAFrame()`](FirstSteps.cs#L27)
 
 > **TODO**
 >
@@ -106,7 +106,7 @@ grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`
 
 > **TODO**
 >
-> - Ändert die Hintergrundfarbe in der [`Init()`-Methode](Core/FirstSteps.cs#L23)
+> - Ändert die Hintergrundfarbe in der [`Init()`-Methode](FirstSteps.cs#L23)
 
 ## Der Szenengraph
 
@@ -143,7 +143,7 @@ Komponenten-Typen. Die wichtigsten sind
 
 > **TODO**
 >
-> - Fügt in die Klasse [`FirstSteps`](Core/FirstSteps.cs#L17) die beiden Felder
+> - Fügt in die Klasse [`FirstSteps`](FirstSteps.cs#L17) die beiden Felder
 >   - `_scene` und
 >   - `_sceneRenderer` 
 >  ein.
@@ -154,7 +154,7 @@ Komponenten-Typen. Die wichtigsten sind
         private SceneContainer _scene;
         private SceneRenderer _sceneRenderer;
 ```
-> - Erweitert die Methode [`Init()`](Core/FirstSteps.cs#L20) wie folgt, um einen
+> - Erweitert die Methode [`Init()`](FirstSteps.cs#L20) wie folgt, um einen
 >   Szenengraphen erzeugt, dessen einziges Objekt ein Würfel ist. Zusätzlich wird 
 >   der so genannte `SceneRender` erzeugt, der jede beliebige Szene rendern kann.
 
@@ -190,7 +190,7 @@ Komponenten-Typen. Die wichtigsten sind
       _sceneRenderer = new SceneRenderer(_scene);
   }
 ```
-> - Fügt in die Methode [`RenderAFrame()`](Core/FirstSteps.cs#L27) den Aufruf
+> - Fügt in die Methode [`RenderAFrame()`](FirstSteps.cs#L27) den Aufruf
     `_sceneRenderer.Render(RC);` ein. Diese führt dazu, dass jeden Frame der Würfel
     gerendert wird.
 

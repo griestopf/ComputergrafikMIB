@@ -381,7 +381,7 @@ Schließlich fehlt noch der blaue Unterarm.
 >   Grundhaltung aufzubauen.
 >
 > - Sollte es gar nicht klappen, verwendet ***AUSNAHMSWEISE*** als Vorgriff die Implementierung im
->   [_Completed_-Projekt](../09_HierarchyAndInputCompleted/Core/HierarchyInput.cs#L27)
+>   [_Completed_-Projekt](../Tut09_HierarchyAndInputCompleted/HierarchyInput.cs#L27)
 >
 
 
@@ -408,7 +408,7 @@ Mit der Anweisung
 ```C#
 using static Fusee.Engine.Core.Input;
 ```
-ganz oben in der Datei [HierarchyInput.cs](Core/HierarchyInput.cs#L12) können wir im Code direkt auf die o.G.
+ganz oben in der Datei [HierarchyInput.cs](HierarchyInput.cs#L12) können wir im Code direkt auf die o.G.
 Felder für die Eingabegeräte zugreifen. 
 
 > **TODO**
