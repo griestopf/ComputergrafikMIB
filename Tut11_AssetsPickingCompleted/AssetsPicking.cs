@@ -19,7 +19,6 @@ namespace Fusee.Tutorial.Core
         private SceneContainer _scene;
         private SceneRenderer _sceneRenderer;
         private ScenePicker _scenePicker;
-        private float _camAngle = 0;
         private TransformComponent _baseTransform;
         private TransformComponent _rightRearTransform;
         private PickResult _currentPick;
@@ -135,7 +134,7 @@ namespace Fusee.Tutorial.Core
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
             var aspectRatio = Width / (float)Height;
 
-            // 0.25*PI Rad -> 45° Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
+            // 0.25*PI Rad -> 45ï¿½ Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
             // Front clipping happens at 1 (Objects nearer than 1 world unit get clipped)
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
