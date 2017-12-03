@@ -12,13 +12,13 @@ param(
 )
 
 # RENAME IN FILENAMES
-Get-ChildItem -Path $dir\*  -Include *.cs, *.csproj, *.sln  -Recurse |
+Get-ChildItem -Path $dir\*  -Include *.cs, *.csproj, *.sln, *.xml  -Recurse |
     ForEach {
         Rename-Item -Path $_.PSPath -NewName $_.Name.replace($old,$new)
     }
 
 # SEARCH AND REPLACE IN FILES
-Get-ChildItem -Path $dir\*  -Include *.cs, *.csproj, *.sln  -Recurse |
+Get-ChildItem -Path $dir\*  -Include *.cs, *.csproj, *.sln, *.xml -Recurse |
     ForEach {
         If (Get-Content $_.FullName | Select-String -Pattern $old) 
         {

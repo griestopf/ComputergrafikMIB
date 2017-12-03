@@ -10,12 +10,12 @@
 - Animation
 - Ändern von Szeneneigenschaften
 
-## FUSEE installieren und Bauen
+## FUSEE installieren und bauen
 
 > **TODO**
 >
-> - Installiert und baut FUSEE wie im 
->   [Getting Started Tutorial](https://github.com/FUSEEProjectTeam/Fusee/wiki/Getting-Started) 
+> - Installiert FUSEE wie im auf der 
+>   [FUSEE Home Page](http://fusee3d.org) 
 >   beschrieben
 
 ## Was heißt Echtzeit?
