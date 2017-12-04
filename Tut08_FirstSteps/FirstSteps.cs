@@ -19,8 +19,8 @@ namespace Fusee.Tutorial.Core
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
-            RC.ClearColor = new float4(1.0f, 1.0f, 1.0f, 1.0f);
+            // Set the clear color for the backbuffer to light green (intensities in R, G, B, A).
+            RC.ClearColor = new float4(0.7f, 1.0f, 0.5f, 1.0f);
         }
 
         // RenderAFrame is called once a frame

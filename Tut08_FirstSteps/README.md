@@ -89,10 +89,11 @@ für die beiden Methoden [`Init()`](FirstSteps.cs#L20) und
 
 > **TODO**
 >
-> - Öffnet die Solution 'FirstSteps.sln' in Visual Studio
-> - Setzt 'FirstSteps.Desktop als Startup-Projekt
-> - Setzt 'x86' als Solution Platform
-> - Startet die Applikation
+> - Öffnet den Ordner `Tut08_FirstSteps` in Visual Studio Code 
+> - Öffnet die Debug-Side-Bar und startet "Debug in FUSEE Player" wie
+>   auf der FUSEE-Homepage unter 
+>   [Build and run the App](http://fusee3d.org/page/firstfuseeapp/#build-and-run-the-app)
+>   beschrieben
 
 Wie man sieht, sieht man nichts - ein Fenster in hellgrün. Das liegt daran, dass
 in `Init()` die so genannte _ClearColor_, also die Hintergrundfarbe, mit der
@@ -301,8 +302,8 @@ Drehwinkel für jedes Bild abgeändert werden.
 >   RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
 >  ``` 
 >
->  - Lasst Euch den aktuellen Drehwinkel mit der Methode `Diagnistics.Log()` im 
->    Output-Fenster von Visual Studio ausgeben.
+>  - Lasst Euch den aktuellen Drehwinkel mit der Methode `Diagnistics.Log()` auf der 
+>    Debug Console von Visual Studio Code ausgeben.
 
 Erstellen und Laufen lassen sollte nun den Würfel mit einer animierten Kamera zeigen, die sich
 um den Würfel herum dreht.
@@ -319,16 +320,17 @@ Auch auf ein- und dem selben Rechner kann die Animation zu unterschiedlichen Zei
 schnell dargestellt werden, z.B. wenn der Rechner auf Grund von anderen, gleichzeitig laufenden
 Prozessen stark beansprucht wird.
 
-Um die Animation unabhängig von der aktuellen Frame-Rate zu machen, werden typischerweise alle
-Werte, die Geschwindigkeiten repräsentieren, mit der so genannten _Delta-Time_ skaliert.
+Um die Animation unabhängig von der aktuellen Frame-Rate zu machen, können alle
+Werte, die Geschwindigkeiten repräsentieren, mit der so genannten _Delta-Time_ skaliert werden.
 
 Dabei handelt es sich um die Zeit, die seit dem Rendern des letzten Frame vergangen ist. In 
 Fusee kann über die Eigenschaft `DeltaTime` der statischen Klasse `Time` auf diesen Wert,
-gemessen in Sekunden, zugegriffen werden. Da typischerweise das Rendern eines Frames sehr
-schnell geht (Gefordert sind höchstens 1/30 Sekunde), ist dieser Wert sehr klein.
+gemessen in Sekunden, zugegriffen werden. Da in Echtzeit-3D-Applikationen das Rendern eines Frames 
+sehr schnell gehen muss (meistens im Bereich 1/30 Sekunde oder schneller), ist dieser Wert sehr klein.
 
-Sollen Geschwindigkeiten (Inkremente) damit skaliert werden, müssen typischerweise gegenüber
-pro-Frame-Inkrementen größere Werte angenommen werden, da dies ja nun pro-Sekunde-Inkremente sind.
+Werden Geschwindigkeiten (Inkremente) mit `DeltaTime` skaliert, ändert sich deren "Einheit: Statt
+in Wertänderung-pro-Frame gibt der Wert nun die Wertänderung-pro-Sekunde an. Dadurch ergeben sich 
+größere Werte.
 
 > **TODO**
 >
