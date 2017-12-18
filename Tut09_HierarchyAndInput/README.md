@@ -203,7 +203,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 Nun soll der grüne Oberarm (`UpperArm`) folgen. Dieser könnte nun als weiteres Kind in die Szenenliste eingefügt werden.
 Später wollen wir aber den Roboter bewegen. Dabei soll der grüne Arm allen Bewegungen der roten Säule (`Body`) folgen.
 Wie bereits in Blender kann dieses Verhalten durch Eltern-Kind-Beziehungen erreicht werden. Solche können wir aufbauen,
-weil alle `SceneNodeContainer`-Objekte ebenfalls die MÖglichkeit haben, eine `Children`-Liste zu enthalten. 
+weil alle `SceneNodeContainer`-Objekte ebenfalls die Möglichkeit haben, eine `Children`-Liste zu enthalten. 
 
 Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind in die Szenen-Liste einfügen, sondern als 
 (einziges) Kind der roten Säule. Folgender Code zeigt wie es geht: 
