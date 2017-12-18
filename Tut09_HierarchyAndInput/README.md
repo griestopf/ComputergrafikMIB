@@ -14,18 +14,18 @@
 
 ### Szenengraph in einer Anweisung
 
-Die Solution HierarchyInput.sln enthält eine leicht abgeänderte Version des letzte
+Der Source-Code dieser Lektion enthält eine leicht abgeänderte Version des letzten
 Standes. 
 
 > **TODO**
 >
-> - Öffnet die Solution (HierarchyInput.sln) in Visual Studio, 
->   baut die Desktop-Version und lasst sie laufen.
+> - Öffnet den Ordner Tut09_HierarchyAndInput in Visual Studio Code, 
+>   Erstellt das Projekt (Build) und lasst es im Debugger laufen.
 > - Öffnet die Source-Code-Datei HierarchyInput.cs und betrachtet die Methoden
->   `Init()` und `RenderAFrame`
+>   `Init()` und `RenderAFrame`.
 > - Identifiziert Änderungen zur letzten Übung.
 
-Wie in der  Lektion 08 wird eine Szene, die nur aus einem Cuboid-Objekt (Quader)
+Wie in der Lektion 08 wird eine Szene, die nur aus einem Cuboid-Objekt (Quader)
 besteht, erzeugt und gerendert. Allerdings ist der Quader nun grau und nicht mehr nicht würfelförmig.
 
 Was hat sich noch gegenüber der letzten Lektion 08 geändert?: 
@@ -290,13 +290,13 @@ Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
 >      };
 >   ```
 >
-> - Warum ist die Angabe 1,5f ungefähr 90°?
+> - Warum ist die Angabe `1.5f` ungefähr 90°?
 
 Ergebnis? Der Roboter sieht ziemlich kapputt aus:
 
 ![Grüner Arm Futsch](_images/RobotBroken.png)
 
-Der Grüne Arm scheint aus dem Gelenk gesprungen zu sein. Das lieg daran, dass der Koordinatenursprung des Cuboid-Körpers
+Der Grüne Arm scheint aus dem Gelenk gesprungen zu sein. Das liegt daran, dass der Koordinatenursprung des Cuboid-Körpers
 immer in der Mitte des Quaders liegt. Sämtliche Transformationen in der `TransformComponent` beziehen sich auf
 den Ursprung, so auch die Rotation. Das Rotationszentrum eines Körpers bezeichnet man auch mit ***Pivot Point***.
 
@@ -360,7 +360,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >   };
 >   ```
 
-Damit sollten die Bestandteile des Roboters (noch immer ohne blauen Unterarm) mit beliebigen Dreheungen
+Damit sollten die Bestandteile des Roboters (noch immer ohne blauen Unterarm) mit beliebigen Drehungen
 der roten Säule um die Y-Achse und des grünen Arms um die X-Achse glaubhaft aussehen, ohne dass die 
 Einzelteile auseinander gerissen werden.
 
