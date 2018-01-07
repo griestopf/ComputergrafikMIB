@@ -23,9 +23,11 @@ In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
 >   RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Atan(15.0 / 40.0));
 >   ```
 >   beschreiben von links nach rechts und jeweils mit negativ zu interpretierenden Parametern die Transformationen,
->   die auf die Kamera ausgeführt wird, und zwar ausgehend von einer Kamera im Koordinaten-Ursprung `(0, 0, 0)`,
->   die entlang der positiven Z-Achse schaut. Rotationen beziehen sich dabei immer auf den Koordinaten-Ursprung
->   und NICHT etwa auf den Mittelpunt der (ggf. bereits verschobenen) Kamera.
+>   die auf die Kamera ausgeführt werden. Ausgehend von einer Kamera im Koordinaten-Ursprung `(0, 0, 0)`,
+>   die entlang der positiven Z-Achse schaut, wird die Kamera zunächst um -40 Einheiten entlang der Z-Achse bewegt. 
+>   Anschließend wird die Kamera um den Winkel `Atan(15.0 / 40.0)` um die X-Achse gedreht. Rotationen beziehen
+>   sich dabei immer auf den Ursprung des Koordinatensystems und NICHT etwa auf den Mittelpunkt der 
+>   (ggf. bereits verschobenen) Kamera.
 >
 >   - Welchem Winkel in Grad entspricht [`Atan(15.0 / 40.0)`](https://msdn.microsoft.com/de-de/library/system.math.atan(v=vs.110).aspx)?
 >   - Zeichnet Position und Orientierung der Kamera und die Position des Würfels in einer Seitenansicht 
@@ -42,8 +44,9 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 > - Schaut Euch die Implementierung von 
 >   [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_Mesh/Core/SimpleMeshes.cs#L11
 )
->    an. _Tipp:_ Ihr könnte mit gedrückter `Strg`-Taste direkt im Visual Studio Editor auf den Methodenaufruf klicken.
-> - Seht Euch den Inhalt der Mesh-Komponente im Debuggeran:
+>   an. _Tipp:_ Ihr könnte mit gedrückter `Strg`-Taste direkt im Visual Studio Code Editor auf den
+>   Methodenaufruf klicken.
+> - Seht Euch den Inhalt der Mesh-Komponente im Debugger an:
 >   - In der Methode `Init()`: Setzt einen Breakpoint in die nächste Zeile unter den Aufruf von `_scene = CreateScene();`
 >
 >     ![Breakpoint](_images/Breakpoint.png)
@@ -52,7 +55,8 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 >
 >   - Startet den das Programm wie üblich im Debugger über den grünen "Play"-Button (im Desktop Build).
 >     *Ergebnis*: Der Programm-Ablauf hält am roten Breakpoint an.
->   - Öffnet das Watch-Fenster des Debuggers (Menü->Debug->Windows->Watch->Watch 1) und fügt als zu beobachtende
+>   - Öffnet das Watch-Fenster des Debuggers (In den **Debug-View** wechseln, in der **Watch**-Leiste auf das `+` clicken)
+>     und fügt als zu beobachtende
 >     Variable folgenden Ausdruck ein: `_scene.Children[0].Components[2]`. Es soll also die als **drittes**  
 >     (Null-basierter Index; **2**) eingefügte Komponente des **ersten** Kindes (Null-basierter Index; **0**)
 >     unserer Szene beobachtet werden. Das ist natürlich die Mesh-Komponente.
@@ -62,7 +66,7 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 >   - Diese enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
 >     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Vergegenwertigt Euch, dass dies
 >     das Resultat des Aufrufs von 
->     [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_Mesh/Core/SimpleMeshes.cs#L11
+>     [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L11
 )
 >     ist.
 
@@ -101,9 +105,9 @@ folgendermaßen interpretiert:
   Wie man sieht, liegen diese Arrayeinträge im Bereich [0..23]. Diese Zahlen sind Indizes in den `Vertices`
   Array (und in den `Normals` Array, aber dazu später mehr...).
 - Jeweils drei aufeinanderfolgende Indizes im Array bilden ein Dreieck, d.h. die ersten drei Einträge,
-  `0`. `6` und `3` bedeuten, dass die an Positionen 0, 6, und 3 im `Vertices`-Array-abgespeicherten Eckpunte
+  `0`, `6` und `3` bedeuten, dass die an Positionen 0, 6, und 3 im `Vertices`-Array-abgespeicherten Eckpunte
   ein Dreieck bilden. Dann kommen im `Triangles` array die drei Einträge `3`, `6` und `9`. Somit bilden 
-  die drei Punkte, die man an diesen Indizes im `Vertices`-Array findet, den nächsten Eintrag.
+  die drei Punkte, die man an diesen Indizes im `Vertices`-Array findet, das nächste Dreieck.
 
   ![Triangles Array](_images/Triangles.png)
 
@@ -140,7 +144,7 @@ der Eckpunkte jeweils mit unterschiedlichen Normalen wieder.
 ### UVs
 
 Wie auch in Blender heißen Texturkoordinaten in FUSEE `UVs`.  Auch diese werden für jeden Eckpunkt angegeben. In dieser
-Lektion spielen Texturkoordinaten zunächst keine Rolle.
+Lektion spielen Texturkoordinaten keine Rolle.
 
 ## Ein eigenes Mesh
 
@@ -152,7 +156,7 @@ SimpleMeshes.CreateCylinder(float radius, float height, int segments)
 
 implementiert werden. Diese soll eine Mesh-Komponente in Form eines Zylinders erzeugen.
 Eine Dummy-Implementierung existiert bereits in der Datei 
-[SimpleMeshes.cs](Core/SimpleMeshes.cs#L157).
+[SimpleMeshes.cs](SimpleMeshes.cs#L157).
 Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat folgende Konsequenzen:
 
 - Die Mantefläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber 
@@ -163,7 +167,9 @@ Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat
 
 ### Zylinder-Aufbau
 
-Das Bild aus Lektion 4 verdeutlicht noch mal den Aufbau eines Zylinders.
+Das Bild aus 
+[Lektion 4](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter04/lecture01/)
+verdeutlicht noch mal den Aufbau eines Zylinders.
 
 ![Zylinder mit Flächen und Normalen](_images/CylinderPolysVertsNormals.png)
 
