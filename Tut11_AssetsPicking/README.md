@@ -13,75 +13,10 @@ In diesem Kapitel sollen 3D-Geometrien (Meshes) nicht mehr durch Code erzeugt we
 die mit Blender erstellt wurden, geladen werden können. 
 
 Hierarchien im bereits bekannten FUSEE-Szenengraphen-Format (bestehend aus Nodes und Komponenten)
-können als `.fus`-Dateien gespeichert und geladen werden. 
-
-Um mit Blender erstellte 3D-Modelle als .fus-Datei zur Verwendung in FUSEE-Applikationen zu verwenden, muss das 
-FUSEE-Export-AddOn für Blender installiert werden. Dies erfordert im derzeitigen Entwicklungszustand noch ein
-paar Handgriffe. Folgende Schritte sind nötig:
-
-1. Python Vollversion installieren.
-
-   - Den aktuellen [Python 3 Installer downloaden](https://www.python.org/downloads/release/python-361/), z.B. für 
-     Windows den [x86-64 web-based installer](https://www.python.org/ftp/python/3.6.1/python-3.6.1-amd64-webinstall.exe).
-   - Installation starten.
-   - ***Während der Installation die Option "Add Python 3.x to PATH" aktivieren!!!***
-   - Zur Kontrolle die Kommandozeile mit "Windows-Taste -> `cmd`" aufrufen und `python` eintippen.
-     - Falls keine Fehlermeldung erscheint, ist Python mit allen Pfad-Angaben installiert.
-     - `quit()` eingeben.
-
-2. Das Python-**Protobuf**-Paket installieren
-
-   - Internetverbindung herstellen
-   - Kommandozeile noch mal öffnen, falls notwendig
-   - `pip3 install protobuf` eingeben
-
-3. Das Python-**Visual-Studio-Debug**-Paket installieren
-
-   - Internetverbindung herstellen
-   - Kommandozeile noch mal öffnen, falls notwendig
-   - `pip3 install ptvsd` eingeben
-
-4. FUSEE-**fuConv**-Tool in der aktullen Version bereitstellen. Dazu 
-   
-   ***ENTWEDER (aufwändiger)***
-
-   - Neuste Version von FUSEE downloaden (als .zip oder per GitHub Desktop)
-   - Die Solution "Fusee.Engine.SceneViewer.sln" öffnen
-   - Im Soulution-Explorer mit der rechten Maustaste auf das Projekt "Tools/fuConv" klicken und
-     "Build" ("Erstellen") klicken.
-
-   ***ODER (einfacher)***
-
-   - [Tools.zip](https://sftp.hs-furtwangen.de/~mch/computergrafik/_blenderaddon/Tools.zip) herunterladen
-   - Inhalt mit 7zip entpacken ***NICHT MIT WINDOWS-ZIP!!!***
-   - Enhaltenden Tools-Ordner komplett mit allen Unterverzeichnissen nach %FuseeRoot%\Bin\Debug\Tools
-     kopieren.
-   - Inhalt eines ggf. schon vorhandenen %FuseeRoot%\Bin\Debug\Tools Ordners mit dem aus dem Zip-File
-     integrieren/ersetzen.
-
-5. Das FUSEE-Blender-AddOn installieren
-
-   - AddOn-Zip-Datei [io_export_fus.zip](https://sftp.hs-furtwangen.de/~mch/computergrafik/_blenderaddon/io_export_fus.zip)  herunterladen.
-   - Blender starten
-   - Den User-Preferences-Dialog öffnen ("File->User Preferences" oder `Ctrl` + `Alt` + `U`)
-   - Im "Add-ons"-Tab ganz unten auf den Button "Install from File..." klicken.
-   - Die heruntergeladene `io_export_fus.zip` auswählen. 
-   - Links im Dialog "Testing" als das "Supported Level" auswählen. Ggf. mehrfach "Refresh" Drücken.
-     -> Es sollte das "Import-Export: .fus format" AddOn erscheinen. 
-   - Mit dem Häkchen aktivieren
-
-    ![User Preferences -> Add-ons](_images/UserPrefsAddon.png)
-
-
-6. Testen
-  
-   - In Blender die Standard-Szene (Würfel oder beliebige andere Geometrie) laden.
-   - Im Menü "File -> Export -> FUS (.fus)" auswählen
-   - In den "Export FUS" Optionen, die Option "Run with Fusees Web-Application" auswählen 
-   - Pfad und Dateinamen festlegen
-   - "Export FUS" klicken
-   - Die aktuelle Blender-Szene sollte als FUSEE-Web-Applikation im Browser geladen und
-     dargestellt werden.
+können als `.fus`-Dateien gespeichert und geladen werden. Um mit Blender erstellte 3D-Modelle als .fus-Datei 
+zur Verwendung in FUSEE-Applikationen zu verwenden, muss das FUSEE-Export-AddOn für Blender installiert sein.
+Das sollte bereits als Teil der 
+[Fusee-Installation](http://fusee3d.org/page/install-fusee/) passiert sein. 
 
 ### Features des FUSEE-Exporters
 
@@ -98,18 +33,21 @@ als FUSEE-Inhalte exportieren. Diese sind:
   - Position, Rotation und Skalierung jeweils relativ zu den Eltern-Einstellungen und 
     zum Koordinaten-Ursprung (Pivot-Point) als `TransformComponent`.
   - Farben aus den Blender-Material-Einstellungen für den ***Cycles-Renderer*** als `MaterialComponent`:
-    - Diffuse-Farbe aus der Diffuse BSDF Node
-    - Texturen als Input für den Farb-Kanal der Diffuse BSDF Node
-    - Specular-Farbe aus der Glossy BSDF Node
+    - ***Entweder***
+      - Diffuse-Farbe aus der Diffuse BSDF Node
+      - Texturen als Input für den Farb-Kanal der Diffuse BSDF Node
+      - Specular-Farbe aus der Glossy BSDF Node
+    - ***Oder***
+      - Ausgewählte Parameter aus der Principled BSDF Node
 
 Der Exporter funktioniert in zwei Betriebsarten: 
 
-- ***Ohne*** die Option "Run with Fusees Web-Application" kann eine 3D-Szene als 
+- ***Ohne*** die Option "Create FUSEE Web-Application" kann eine 3D-Szene als 
   .fus-Datei (ggf. mit zugehörigen Texturen im .jpg-Format) exportiert werden. Diese
   Funktionalität verwenden wir im Folgenden, um 3D-Modelle in unserern eigenen FUSEE-Applikationen
   einzubinden und mit selbst geschriebener Interaktion zu versehen.
 
-- ***Mit*** der Option "Run with Fusees Web-Application" wird eine kompletter FUSEE-Web-Viewer
+- ***Mit*** der Option "Create FUSEE Web-Application" wird eine kompletter FUSEE-Web-Viewer
   rund um die 3D-Szene erstellt. Diese Betriebsart eignet sich, um mal schnell das Ergebnis eines
   FUSEE-Exports zu begutachten oder auch um die erstellte Web-Applikation direkt
   auf einen Web-Space zu kopieren. Die Funktionalität der Web-Applikation erlaubt das
@@ -128,17 +66,11 @@ als .fus-Datei expotierten Blender-3D-Szenen folgendermaßen eingebunden werden.
 >
 >   - Mindestens zwei Objekte mit selbst-vergebenen Namen
 >   - Eltern-Kind-Verhältnisse zwischen den Objketen
->   - Materialien mit Diffuse- und Glossy-BSDF-Nodes im Cycles-Renderer
+>   - Materialien ***entweder*** mit Diffuse- und Glossy-BSDF-Nodes ***oder*** mit dem 
+>     Principled-BSDF-Shader im Cycles-Renderer
 >
 > - Exportiert die Szene als .fus-Datei (ohne die Option "Run with Fusees Web-Application")
-> - Kopiert die .fus-Datei in den "Core\Assets" Unterordner Eures FUSEE-Projektes
-> - In Visual-Studio: Im Solution-Explorer: Rechts-Klick auf den Assets-Ordner in AssetsPicking.Core.
-> - Add -> Add Existing Item. Dann die oben erzeugte .fus-Datei auswählen. 
-> - Rechtsklick auf die neu hinzugefügte Assets-Datei: "Properties" anklicken.
-> - Im Properties-Fenster: Als "Build Action" die Auswahl "Content" einstellen und
->   bei "Copy to Output Directory" die Option "Copy if newer" auswählen.
->
-> ![Asset hinzufügen](_images/AssetAdded.png)
+> - Kopiert die .fus-Datei in den "Assets" Unterordner Eures FUSEE-Projektes
 >
 
 Auf derart hinzugefügte Assets kann in einer FUSEE-Applikation dann mit der Methode
@@ -378,12 +310,8 @@ Mit diesem Modell soll dann eine erste Applikation erzeugt werden
   - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen des gerade selektierten (Teil-)Objektes legt
 
 - Das Modell soll dann in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
-  werden und der Bewegliche Aufbau soll die Grundlage einer (simplen & selbst ausgedachten) Spielidee
-  werden. Gerne kann jetzt schon auf diese zukünftige Anforderungen der kommenden Lektion 12 Rücksicht genommen werden.
+  werden und der Bewegliche Aufbau soll über Picking bewegt werden können.
 
-
-
- 
 
 
 
