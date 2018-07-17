@@ -34,7 +34,7 @@ In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
 >     (Y-Z-Achsen) des Weltkoordinatensystems auf.
 
 Der Würfel wird, wie in den vorangegangenen Beispielen auch, als ein Objekt vom Typ 
-[`MeshComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/MeshComponent.cs#L10)
+[`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/Mesh.cs#L10)
 in die Komponentenliste eingehängt. Diese Komponente wird, gleich mit würfelförmiger Geometrie befüllt, von der
 Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und zurückgegeben. 
 Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
@@ -222,13 +222,13 @@ als weiße Zahl auf blauem Grund angegeben.
 > - Beginnt die Implementierung von `CreateCylinder` wie folgt:
 >
 >  ```C#
->    public static MeshComponent CreateCylinder(float radius, float height, int segments)
+>    public static Mesh CreateCylinder(float radius, float height, int segments)
 >    {
 >        for (int i = 1; i < segments; i++)
 >        {
 >        }
 >
->        return new MeshComponent
+>        return new Mesh
 >        {
 >        };
 >    }
@@ -262,7 +262,7 @@ wissen bereits folgendes:
 >   Mesh-Komponente ein:
 >
 >  ```C#
->   return new MeshComponent
+>   return new Mesh
 >   {
 >       Vertices = verts,
 >       Normals = norms,

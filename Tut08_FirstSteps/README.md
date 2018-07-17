@@ -136,7 +136,7 @@ Objekten vom Typ `SceneNodeContainer`. Die eigentlichen Nutzdaten sind dann in
 `SceneComponentContainer` Objekten (grün) gespeichert. Hier gibt es unterschiedliche
 Komponenten-Typen. Die wichtigsten sind
 
-- [`MeshComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/MeshComponent.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
+- [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
 - [`MaterialComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/MaterialComponent.cs#L80) - enthalten Materialbeschreibungen und Textur-Informationen.
 - [`TransformComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/TransformComponent.cs#L10) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
 

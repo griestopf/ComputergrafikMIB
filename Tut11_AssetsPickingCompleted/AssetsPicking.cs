@@ -105,13 +105,14 @@ namespace Fusee.Tutorial.Core
                 {
                     if (_currentPick != null)
                     {
-                        _currentPick.Node.GetMaterial().Diffuse.Color = _oldColor;
+                        ShaderEffectComponent shaderEffectComponent = _currentPick.Node.GetComponent<ShaderEffectComponent>();
+                        shaderEffectComponent.Effect.SetEffectParam("DiffuseColor", _oldColor);
                     }
                     if (newPick != null)
                     {
-                        var mat = newPick.Node.GetMaterial();
-                        _oldColor = mat.Diffuse.Color;
-                        mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
+                        ShaderEffectComponent shaderEffectComponent = newPick.Node.GetComponent<ShaderEffectComponent>();
+                        _oldColor = (float3)shaderEffectComponent.Effect.GetEffectParam("DiffuseColor");
+                        shaderEffectComponent.Effect.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
                     }
                     _currentPick = newPick;
                 }

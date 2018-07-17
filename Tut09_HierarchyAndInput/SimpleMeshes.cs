@@ -10,9 +10,9 @@ namespace Fusee.Tutorial.Core
 {
     public static class SimpleMeshes 
     {
-        public static MeshComponent CreateCuboid(float3 size)
+        public static Mesh CreateCuboid(float3 size)
         {
-            return new MeshComponent
+            return new Mesh
             {
                 Vertices = new[]
                 {
@@ -123,32 +123,32 @@ namespace Fusee.Tutorial.Core
             };
         }
 
-        public static MeshComponent CreateCylinder(float radius, float height, int segments)
+        public static Mesh CreateCylinder(float radius, float height, int segments)
         {
             return CreateConeFrustum(radius, radius, height, segments);
         }
 
-        public static MeshComponent CreateCone(float radius, float height, int segments)
+        public static Mesh CreateCone(float radius, float height, int segments)
         {
             return CreateConeFrustum(radius, 0.0f, height, segments);
         }
 
-        public static MeshComponent CreateConeFrustum(float radiuslower, float radiusupper, float height, int segments)
+        public static Mesh CreateConeFrustum(float radiuslower, float radiusupper, float height, int segments)
         {
             throw new NotImplementedException();
         }
 
 
-        public static MeshComponent CreatePyramid(float baselen, float height)
+        public static Mesh CreatePyramid(float baselen, float height)
         {
             throw new NotImplementedException();
         }
-        public static MeshComponent CreateTetrahedron(float edgelen)
+        public static Mesh CreateTetrahedron(float edgelen)
         {
             throw new NotImplementedException();
         }
 
-        public static MeshComponent CreateTorus(float mainradius, float segradius, int segments, int slices)
+        public static Mesh CreateTorus(float mainradius, float segradius, int segments, int slices)
         {
             throw new NotImplementedException();
         }

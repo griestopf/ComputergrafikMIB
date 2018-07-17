@@ -14,7 +14,7 @@ using static Fusee.Engine.Core.Time;
 
 namespace Fusee.Tutorial.Core
 {
-    public class Mesh : RenderCanvas
+    public class MeshExample : RenderCanvas
     {
         private SceneContainer _scene;
         private SceneRenderer _sceneRenderer;
@@ -50,7 +50,8 @@ namespace Fusee.Tutorial.Core
                             },
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
+                            // SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
+                            SimpleMeshes.CreateCylinder(5, 10, 8)
                         }
                     },
                 }

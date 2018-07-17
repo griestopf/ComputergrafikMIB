@@ -25,7 +25,7 @@ als FUSEE-Inhalte exportieren. Diese sind:
   
   - Eltern-Kind-Verhältnisse von Blender-Objekten als Hierarchien von `SceneNodeContainer`-Instanzen.
   - Die Namen der Blender-Objekte als `Name`-Eigenschaft des jeweiligen `SceneNodeContainer`-Objektes
-  - 3D-Geometrien als `MeshComponent`
+  - 3D-Geometrien als `Mesh`
     - Eckpunkt-Postitionen (`Vertices`)
     - Normalen (`Normals`) in Abhängigkeit der "Smooth / Flat"-Einstellung
     - Textur-Koordinaten (`UVs`)
