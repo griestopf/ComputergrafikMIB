@@ -137,7 +137,7 @@ Objekten vom Typ `SceneNodeContainer`. Die eigentlichen Nutzdaten sind dann in
 Komponenten-Typen. Die wichtigsten sind
 
 - [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
-- [`MaterialComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/MaterialComponent.cs#L80) - enthalten Materialbeschreibungen und Textur-Informationen.
+- [`ShaderEffectComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ShaderEffectComponent.cs#L8) - enthalten Materialbeschreibungen und Textur-Informationen.
 - [`TransformComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/TransformComponent.cs#L10) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
 
 ### Ein Würfel
@@ -166,12 +166,11 @@ Komponenten-Typen. Die wichtigsten sind
       RC.ClearColor = new float4(0.7f, 1, 0.5f, 1);
 
       // Create a scene with a cube
-      // The three components: one XForm, one Material and the Mesh
+      // The three components: one XForm, one Shader and the Mesh
       var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 50)};
-      var cubeMaterial = new MaterialComponent
-      {
-          Diffuse = new MatChannelContainer {Color = new float3(0, 0, 1)},
-          Specular = new SpecularChannelContainer {Color = float3.One, Shininess = 4}
+      var cubeShader = new = new ShaderEffectComponent
+      { 
+          Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
       };
       var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
@@ -179,7 +178,7 @@ Komponenten-Typen. Die wichtigsten sind
       var cubeNode = new SceneNodeContainer();
       cubeNode.Components = new List<SceneComponentContainer>();
       cubeNode.Components.Add(cubeTransform);
-      cubeNode.Components.Add(cubeMaterial);
+      cubeNode.Components.Add(cubeShader);
       cubeNode.Components.Add(cubeMesh);
 
       // Create the scene containing the cube as the only object
