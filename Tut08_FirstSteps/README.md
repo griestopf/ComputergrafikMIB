@@ -168,7 +168,7 @@ Komponenten-Typen. Die wichtigsten sind
       // Create a scene with a cube
       // The three components: one XForm, one Shader and the Mesh
       var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 50)};
-      var cubeShader = new = new ShaderEffectComponent
+      var cubeShader = new ShaderEffectComponent
       { 
           Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
       };

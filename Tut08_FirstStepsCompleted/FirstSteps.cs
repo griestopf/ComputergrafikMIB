@@ -30,10 +30,9 @@ namespace Fusee.Tutorial.Core
             // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
             _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
-            var cubeMaterial = new MaterialComponent
-            {
-                Diffuse = new MatChannelContainer {Color = new float3(0, 0, 1)},
-                Specular = new SpecularChannelContainer {Color = float3.One, Shininess = 4}
+            var cubeShader = new ShaderEffectComponent
+            { 
+                Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
             };
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
@@ -41,7 +40,7 @@ namespace Fusee.Tutorial.Core
             var cubeNode = new SceneNodeContainer();
             cubeNode.Components = new List<SceneComponentContainer>();
             cubeNode.Components.Add(_cubeTransform);
-            cubeNode.Components.Add(cubeMaterial);
+            cubeNode.Components.Add(cubeShader);
             cubeNode.Components.Add(cubeMesh);
 
             // Create the scene containing the cube as the only object
