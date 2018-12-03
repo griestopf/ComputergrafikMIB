@@ -44,7 +44,6 @@ namespace Fusee.Tutorial.Core
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-
                             new ShaderEffectComponent
                             {
                                 Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
