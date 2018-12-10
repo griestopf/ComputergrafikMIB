@@ -5,7 +5,7 @@
 - Mesh als Geometrie-Bausteine verstehen
   - Aufbau einer Mesh-Komponente
   - Algorithmisch Meshes erzeugen
-  - Interaktiv und iterativ einen Algorithmus zur Erzeugung von Geoemtrie entwickeln.
+  - Interaktiv und iterativ einen Algorithmus zur Erzeugung von Geometrie entwickeln.
 
 ## Meshes
 
@@ -64,7 +64,7 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 >     ![Mesh im Watch-Fenster](_images/WatchMesh.png)
 >
 >   - Diese enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
->     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Vergegenwertigt Euch, dass dies
+>     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Macht euch klar, dass dies
 >     das Resultat des Aufrufs von 
 >     [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L11
 )
@@ -75,7 +75,7 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 Wir wollen nun verstehen, wie diese Daten einen Würfel erzeugen. Zunächst mal betrachten wir den Inhalt 
 des `Vertices` Array. Wie uns der Name sagt, sind das die Eckpunkte unserer Geometrie, an denen die Flächen
 aufgehängt sind. Wie wir sehen, sind dort 3D-Positionen angegeben und diese liegen alle 5 Einheiten
-in jeweils beide möglichen Richtungen entlang jeder Hauptachse (x, Y und Z) vom Ursprung entfent. 
+in jeweils beide möglichen Richtungen entlang jeder Hauptachse (x, Y und Z) vom Ursprung entfernt. 
 
 Damit liegen wohl alle Punkte an den Eckpunkten eines Würfels mit dem Zentrum in `(0, 0, 0)` und der Kantenlänge 10
 (jeweils von -5 bis 5 - so haben wir es ja im Aufruf von `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))`
@@ -93,10 +93,10 @@ wenn es um Normalen geht.
 
 ### Triangles
 
-FUSEE versteht nur Meshes, die aus Dreicken aufgebaut sind. Sollen Flächen mit mehr Eckpunkten dargestellt
+FUSEE versteht nur Meshes, die aus Dreiecken aufgebaut sind. Sollen Flächen mit mehr Eckpunkten dargestellt
 werden, müssen diese aus Dreiecken zusammengepuzzelt werden. Da ein Würfel aus sechs Quadraten besteht, muss
 jedes Quadrat aus zwei Dreiecken gebildet werden. Der Array `Triangles` enthält die Information, welche Eckpunkte
-mit welchen anderen Eckpunten im `Vertices`-Array Dreiecke bilden. Dazu wird der Inhalt des `Triangles` 
+mit welchen anderen Eckpunkten im `Vertices`-Array Dreiecke bilden. Dazu wird der Inhalt des `Triangles` 
 folgendermaßen interpretiert:
 
 - Der Array enthält 36 Einträge, allerdings keine 3D-Koordinaten, sondern Ganzzahl-Werte 
@@ -138,7 +138,7 @@ der Eckpunkte jeweils mit unterschiedlichen Normalen wieder.
 
 > **TODO**
 >
-> - Sucht beliebige Indizes im 'Triangles'Array, findet jeweils den damit identifzierten Eckpunt im 'Vertices'-Array 
+> - Sucht beliebige Indizes im 'Triangles'Array, findet jeweils den damit identifizierten Eckpunkt im 'Vertices'-Array 
 >   und die dazugehörende Normale im `Normals`-Array und vergleicht die Zahlenwerte mit der Skizze.
 
 ### UVs
@@ -159,11 +159,11 @@ Eine Dummy-Implementierung existiert bereits in der Datei
 [SimpleMeshes.cs](SimpleMeshes.cs#L157).
 Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat folgende Konsequenzen:
 
-- Die Mantefläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber 
+- Die Mantelfläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber 
   durch den Benutzer vorgegeben werden. Somit müssen sowohl die Mantelfläche als auch die beiden
   Deckflächen mit Hilfe einer Schleife erzeugt werden, bei der die Anzahl der Durchläufe durch den 
   Parameter `segments` bestimmt wird.
-- Die Normalen rund um die Mantefläche müssen zu einem kontinuierlichen (_smooth_) Shading führen
+- Die Normalen rund um die Mantelfläche müssen zu einem kontinuierlichen (_smooth_) Shading führen
 
 ### Zylinder-Aufbau
 
@@ -202,7 +202,7 @@ Die folgende Skizze soll uns helfen, den Algorithmus aufzubauen.
 >
 >     Erklärung: Wenn man das Lot vom Punkt auf die X-Achse zeichnet, ergibt sich ein rechtwinkliges Dreieck.
 >     Das ist für Punkt 1 in der Skizze als gestrichelte Linie eingezeichnet. In diesem Dreieck ist
->     der Radius die Hypothenuse und die x- und z-Koordinaten sind die Katheden. Die Formel gilt nicht nur
+>     der Radius die Hypothenuse und die x- und z-Koordinaten sind die Katheten. Die Formel gilt nicht nur
 >     im ersten Quadranten des Koordinatensystems, sondern in allen vier, also auch bei Winkeln α > 90°!
 > - Zeichnet die für noch nicht blau markierten Vertices deren Indizes in die Skizze ein.
 > - Rechnet für ein paar der Punkte deren Koordinaten nach o.g. Formel aus.
@@ -282,7 +282,7 @@ Arrays), noch ein wenig Initialisierungsarbeit geleistet werden.
 >   ```C#
 >      float delta = 2 * M.Pi / segments;
 >   ```
->   _Fun Fact_ :-): C#-Datein sind in Unicode gespeichert, d.h. es könnten u.A. auch griechische Buchstaben 
+>   _Fun Fact_ :-): C#-Dateien sind in Unicode gespeichert, d.h. es könnten u.A. auch griechische Buchstaben 
 >   als Variablennamen verwendet werden. Folgender Code ginge auch, ist aber unpraktisch, weil schwer zu tippen...
 >   ```C#
 >      float δ = 2 * M.Pi / segments;
@@ -329,7 +329,7 @@ und diese im `verts`-Array jeweils an der Stelle `i` abspeichern.
 >   ```
 
 Damit sollte die Methode alle benötigten Punkte und Normalen an die richtigen Stellen in den Arrays `Normals`
-und `Vertices` unserer Mesh-Komponente eintragen. Natürlich wird noch keine sichtbare Geoemetrie erzeugt, denn
+und `Vertices` unserer Mesh-Komponente eintragen. Natürlich wird noch keine sichtbare Geometrie erzeugt, denn
 die Information, welche Punkte mit welchen anderen Punkten zu Dreiecken zusammengefasst werden, fehlt noch.
 
 Wir können aber mit dem Debugger überprüfen, ob soweit alles stimmt:
@@ -374,7 +374,7 @@ gilt folgende Zuordnung
 
 > **TODO**
 >
-> - Vergegenwärtigt Euch obige Tabelle anhand der Skizze
+> - Erklärt Euch den Inhalt der obigen Tabelle anhand der Skizze
 >
 > - Fügt folgenden Code in den Schleifenrumpf ein:
 >
@@ -391,7 +391,7 @@ gilt folgende Zuordnung
 > - Betrachtet nach dem Schleifendurchlauf den Inhalt des `tris`-Array und überzeugt Euch, dass der Inhalt
 >   korrekt ist.
 
-Lasst den Code laufen. Nun sollte das Achteck als Annährung des Kreises bis auf das letzte Segment erscheinen
+Lasst den Code laufen. Nun sollte das Achteck als Annäherung des Kreises bis auf das letzte Segment erscheinen
 (das graue Feld in der Skizze fehlt). Das letzte Segment können wir nicht innerhalb der Schleife erzeugen, denn
 - die Punkte-Indizes lassen sich nicht nach obiger Regel aus `i` berechnen,
 - das Segment wird aus dem letzten Punkt auf dem Kreis (7) und dem allerersten (0) zusammengesetzt.
