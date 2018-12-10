@@ -42,11 +42,10 @@ namespace Fusee.Tutorial.Core
                             // TRANSFROM COMPONENT
                             _baseTransform,
 
-                            // MATERIAL COMPONENT
-                            new MaterialComponent
+                            // SHADER EFFECT COMPONENT
+                            new ShaderEffectComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
-                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5)
                             },
 
                             // MESH COMPONENT

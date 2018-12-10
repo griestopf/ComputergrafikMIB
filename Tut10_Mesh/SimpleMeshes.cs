@@ -154,6 +154,25 @@ namespace Fusee.Tutorial.Core
             };
         }
 
+       public static ShaderEffect MakeShaderEffect(float3 diffuseColor, float3 specularColor, float shininess)
+        {
+            MaterialComponent temp = new MaterialComponent
+            {
+                Diffuse = new MatChannelContainer
+                {
+                    Color = diffuseColor
+                },
+                Specular = new SpecularChannelContainer
+                {
+                    Color = specularColor,
+                    Shininess = shininess
+                }
+            };
+
+            return ShaderCodeBuilder.MakeShaderEffectFromMatComp(temp);
+        }
+
+
         public static Mesh CreateCylinder(float radius, float height, int segments)
         {
             return CreateConeFrustum(radius, radius, height, segments);
