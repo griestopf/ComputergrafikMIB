@@ -156,7 +156,7 @@ SimpleMeshes.CreateCylinder(float radius, float height, int segments)
 
 implementiert werden. Diese soll eine Mesh-Komponente in Form eines Zylinders erzeugen.
 Eine Dummy-Implementierung existiert bereits in der Datei 
-[SimpleMeshes.cs](SimpleMeshes.cs#L157).
+[SimpleMeshes.cs](SimpleMeshes.cs#L176).
 Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat folgende Konsequenzen:
 
 - Die Mantelfläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber 
