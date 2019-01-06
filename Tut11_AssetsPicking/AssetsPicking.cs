@@ -42,11 +42,10 @@ namespace Fusee.Tutorial.Core
                             // TRANSFROM COMPONENT
                             _baseTransform,
 
-                            // MATERIAL COMPONENT
-                            new MaterialComponent
+                            // SHADER EFFECT COMPONENT
+                            new ShaderEffectComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
-                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5)
                             },
 
                             // MESH COMPONENT
@@ -61,7 +60,7 @@ namespace Fusee.Tutorial.Core
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
 
             _scene = CreateScene();
@@ -84,7 +83,7 @@ namespace Fusee.Tutorial.Core
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 

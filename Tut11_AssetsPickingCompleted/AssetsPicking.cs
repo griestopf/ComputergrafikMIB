@@ -47,15 +47,13 @@ namespace Fusee.Tutorial.Core
                             // TRANSFROM COMPONENT
                             _baseTransform,
 
-                            // MATERIAL COMPONENT
-                            new MaterialComponent
+                            // SHADER EFFECT COMPONENT
+                            new ShaderEffectComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
-                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5)
                             },
 
                             // MESH COMPONENT
-                            // SimpleAssetsPickinges.CreateCuboid(new float3(10, 10, 10))
                             SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
                         }
                     },
@@ -66,7 +64,7 @@ namespace Fusee.Tutorial.Core
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
 
             _scene = AssetStorage.Get<SceneContainer>("CubeCar.fus");
@@ -135,7 +133,7 @@ namespace Fusee.Tutorial.Core
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
             var aspectRatio = Width / (float)Height;
 
-            // 0.25*PI Rad -> 45� Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
+            // 0.25*PI Rad -> 45° Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
             // Front clipping happens at 1 (Objects nearer than 1 world unit get clipped)
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
