@@ -92,6 +92,7 @@ namespace Fusee.Tutorial.Core
                 float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / Height) + new float2(-1, 1);
                 _scenePicker.View = RC.View;
                 _scenePicker.Projection = RC.Projection;
+
                 List<PickResult> pickResults = _scenePicker.Pick(pickPosClip).ToList();
                 PickResult newPick = null;
                 if (pickResults.Count > 0)
@@ -99,6 +100,7 @@ namespace Fusee.Tutorial.Core
                     pickResults.Sort((a, b) => Sign(a.ClipPos.z - b.ClipPos.z));
                     newPick = pickResults[0];
                 }
+
                 if (newPick?.Node != _currentPick?.Node)
                 {
                     if (_currentPick != null)

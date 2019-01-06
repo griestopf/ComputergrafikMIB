@@ -93,7 +93,7 @@ Der Name des Assets entspricht dem Dateinamen (MIT Dateinamenerweiterung).
 >   ```
 >   Ersetzt dabei ggf. den Namen "CubeCar.fus" durch den Namen Eurer eigenen Datei.
 >
-> - Da nun `CreateSchene()` nicht mehr aufgerufen wird, wird auch `_baseTransform` nicht
+> - Da nun `CreateScene()` nicht mehr aufgerufen wird, wird auch `_baseTransform` nicht
 >   mehr initialisiert. Kommentiert fürs Erste die Zeile
 >
 >   ```C#
@@ -123,7 +123,7 @@ schauen wir uns den Inhalt der .fus-Datei nach dem Laden in der Applikation an.
 >
 > - Seht Euch die Inhalte der Komponenten an
 > - Zeichnet eine Skizze Eurer Szene in 
->   der Scene-Node-Components-Notation aus [Kapitel 08 - Der Szenengraph](https://github.com/griestopf/ComputergrafikMIB/tree/master/08_FirstSteps#der-szenengraph)
+>   der Scene-Node-Components-Notation aus [Kapitel 08 - Der Szenengraph](https://github.com/griestopf/ComputergrafikMIB/tree/master/Tut08_FirstSteps#der-szenengraph)
 >   
 
 Um unser Objekt nun interaktiv zu verändern, z.B. Farben, Positionen, Rotationen, wollen wir
@@ -137,6 +137,7 @@ Objektes in der Szene zuzugreifen.
 Einfacher ist es aber, die Objekte über deren Namen zu identifizieren und nach dem Laden 
 der Szene einfach die Komponenten in den Objekten, deren Namen wir kennen zu suchen.
 
+#### Ändern von Position/Rotation/Orientierung
 Um Beispielsweise auf die Transformkomponente des rechten Hinterrades in o.a. Beispielszene
 zuzugreifen, kann diese über folgenden Aufruf in der Szene gesucht und im Feld `_rightRearTransform` abgespeichert werden:
 
@@ -162,13 +163,32 @@ enthält, resultiert der gesamte Aufruf darin, dass `_rightRearTransform` den We
 bekommt und nicht etwa in einem Absturz, weil versucht wurde, in einem nicht vorhandenen Objekt eine
 Transform-Komponente zu suchen.
 
+#### Ändern von Farben
+
+Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Export über den FUS-Exporter beim Einlesen in FUSEE eine ShaderEffectComponent. Über diese lassen sich die farbgebenden Parameter wie z.B. die Diffuse-Farbe ändern:
+
+```C#
+  private ShaderEffectComponent _rightRearShader;
+...
+  _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffectComponent>();
+  _rightRearShader.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
+
+```
+
+> #### TODO
+>
+> - Sucht nach oben angegebenem Muster ein vorhandenes Objekt in der geladenen FUSEE-Szene nach dessen Namen.
+> - Speichert eine Referenz auf die Transform-Komponente (`GetTransform()`) und die Shader-Effekt-Komponente (`GetComponent<ShaderEffectComponent>()`) des Objektes
+> - Animiert die Rotation des Objektes und die Farbe des Objektes innerhalb von `RenderAFrame()`.
+
+
 ## Picking
 
 Eine häufig vorkommende Aufgabe in Echtzeit-3D-Anwendungen ist es, herauszufinden, welche Objekte in 
 der 3D-Szene an unter einer bestimmten 2D-Pixelposition auf dem Bildschirm liegt, beispielsweise
 dort, wo ein Benutzer gerade mit der Maus hingeklickt oder mit dem Finger eine Touch-Geste vollführt
 hat. FUSEE bietet hierzu die Klasse 
-[`ScenePicker`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L65)
+[`ScenePicker`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L108)
 mit deren Hilfe diese Aufgabe bewerkstelligt werden kann.
 
 Wie der `SceneRenderer` und auch die weiter oben beschriebene `FindNodes()` Methode wird beim Picking
@@ -191,7 +211,7 @@ die dann vom Benutzer ausgewertet werden können. Zu diesen Informationen gehör
   Bildschirmkoordinaten stattfand.
 
 Diese Informationen sind in der Klasse
-[`PickResult`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L9)
+[`PickResult`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L8)
 zusammengefasst.
 
 Mit diesen Informationen lassen sich nicht nur die unter einem Bildschirm-Pixel liegenden 3D-Objekte
