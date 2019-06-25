@@ -287,7 +287,7 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >     {
 >         if (_currentPick != null)
 >         {
->             _currentPick.Node.SetComponent<ShaderEffectComponent>().Effect.SetEffectParameter("DiffuseColor", _oldColor);
+>             _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParameter("DiffuseColor", _oldColor);
 >         }
 >         if (newPick != null)
 >         {
