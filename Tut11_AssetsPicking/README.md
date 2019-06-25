@@ -293,8 +293,8 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >         {
 >             var mat = newPick.Node.GetMaterial();
 >             _oldColor = mat.Diffuse.Color;
-
-              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParameter("DiffuseColor);
+>
+>              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParameter("DiffuseColor);
 >             mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
 >         }
 >         _currentPick = newPick;
