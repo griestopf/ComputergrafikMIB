@@ -171,7 +171,7 @@ Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Expor
   private ShaderEffectComponent _rightRearShader;
 ...
   _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffectComponent>();
-  _rightRearShader.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
+  _rightRearShader.Effect.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
 
 ```
 
@@ -287,12 +287,14 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >     {
 >         if (_currentPick != null)
 >         {
->             _currentPick.Node.GetMaterial().Diffuse.Color = _oldColor;
+>             _currentPick.Node.SetComponent<ShaderEffectComponent>().Effect.SetEffectParameter("DiffuseColor", _oldColor);
 >         }
 >         if (newPick != null)
 >         {
 >             var mat = newPick.Node.GetMaterial();
 >             _oldColor = mat.Diffuse.Color;
+
+              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParameter("DiffuseColor);
 >             mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
 >         }
 >         _currentPick = newPick;
