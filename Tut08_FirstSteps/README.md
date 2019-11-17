@@ -153,7 +153,7 @@ Komponenten-Typen. Die wichtigsten sind
     public class FirstSteps : RenderCanvas
     {
         private SceneContainer _scene;
-        private SceneRenderer _sceneRenderer;
+        private SceneRendererForward _sceneRenderer;
 ```
 > - Erweitert die Methode [`Init()`](FirstSteps.cs#L20) wie folgt, um einen
 >   Szenengraphen erzeugt, dessen einziges Objekt ein Würfel ist. Zusätzlich wird 
@@ -187,7 +187,7 @@ Komponenten-Typen. Die wichtigsten sind
       _scene.Children.Add(cubeNode);
 
       // Create a scene renderer holding the scene above
-      _sceneRenderer = new SceneRenderer(_scene);
+      _sceneRenderer = new SceneRendererForward(_scene);
   }
 ```
 > - Fügt in die Methode [`RenderAFrame()`](FirstSteps.cs#L27) den Aufruf
@@ -197,6 +197,8 @@ Komponenten-Typen. Die wichtigsten sind
 ```C#
   public override void RenderAFrame()
   {
+      SetProjectionAndViewport()
+
       // Clear the backbuffer
       RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 

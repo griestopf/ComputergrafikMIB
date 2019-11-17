@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
@@ -8,24 +6,30 @@ using Fusee.Engine.Core;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
-using static System.Math;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
+using Fusee.Engine.GUI;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Fusee.Tutorial.Core
+namespace FuseeApp
 {
     public class FirstSteps : RenderCanvas
     {
+
         private SceneContainer _scene;
-        private SceneRenderer _sceneRenderer;
+        private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
         private TransformComponent _cubeTransform;
+
+
 
         // Init is called on startup. 
         public override void Init()
         {
             // Set the clear color for the backbuffer to light green (intensities in R, G, B, A).
             RC.ClearColor = new float4(0.7f, 1.0f, 0.5f, 1.0f);
+
 
             // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
@@ -49,13 +53,13 @@ namespace Fusee.Tutorial.Core
             _scene.Children.Add(cubeNode);
 
             // Create a scene renderer holding the scene above
-            _sceneRenderer = new SceneRenderer(_scene);
+            _sceneRenderer = new SceneRendererForward(_scene);            
         }
 
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            Diagnostics.Log(TimeSinceStart);
+            SetProjectionAndViewport();
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
@@ -69,19 +73,17 @@ namespace Fusee.Tutorial.Core
             // Setup the camera 
             RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
 
-
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 
 
-        // Is called when the window was resized
-        public override void Resize()
+        public void SetProjectionAndViewport()
         {
-            // Set the new rendering area to the entire new windows size
+            // Set the rendering area to the entire window size
             RC.Viewport(0, 0, Width, Height);
 
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
@@ -92,6 +94,6 @@ namespace Fusee.Tutorial.Core
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
-        }
+        }        
     }
 }
