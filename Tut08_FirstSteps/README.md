@@ -15,7 +15,7 @@
 > **TODO**
 >
 > - Installiert FUSEE wie im auf der 
->   [FUSEE Home Page](http://fusee3d.org) 
+>   [FUSEE Installation Wiki Seite](https://github.com/FUSEEProjectTeam/Fusee/wiki/Using-Fusee-in-Visual-Studio-Code) 
 >   beschrieben
 
 ## Was heißt Echtzeit?
