@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
@@ -8,16 +6,19 @@ using Fusee.Engine.Core;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
-using static System.Math;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
+using Fusee.Engine.GUI;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Fusee.Tutorial.Core
+namespace FuseeApp
 {
-    public class HierarchyInput : RenderCanvas
+    [FuseeApplication(Name = "Tut09_HierarchyAndInput", Description = "Yet another FUSEE App.")]
+    public class Tut09_HierarchyAndInput : RenderCanvas
     {
-        private SceneContainer _scene;
-        private SceneRenderer _sceneRenderer;
+     private SceneContainer _scene;
+        private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
         private TransformComponent _baseTransform;
         private TransformComponent _bodyTransform;
@@ -65,11 +66,10 @@ namespace Fusee.Tutorial.Core
                             // TRANSFROM COMPONENT
                             _baseTransform,
 
-                            // MATERIAL COMPONENT
-                            new MaterialComponent
+                            // SHADER EFFECT COMPONENT
+                            new ShaderEffectComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
-                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
                             },
 
                             // MESH COMPONENT
@@ -82,14 +82,13 @@ namespace Fusee.Tutorial.Core
                         Components = new List<SceneComponentContainer>
                         {
                             _bodyTransform,
-                            new MaterialComponent
+                            new ShaderEffectComponent
                             {
-                                Diffuse = new MatChannelContainer { Color = new float3(1, 0, 0) },
-                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                Effect = SimpleMeshes.MakeShaderEffect(new float3(1, 0, 0), new float3(1, 1, 1), 5)
                             },
                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                         },
-                        Children = new List<SceneNodeContainer>
+                        Children = new ChildList
                         {
                             // GREEN UPPER ARM
                             new SceneNodeContainer
@@ -98,7 +97,7 @@ namespace Fusee.Tutorial.Core
                                 {
                                     _upperArmTransform,
                                 },
-                                Children = new List<SceneNodeContainer>
+                                Children = new ChildList
                                 {
                                     new SceneNodeContainer
                                     {
@@ -110,10 +109,9 @@ namespace Fusee.Tutorial.Core
                                                 Scale = new float3(1, 1, 1),
                                                 Translation = new float3(0, 4, 0)
                                             },
-                                            new MaterialComponent
+                                            new ShaderEffectComponent
                                             {
-                                                Diffuse = new MatChannelContainer { Color = new float3(0, 1, 0) },
-                                                Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 1, 0), new float3(1, 1, 1), 5)
                                             },
                                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                         }
@@ -125,7 +123,7 @@ namespace Fusee.Tutorial.Core
                                         {
                                             _foreArmTransform,
                                         },
-                                        Children = new List<SceneNodeContainer>
+                                        Children = new ChildList
                                         {
                                             new SceneNodeContainer
                                             {
@@ -137,10 +135,9 @@ namespace Fusee.Tutorial.Core
                                                         Scale = new float3(1, 1, 1),
                                                         Translation = new float3(0, 4, 0)
                                                     },
-                                                    new MaterialComponent
+                                                    new ShaderEffectComponent
                                                     {
-                                                        Diffuse = new MatChannelContainer { Color = new float3(0, 0, 1) },
-                                                        Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                                                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 0, 1), new float3(1, 1, 1), 5)
                                                     },
                                                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                                 }
@@ -155,25 +152,25 @@ namespace Fusee.Tutorial.Core
             };
         }
 
+
+
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
 
             _scene = CreateScene();
 
             // Create a scene renderer holding the scene above
-            _sceneRenderer = new SceneRenderer(_scene);
+            _sceneRenderer = new SceneRendererForward(_scene);
         }
 
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            float bodyRot = _bodyTransform.Rotation.y;
-            bodyRot += 0.1f * Keyboard.LeftRightAxis;
-            _bodyTransform.Rotation = new float3(0, bodyRot, 0);
-
+            SetProjectionAndViewport();
+            
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
@@ -187,11 +184,9 @@ namespace Fusee.Tutorial.Core
             Present();
         }
 
-
-        // Is called when the window was resized
-        public override void Resize()
+        public void SetProjectionAndViewport()
         {
-            // Set the new rendering area to the entire new windows size
+            // Set the rendering area to the entire window size
             RC.Viewport(0, 0, Width, Height);
 
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
@@ -202,6 +197,7 @@ namespace Fusee.Tutorial.Core
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
-        }
+        }        
+
     }
 }

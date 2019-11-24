@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
@@ -8,20 +6,24 @@ using Fusee.Engine.Core;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
-using static System.Math;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
+using Fusee.Engine.GUI;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Fusee.Tutorial.Core
+namespace FuseeApp
 {
-    public class HierarchyInput : RenderCanvas
+    [FuseeApplication(Name = "Tut09_HierarchyAndInput", Description = "Yet another FUSEE App.")]
+    public class Tut09_HierarchyAndInput : RenderCanvas
     {
         private SceneContainer _scene;
-        private SceneRenderer _sceneRenderer;
+        private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
         private TransformComponent _baseTransform;
 
-        SceneContainer CreateScene()
+
+       SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
             _baseTransform = new TransformComponent
@@ -57,6 +59,7 @@ namespace Fusee.Tutorial.Core
             };
         }
 
+
         // Init is called on startup. 
         public override void Init()
         {
@@ -66,12 +69,14 @@ namespace Fusee.Tutorial.Core
             _scene = CreateScene();
 
             // Create a scene renderer holding the scene above
-            _sceneRenderer = new SceneRenderer(_scene);
+            _sceneRenderer = new SceneRendererForward(_scene);
         }
 
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
+            SetProjectionAndViewport();
+            
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
@@ -85,11 +90,9 @@ namespace Fusee.Tutorial.Core
             Present();
         }
 
-
-        // Is called when the window was resized
-        public override void Resize()
+        public void SetProjectionAndViewport()
         {
-            // Set the new rendering area to the entire new windows size
+            // Set the rendering area to the entire window size
             RC.Viewport(0, 0, Width, Height);
 
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
@@ -100,6 +103,7 @@ namespace Fusee.Tutorial.Core
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
-        }
+        }        
+
     }
 }
