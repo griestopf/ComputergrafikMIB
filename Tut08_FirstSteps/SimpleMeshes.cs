@@ -6,7 +6,7 @@ using Fusee.Engine.Core;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 
-namespace Fusee.Tutorial.Core
+namespace FuseeApp
 {
     public static class SimpleMeshes 
     {
