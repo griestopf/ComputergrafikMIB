@@ -23,7 +23,7 @@
         {
             "dependsOn": ["build"],
             "label": "Pack Fusee app as fuz file.",
-            "command": "fusee pack bin/Debug/Tut08_FirstSteps.dll",
+            "command": "fusee pack bin/Debug/Tut08_FirstStepsCompleted.dll",
             "type": "shell",
             "group": "build",
             "presentation": {
