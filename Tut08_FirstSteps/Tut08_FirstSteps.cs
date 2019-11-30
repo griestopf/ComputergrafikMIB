@@ -29,24 +29,22 @@ namespace FuseeApp
 
             // Create a scene with a cube
             // The three components: one XForm, one Shader and the Mesh
-            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
-            var cubeShader = new ShaderEffectComponent
-            { 
-                Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
-            };
-            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)}; 
+
+            
+
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNodeContainer();
             cubeNode.Components = new List<SceneComponentContainer>();
             cubeNode.Components.Add(_cubeTransform);
-            cubeNode.Components.Add(cubeShader);
-            cubeNode.Components.Add(cubeMesh);
+            cubeNode.Components.Add(new ShaderEffectComponent{ Effect = SimpleMeshes.MakeShaderEffect(new float3 (1, 0, 1), new float3 (1, 1, 1),  4)});
+            cubeNode.Components.Add(SimpleMeshes.CreateCuboid(new float3(10, 10, 10)));
 
             var cubeNode2 = new SceneNodeContainer();
             cubeNode2.Components = new List<SceneComponentContainer>();
             cubeNode2.Components.Add(new TransformComponent {Scale = new float3(2, 2, 1), Translation = new float3(0, 0, 10)});
-            cubeNode2.Components.Add(cubeShader);
+            cubeNode2.Components.Add(new ShaderEffectComponent{ Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)});
             cubeNode2.Components.Add(SimpleMeshes.CreateCuboid(new float3(10, 10, 10)));
 
             // Create the scene containing the cube as the only object
