@@ -25,33 +25,39 @@ namespace FuseeApp
         public override void Init()
         {
             // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
-            RC.ClearColor = new float4(0.7f, 1, 0.5f, 1);
+            RC.ClearColor = new float4(0f, 0, 0f, 1);
 
             // Create a scene with a cube
             // The three components: one XForm, one Shader and the Mesh
-            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)}; 
+            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
 
-            
+            int l = 10;
 
+            SceneNodeContainer[] cubes = new SceneNodeContainer[l];
 
-            // Assemble the cube node containing the three components
-            var cubeNode = new SceneNodeContainer();
-            cubeNode.Components = new List<SceneComponentContainer>();
-            cubeNode.Components.Add(_cubeTransform);
-            cubeNode.Components.Add(new ShaderEffectComponent{ Effect = SimpleMeshes.MakeShaderEffect(new float3 (1, 0, 1), new float3 (1, 1, 1),  4)});
-            cubeNode.Components.Add(SimpleMeshes.CreateCuboid(new float3(10, 10, 10)));
+            for(int i = 1; i <= l; i++){
+                var tempCube = new SceneNodeContainer();
+                tempCube.Components = new List<SceneComponentContainer>();
+                tempCube.Components.Add(new TransformComponent {Scale = new float3(2, 2, 2), Translation = new float3((1 + 2*i) - (l), (1 + 2*i) - (l), (1 + 2*i) - (l))});
+                tempCube.Components.Add(new ShaderEffectComponent{ Effect = SimpleMeshes.MakeShaderEffect(new float3 (200, 1, 1), new float3 (1, 1, 2),  4)});
+                tempCube.Components.Add(SimpleMeshes.CreateCuboid(new float3(1, 1, 1)));
+                cubes[i - 1] = tempCube;
+            }
 
+            /*
             var cubeNode2 = new SceneNodeContainer();
             cubeNode2.Components = new List<SceneComponentContainer>();
             cubeNode2.Components.Add(new TransformComponent {Scale = new float3(2, 2, 1), Translation = new float3(0, 0, 10)});
             cubeNode2.Components.Add(new ShaderEffectComponent{ Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)});
             cubeNode2.Components.Add(SimpleMeshes.CreateCuboid(new float3(10, 10, 10)));
+            */
 
             // Create the scene containing the cube as the only object
             _scene = new SceneContainer();
             _scene.Children = new List<SceneNodeContainer>();
-            _scene.Children.Add(cubeNode);
-            _scene.Children.Add(cubeNode2);
+            foreach(SceneNodeContainer c in cubes){
+                _scene.Children.Add(c);
+            }
 
             // Create a scene renderer holding the scene above
             _sceneRenderer = new SceneRendererForward(_scene);
@@ -70,7 +76,7 @@ namespace FuseeApp
             //Diagnostics.Log(_camAngle.ToString());
 
             // Setup the camera 
-            RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
+            RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle) + float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationX(_camAngle);
 
             // Animate the cube
             _cubeTransform.Translation = new float3(0, 5 * M.Sin(3 * TimeSinceStart), 0);
