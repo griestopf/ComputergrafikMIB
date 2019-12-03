@@ -330,10 +330,9 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >                        Scale = new float3(1, 1, 1),
 >                        Translation = new float3(0, 4, 0)
 >                    },
->                    new MaterialComponent
+>                    new ShaderEffectComponent
 >                    {
->                        Diffuse = new MatChannelContainer { Color = new float3(0, 1, 0) },
->                        Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+>                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 1, 0), new float3(0.7f, 0.7f, 0.7f), 5)
 >                    },
 >                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
 >                }
