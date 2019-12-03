@@ -49,7 +49,7 @@ erstreckt):
             {
                 Components = new List<SceneComponentContainer>
                 {
-                    // TRANSFROM COMPONENT
+                    // TRANSFORM COMPONENT
                     _baseTransform,
 
                     // SHADER EFFECT COMPONENT
@@ -158,11 +158,10 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                         // TRANSFROM COMPONENT
                         _baseTransform,
 
-                        // MATERIAL COMPONENT
-                        new MaterialComponent
+                        // SHADER EFFECT COMPONENT
+                        new ShaderEffectComponent
                         {
-                            Diffuse = new MatChannelContainer { Color = new float3(0.7f, 0.7f, 0.7f) },
-                            Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                            Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
                         },
 
                         // MESH COMPONENT
@@ -175,10 +174,9 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                     Components = new List<SceneComponentContainer>
                     {
                         _bodyTransform,
-                        new MaterialComponent
+                         new ShaderEffectComponent
                         {
-                            Diffuse = new MatChannelContainer { Color = new float3(1, 0, 0) },
-                            Specular = new SpecularChannelContainer { Color = new float3(1, 1, 1), Shininess = 5 }
+                            Effect = SimpleMeshes.MakeShaderEffect(new float3(1, 0, 0), new float3(0.7f, 0.7f, 0.7f), 5)
                         },
                         SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                     }

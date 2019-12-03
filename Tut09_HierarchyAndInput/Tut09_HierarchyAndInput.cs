@@ -86,7 +86,7 @@ namespace FuseeApp
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 
