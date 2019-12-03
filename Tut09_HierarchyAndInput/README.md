@@ -148,7 +148,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
         // Setup the scene graph
         return new SceneContainer
         {
-            Children = new ChildList
+            Children = new List<SceneComponentContainer>
             {
                 // GREY BASE
                 new SceneNodeContainer
@@ -171,7 +171,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                 // RED BODY
                 new SceneNodeContainer
                 {
-                    Components = new List<SceneComponentContainer>
+                    Components = new ChildList
                     {
                         _bodyTransform,
                          new ShaderEffectComponent
