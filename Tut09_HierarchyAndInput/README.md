@@ -148,7 +148,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
         // Setup the scene graph
         return new SceneContainer
         {
-            Children = new List<SceneNodeContainer>
+            Children = new ChildList
             {
                 // GREY BASE
                 new SceneNodeContainer
@@ -218,7 +218,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
             },
             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
         },
-        Children = new List<SceneNodeContainer>
+        Children = new ChildList
         {
             // GREEN UPPER ARM
             new SceneNodeContainer
@@ -317,7 +317,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >        {
 >            _upperArmTransform,
 >        },
->        Children = new List<SceneNodeContainer>
+>        Children = new ChildList
 >        {
 >            new SceneNodeContainer
 >            {
