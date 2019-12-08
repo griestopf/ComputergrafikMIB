@@ -201,11 +201,6 @@ namespace FuseeApp
                 tris[3*i - 3] = (ushort) (i-1);    // previous segment point
             }
 
-            // Stitch the last segment
-            tris[3 * segments - 1] = (ushort)segments;          // center point
-            tris[3 * segments - 2] = (ushort)0;                 // wrap around
-            tris[3 * segments - 3] = (ushort)(segments - 1);    // last segment point
-
             return new Mesh
             {
                 Vertices = verts,
