@@ -4,9 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "build",
-            "command": "dotnet build",
+            "label": "build",
             "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
             "group": "build",
             "presentation": {
                 "reveal": "silent"
@@ -14,10 +19,31 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "dependsOn": ["build"],
-            "taskName": "Publish FUSEE Desktop app",
-            "command": "fusee publish --platform Desktop",
+            "label": "clean",
             "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "clean"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "pack",
+            "detail": "Pack this Fusee app as a fuz file.",
+            "type": "shell",
+            "dependsOn": [
+                "clean",
+                "build"
+            ],
+            "command": "fusee",
+            "args": [
+                "pack",
+                "bin/Debug/Tut10_Mesh.dll"
+            ],
             "group": "build",
             "presentation": {
                 "reveal": "silent"
@@ -25,15 +51,24 @@
             "problemMatcher": []
         },
         {
-            "dependsOn": ["build"],
-            "taskName": "Publish FUSEE Web app",
-            "command": "fusee publish --platform Web",
+            "label": "publish",
+            "detail": "Build this Fusee app to a self contained application.",
+            "dependsOn": [
+                "clean",
+                "build"
+            ],
+            "command": "fusee",
+            "args": [
+                "publish",
+                "-i", "bin/Debug/Tut10_Mesh.dll",
+                "-o", "${workspaceFolder}/pub"
+            ],
             "type": "shell",
             "group": "build",
             "presentation": {
                 "reveal": "silent"
             },
             "problemMatcher": []
-        }        
+        }
     ]
 }

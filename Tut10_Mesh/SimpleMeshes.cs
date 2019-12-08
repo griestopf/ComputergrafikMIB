@@ -6,7 +6,7 @@ using Fusee.Engine.Core;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 
-namespace Fusee.Tutorial.Core
+namespace FuseeApp
 {
     public static class SimpleMeshes 
     {
@@ -154,17 +154,17 @@ namespace Fusee.Tutorial.Core
             };
         }
 
-       public static ShaderEffect MakeShaderEffect(float3 diffuseColor, float3 specularColor, float shininess)
+        public static ShaderEffect MakeShaderEffect(float3 diffuseColor, float3 specularColor, float shininess)
         {
             MaterialComponent temp = new MaterialComponent
             {
                 Diffuse = new MatChannelContainer
                 {
-                    Color = diffuseColor
+                    Color = new float4(diffuseColor, 1)
                 },
                 Specular = new SpecularChannelContainer
                 {
-                    Color = specularColor,
+                    Color = new float4(specularColor, 1),
                     Shininess = shininess
                 }
             };
