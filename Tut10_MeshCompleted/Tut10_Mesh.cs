@@ -26,6 +26,8 @@ namespace FuseeApp
                 Translation = new float3(0, 0, 0)
             };
 
+            var effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5);
+
             // Setup the scene graph
             return new SceneContainer
             {
@@ -41,7 +43,7 @@ namespace FuseeApp
                             // SHADER EFFECT COMPONENT
                             new ShaderEffectComponent
                             {
-                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5)
+                                Effect = effect
                             },
 
                             // MESH COMPONENT
@@ -60,6 +62,7 @@ namespace FuseeApp
 
             _scene = CreateScene();
 
+
             // Create a scene renderer holding the scene above
             _sceneRenderer = new SceneRendererForward(_scene);
         }
@@ -69,7 +72,7 @@ namespace FuseeApp
         {
             SetProjectionAndViewport();
 
-            _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
+            _baseTransform.Rotation = new float3(0, 0, M.MinAngle(TimeSinceStart));
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
@@ -77,6 +80,8 @@ namespace FuseeApp
             // Setup the camera 
             RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Atan(15.0 / 40.0));
 
+            RC.SetRenderState(RenderState.FillMode, (uint) FillMode.Point);
+            RC.SetRenderState(RenderState.CullMode, (uint) Cull.None);
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 

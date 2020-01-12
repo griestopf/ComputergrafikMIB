@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Fusee.Base.Common;
@@ -12,17 +12,19 @@ using static System.Math;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
 
-namespace Fusee.Tutorial.Core
+
+namespace FuseeApp
 {
-    public class AssetsPicking : RenderCanvas
+    [FuseeApplication(Name = "Tut11_AssetsPicking", Description = "Yet another FUSEE App.")]
+    public class Tut11_AssetsPicking : RenderCanvas
     {
         private SceneContainer _scene;
-        private SceneRenderer _sceneRenderer;
+        private SceneRendererForward _sceneRenderer;
         private ScenePicker _scenePicker;
         private TransformComponent _baseTransform;
         private TransformComponent _rightRearTransform;
         private PickResult _currentPick;
-        private float3 _oldColor;
+        private float4 _oldColor;
 
 
         SceneContainer CreateScene()
@@ -72,13 +74,15 @@ namespace Fusee.Tutorial.Core
             _rightRearTransform = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetTransform();
 
             // Create a scene renderer holding the scene above
-            _sceneRenderer = new SceneRenderer(_scene);
+            _sceneRenderer = new SceneRendererForward(_scene);
             _scenePicker = new ScenePicker(_scene);
         }
 
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
+            SetProjectionAndViewport();
+
             _rightRearTransform.Rotation = new float3(M.MinAngle(TimeSinceStart), 0, 0);
 
             // Clear the backbuffer
@@ -111,8 +115,8 @@ namespace Fusee.Tutorial.Core
                     if (newPick != null)
                     {
                         ShaderEffectComponent shaderEffectComponent = newPick.Node.GetComponent<ShaderEffectComponent>();
-                        _oldColor = (float3)shaderEffectComponent.Effect.GetEffectParam("DiffuseColor");
-                        shaderEffectComponent.Effect.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
+                        _oldColor = (float4)shaderEffectComponent.Effect.GetEffectParam("DiffuseColor");
+                        shaderEffectComponent.Effect.SetEffectParam("DiffuseColor", new float4(1, 0.4f, 0.4f, 1));
                     }
                     _currentPick = newPick;
                 }
@@ -126,10 +130,9 @@ namespace Fusee.Tutorial.Core
         }
 
 
-        // Is called when the window was resized
-        public override void Resize()
+        public void SetProjectionAndViewport()
         {
-            // Set the new rendering area to the entire new windows size
+            // Set the rendering area to the entire window size
             RC.Viewport(0, 0, Width, Height);
 
             // Create a new projection matrix generating undistorted images on the new aspect ratio.
@@ -140,6 +143,7 @@ namespace Fusee.Tutorial.Core
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
-        }
+        }                
+
     }
 }
