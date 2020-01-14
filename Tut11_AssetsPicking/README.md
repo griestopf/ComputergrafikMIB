@@ -264,27 +264,25 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >
 >   ```C#
 >     PickResult newPick = null;
->     if (pickResults.Count > 0)
->     {
->         pickResults.Sort((a, b) => Sign(a.ClipPos.z - b.ClipPos.z));
->         newPick = pickResults[0];
->     }
->     if (newPick?.Node != _currentPick?.Node)
->     {
->         if (_currentPick != null)
->         {
->             _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParam("DiffuseColor", _oldColor);
->         }
->         if (newPick != null)
->         {
->             var mat = newPick.Node.GetMaterial();
->             _oldColor = mat.Diffuse.Color;
->
->              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParam("DiffuseColor);
->             mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
->         }
->         _currentPick = newPick;
->     }
+      if (pickResults.Count > 0)
+      {
+          pickResults.Sort((a, b) => Math.Sign(a.ClipPos.z - b.ClipPos.z));
+          newPick = pickResults[0];
+      }
+      if (newPick?.Node != _currentPick?.Node)
+      {
+          if (_currentPick != null)
+          {
+              _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParam("DiffuseColor", _oldColor);
+          }
+          if (newPick != null)
+          {
+              var mat = newPick.Node.GetComponent<ShaderEffectComponent>().Effect;
+              _oldColor = (float4)mat.GetEffectParam("DiffuseColor");
+              mat.SetEffectParam("DiffuseColor", new float4(1, 0.4f, 0.4f, 1));
+          }
+          _currentPick = newPick;
+      }
 >    ```
 >
 > - Überprüft die Lauffähigkeit, indem Ihr die Applikation startet und auf unterschiedliche
