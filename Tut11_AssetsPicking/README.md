@@ -15,8 +15,11 @@ die mit Blender erstellt wurden, geladen werden können.
 Hierarchien im bereits bekannten FUSEE-Szenengraphen-Format (bestehend aus Nodes und Komponenten)
 können als `.fus`-Dateien gespeichert und geladen werden. Um mit Blender erstellte 3D-Modelle als .fus-Datei 
 zur Verwendung in FUSEE-Applikationen zu verwenden, muss das FUSEE-Export-AddOn für Blender installiert sein.
-Das sollte bereits als Teil der 
-[Fusee-Installation](http://fusee3d.org/page/install-fusee/) passiert sein. 
+
+Wenn Blender standardmäßig installiert wurde, kann mit dem Befehl `fusee install --blender` das Blender-Add-On 
+an die richtige Stelle kopiert werden. Es muss dann in Blender noch unter Preferences -> Add-Ons in der Liste
+der als als `Testing` markierten Add-Ons per Häkchen aktiviert werden.
+
 
 ### Features des FUSEE-Exporters
 
@@ -270,14 +273,14 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >     {
 >         if (_currentPick != null)
 >         {
->             _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParameter("DiffuseColor", _oldColor);
+>             _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParam("DiffuseColor", _oldColor);
 >         }
 >         if (newPick != null)
 >         {
 >             var mat = newPick.Node.GetMaterial();
 >             _oldColor = mat.Diffuse.Color;
 >
->              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParameter("DiffuseColor);
+>              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParam("DiffuseColor);
 >             mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
 >         }
 >         _currentPick = newPick;
