@@ -21,7 +21,7 @@ namespace FuseeApp
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to "greenery" ;-) (https://store.pantone.com/de/de/colorfinder/index/acfproduct/code/15-0343+TCX).
+            // Set the clear color for the backbuffer to "greenery" ;-) (https://store.pantone.com/de/de/color-of-the-year-2017/).
             RC.ClearColor = new float4(136f/255f, 176f/255f, 75f/255f, 1);
         }
 
