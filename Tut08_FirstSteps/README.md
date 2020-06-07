@@ -84,8 +84,8 @@ Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
 aufgerufen!
 
 Die Datei [Tut08_FirstSteps.cs](Tut08_FirstSteps.cs) enthält minimale Implementierungen
-für die beiden Methoden [`Init()`](FirstSteps.cs#L20) und 
-[`RenderAFrame()`](FirstSteps.cs#L27)
+für die beiden Methoden [`Init()`](Tut08_FirstSteps.cs#L22) und 
+[`RenderAFrame()`](Tut08_FirstSteps.cs#L29)
 
 > **TODO**
 >
