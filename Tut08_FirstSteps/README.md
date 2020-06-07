@@ -25,7 +25,7 @@
 - Voraussetzung für Interaktion: Benutzereingaben steuern Parameter der
   Bildberechnung, wie z. B. 
   - Position und Orientierung der Kamera im Raum (First Person)
-  - Position, Orientierung und Pose von Charactern (Third Person)
+  - Position, Orientierung und Pose von Charakteren (Third Person)
 
 ### Grundsätzlicher Aufbau einer Echtzeit-3D-Applikation
 
@@ -41,7 +41,7 @@ START
 END
 ```
 
-Zu Beginn eines Echtzeit 3D-Programmes weren notwendige Initialisierungen vorgenommen,
+Zu Beginn eines Echtzeit 3D-Programmes werden notwendige Initialisierungen vorgenommen,
 wie z.B. Laden von 3D-Modellen, Texturen und anderen _Assets_. Aufbau
 eines initialen [Szenengraphen](#der-szenengraph).
 
@@ -54,7 +54,7 @@ Innerhalb dieses Schleifendurchlaufs wird der Status der Eingabegeräte abgefrag
 auf die die Interaktion reagieren soll. Mögliche Eingabegeräte sind z.B.
 
 - Maus (Position, Status der Tasten)
-- Tastaur (Status der Tasten - welche sind gedrückt, welche wieder losgelassen)
+- Tastatur (Status der Tasten - welche sind gedrückt, welche wieder losgelassen)
 - Touchscreen (Position(en) der Touchpoints, Gestenerkennung wie z.B. Pinch)
 - Gyroskop, Accelerometer, Kompass (Position und Lage im Raum eines Mobilgerätes)
 - Position- und Lagesensor von VR-Brillen
@@ -83,7 +83,7 @@ Als Programmierer einer FUSEE-Applikation muss man "nur noch" die Methoden
 Die Methode `RenderAFrame()` wird also bereits aus einer umgebenden Schleife
 aufgerufen!
 
-Die Datei [FirstSteps.cs](FirstSteps.cs) enthält minimale Implementierungen
+Die Datei [Tut08_FirstSteps.cs](Tut08_FirstSteps.cs) enthält minimale Implementierungen
 für die beiden Methoden [`Init()`](FirstSteps.cs#L20) und 
 [`RenderAFrame()`](FirstSteps.cs#L27)
 
@@ -107,28 +107,28 @@ grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`
 
 > **TODO**
 >
-> - Ändert die Hintergrundfarbe in der [`Init()`-Methode](FirstSteps.cs#L23)
+> - Ändert die Hintergrundfarbe in der [`Init()`-Methode](Tut08_FirstSteps.cs#L25)
 
 ## Der Szenengraph
 
 Objekte, die in der Szene sichtbar sein sollen, werden in einem _Szenengraphen_ 
 zu einer Szene zusammengestellt. Einen Szenengraphen kann man sich wie die 
 Szenenbeschreibung in Blender's 
-[Outliner Editor](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter01/lecture01/#blender-screen-layout)
+[Outliner Editor](https://sftp.hs-furtwangen.de/~lochmann/computergrafik2019/script/chapter01/lecture01/#blender-screen-layout)
 vorstellen. Das Wort _Graph_ beschreibt den hierarchischen Aufbau, manchmal spricht man auch vom Szenen-_Baum_. Da es in diesen Bäumen vorkommen kann, dass Objekte an mehreren 
-Stellen eingehängt sein können, wird der hier mathematisch passendere Begrif _Graph_ verwendet.
+Stellen eingehängt sein können, wird der hier mathematisch passendere Begriff _Graph_ verwendet.
 
 In FUSEE besteht ein Szenengraph aus Instanzen der folgenden Datentypen
 
-- [`SceneContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/SceneContainer.cs#L41)
-- [`SceneNodeContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/SceneNodeContainer.cs#L12)
-- [`SceneComponentContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/SceneComponentContainer.cs#L36)
+- [`SceneContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneContainer.cs#L29)
+- [`SceneNodeContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneNode.cs#L31)
+- [`SceneComponentContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneComponent.cs#L9)
 
 Um diese Typen zu verstehen, ist im folgenden Bild ein Beispiel-FUSEE-Szenengraph abgebildet
 
-![FUSEEE Szenengraph](_images/SceneHierarchy.png)
+![FUSEE Szenengraph](_images/SceneHierarchy.png)
 
-Eine Szene beginnt immer mit einem Objket vom Typ `SceneContainer` (orange). Dieser enthält
+Eine Szene beginnt immer mit einem Objekt vom Typ `SceneContainer` (orange). Dieser enthält
 eine Liste von Objekten vom Typ `SceneNodeContainer` (gelb). Diese stellen die 
 Objekte in der Szene dar. Wie man sehen kann, können Objekte wiederum Kind-Objekte 
 enthalten. D.h. jeder `SceneNodeContainer` enthält eine (u.u. leere) Liste, wiederum von 
@@ -136,15 +136,15 @@ Objekten vom Typ `SceneNodeContainer`. Die eigentlichen Nutzdaten sind dann in
 `SceneComponentContainer` Objekten (grün) gespeichert. Hier gibt es unterschiedliche
 Komponenten-Typen. Die wichtigsten sind
 
-- [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
-- [`ShaderEffectComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ShaderEffectComponent.cs#L8) - enthalten Materialbeschreibungen und Textur-Informationen.
-- [`TransformComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/TransformComponent.cs#L10) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
+- [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
+- [`ShaderEffect`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/ShaderEffect.cs#L114) - enthalten Materialbeschreibungen und Textur-Informationen.
+- [`TransformComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Transform.cs#L12) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
 
 ### Ein Würfel
 
 > **TODO**
 >
-> - Fügt in die Klasse [`FirstSteps`](FirstSteps.cs#L17) die beiden Felder
+> - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die beiden Felder
 >   - `_scene` und
 >   - `_sceneRenderer` 
 >  ein.
@@ -155,42 +155,39 @@ Komponenten-Typen. Die wichtigsten sind
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
 ```
-> - Erweitert die Methode [`Init()`](FirstSteps.cs#L20) wie folgt, um einen
+> - Erweitert die Methode [`Init()`](Tut08_FirstSteps.cs#L22) wie folgt, um einen
 >   Szenengraphen erzeugt, dessen einziges Objekt ein Würfel ist. Zusätzlich wird 
 >   der so genannte `SceneRender` erzeugt, der jede beliebige Szene rendern kann.
 
 ```C#
-  public override void Init()
-  {
-      // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
-      RC.ClearColor = new float4(0.7f, 1, 0.5f, 1);
+    public override void Init()
+    {
+        // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
+        RC.ClearColor = new float4(1, 1, 1, 1);
 
-      // Create a scene with a cube
-      // The three components: one XForm, one Shader and the Mesh
-      var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 50)};
-      var cubeShader = new ShaderEffectComponent
-      { 
-          Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
-      };
-      var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+        // Create a scene with a cube
+        // The three components: one XForm, one Material and the Mesh
+        _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+        var cubeShader = ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 0, 1, 1));
+        var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
-      // Assemble the cube node containing the three components
-      var cubeNode = new SceneNodeContainer();
-      cubeNode.Components = new List<SceneComponentContainer>();
-      cubeNode.Components.Add(cubeTransform);
-      cubeNode.Components.Add(cubeShader);
-      cubeNode.Components.Add(cubeMesh);
+        // Assemble the cube node containing the three components
+        var cubeNode = new SceneNode();
+        cubeNode.Components = new List<SceneComponent>();
+        cubeNode.Components.Add(_cubeTransform);
+        cubeNode.Components.Add(cubeShader);
+        cubeNode.Components.Add(cubeMesh);
 
-      // Create the scene containing the cube as the only object
-      _scene = new SceneContainer();
-      _scene.Children = new List<SceneNodeContainer>();
-      _scene.Children.Add(cubeNode);
+        // Create the scene containing the cube as the only object
+        _scene = new SceneContainer();
+        _scene.Children = new List<SceneNode>();
+        _scene.Children.Add(cubeNode);
 
-      // Create a scene renderer holding the scene above
-      _sceneRenderer = new SceneRendererForward(_scene);
-  }
+        // Create a scene renderer holding the scene above
+        _sceneRenderer = new SceneRendererForward(_scene);
+    }
 ```
-> - Fügt in die Methode [`RenderAFrame()`](FirstSteps.cs#L27) den Aufruf
+> - Fügt in die Methode [`RenderAFrame()`](Tut08_FirstSteps.cs#L29) den Aufruf
     `_sceneRenderer.Render(RC);` ein. Diese führt dazu, dass jeden Frame der Würfel
     gerendert wird.
 
@@ -249,7 +246,7 @@ hinten auf die Szene schauen.
 >   Koordinatensystems steht ((0, 0, 0) statt (0, 0, 50).
 >    
 > ```C#
-> var cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+> var cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
 > ```
 > - Fügt VOR dem Rendern der Szene Code ein, der die View-Matrix des RenderContext verändert,
 >   und somit die Kamera platziert und rotiert:
@@ -257,6 +254,8 @@ hinten auf die Szene schauen.
 ```C#
   public override void RenderAFrame()
   {
+      SetProjectionAndViewport();
+
       // Clear the backbuffer
       RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
@@ -266,7 +265,7 @@ hinten auf die Szene schauen.
       // Render the scene on the current render context
       _sceneRenderer.Render(RC);
 
-      // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+      // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
       Present();
   }
 ```
@@ -349,7 +348,7 @@ mit wieviel Frames die Animation läuft.
 Um die Eigenschaften von Objekten wie z.B. Positionen, Skalierungen, Rotation und Farben
 während des Renderns zu ändern, müssen Referenzen auf die jeweiligen Komponenten gespeichert
 werden. Im Folgenden Beispiel soll der Würfel in Abhängigkeit von der vergangenen Zeit
-sinus-förmige Auf- und Abbewegungen durchführen
+sinus-förmige Auf- und Ab-bewegungen durchführen
 
 > **TODO**
 >

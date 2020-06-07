@@ -1,26 +1,28 @@
-﻿using System;
-using Fusee.Base.Common;
+﻿using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
 using Fusee.Engine.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FuseeApp
 {
-    public class FirstSteps : RenderCanvas
+    [FuseeApplication(Name = "Tut08_FirstSteps", Description = "Yet another FUSEE App.")]
+    public class Tut08_FirstSteps : RenderCanvas
     {
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to light green (intensities in R, G, B, A).
-            RC.ClearColor = new float4(0.7f, 1.0f, 0.5f, 1.0f);
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
+            RC.ClearColor = new float4(1, 1, 1, 1);
         }
 
         // RenderAFrame is called once a frame
@@ -32,11 +34,12 @@ namespace FuseeApp
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
+
+           // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 
-       public void SetProjectionAndViewport()
+        public void SetProjectionAndViewport()
         {
             // Set the rendering area to the entire window size
             RC.Viewport(0, 0, Width, Height);
@@ -50,5 +53,6 @@ namespace FuseeApp
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
         }        
+
     }
 }

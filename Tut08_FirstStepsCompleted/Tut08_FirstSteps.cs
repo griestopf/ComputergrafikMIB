@@ -1,59 +1,56 @@
-﻿using System;
-using Fusee.Base.Common;
+﻿using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
 using Fusee.Engine.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FuseeApp
 {
-    public class FirstSteps : RenderCanvas
+    [FuseeApplication(Name = "Tut08_FirstSteps", Description = "Yet another FUSEE App.")]
+    public class Tut08_FirstSteps : RenderCanvas
     {
 
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
-        private TransformComponent _cubeTransform;
-
+        private Transform _cubeTransform;
 
 
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to light green (intensities in R, G, B, A).
-            RC.ClearColor = new float4(0.7f, 1.0f, 0.5f, 1.0f);
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
+            RC.ClearColor = new float4(0.8f, 1, 0.4f, 1);
 
-
-            // Create a scene with a cube
+           // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
-            _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
-            var cubeShader = new ShaderEffectComponent
-            { 
-                Effect = SimpleMeshes.MakeShaderEffect(new float3 (0, 0, 1), new float3 (1, 1, 1),  4)
-            };
+            _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+            var cubeShader = ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 0, 1, 1));
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
-            var cubeNode = new SceneNodeContainer();
-            cubeNode.Components = new List<SceneComponentContainer>();
+            var cubeNode = new SceneNode();
+            cubeNode.Components = new List<SceneComponent>();
             cubeNode.Components.Add(_cubeTransform);
             cubeNode.Components.Add(cubeShader);
             cubeNode.Components.Add(cubeMesh);
 
             // Create the scene containing the cube as the only object
             _scene = new SceneContainer();
-            _scene.Children = new List<SceneNodeContainer>();
+            _scene.Children = new List<SceneNode>();
             _scene.Children.Add(cubeNode);
 
             // Create a scene renderer holding the scene above
-            _sceneRenderer = new SceneRendererForward(_scene);            
+            _sceneRenderer = new SceneRendererForward(_scene);
         }
 
         // RenderAFrame is called once a frame
@@ -73,13 +70,11 @@ namespace FuseeApp
             // Setup the camera 
             RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
 
-            // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
             // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
-
 
         public void SetProjectionAndViewport()
         {
@@ -95,5 +90,6 @@ namespace FuseeApp
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
         }        
+
     }
 }
