@@ -121,8 +121,8 @@ Stellen eingehängt sein können, wird der hier mathematisch passendere Begriff 
 In FUSEE besteht ein Szenengraph aus Instanzen der folgenden Datentypen
 
 - [`SceneContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneContainer.cs#L29)
-- [`SceneNodeContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneNode.cs#L31)
-- [`SceneComponentContainer`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneComponent.cs#L9)
+- [`SceneNode`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneNode.cs#L31)
+- [`SceneComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/SceneComponent.cs#L9)
 
 Um diese Typen zu verstehen, ist im folgenden Bild ein Beispiel-FUSEE-Szenengraph abgebildet
 
