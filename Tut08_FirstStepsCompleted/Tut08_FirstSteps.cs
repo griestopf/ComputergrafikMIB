@@ -33,20 +33,18 @@ namespace FuseeApp
 
            // Create a scene with a cube
             // The three components: one XForm, one Material and the Mesh
-            _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+            _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
             var cubeShader = ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 0, 1, 1));
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNode();
-            cubeNode.Components = new List<SceneComponent>();
             cubeNode.Components.Add(_cubeTransform);
             cubeNode.Components.Add(cubeShader);
             cubeNode.Components.Add(cubeMesh);
 
             // Create the scene containing the cube as the only object
             _scene = new SceneContainer();
-            _scene.Children = new List<SceneNode>();
             _scene.Children.Add(cubeNode);
 
             // Create a scene renderer holding the scene above
