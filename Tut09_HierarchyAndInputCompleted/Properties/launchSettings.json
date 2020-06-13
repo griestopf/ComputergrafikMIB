@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Tut09_HierarchyAndInput": {
+      "commandName": "Executable",
+      "executablePath": "fusee",
+      "commandLineArgs": "player $(TargetPath)"
+    }
+  }
+}

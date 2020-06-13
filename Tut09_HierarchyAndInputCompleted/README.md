@@ -1,5 +1,3 @@
-# Hierarchy & Input Completed
+# Hierarchy and Input Completed
 
-Enthält sämtliche **TODOs** der Lektion
-
-[**Tut09_HierarchyAndInput**](../Tut09_HierarchyAndInput)
+Ergebnisse sämtlicher **TODOs** der Lektion 09

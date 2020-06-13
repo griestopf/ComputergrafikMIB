@@ -1,14 +1,15 @@
-﻿using System;
-using Fusee.Base.Common;
+﻿using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
 using Fusee.Engine.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,13 +21,13 @@ namespace FuseeApp
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
-        private TransformComponent _baseTransform;
+        private Transform _baseTransform;
 
 
        SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
-            _baseTransform = new TransformComponent
+            _baseTransform = new Transform
             {
                 Rotation = new float3(0, 0, 0),
                 Scale = new float3(1, 1, 1),
@@ -36,20 +37,17 @@ namespace FuseeApp
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = new List<SceneNodeContainer>
+                Children = new List<SceneNode>
                 {
-                    new SceneNodeContainer
+                    new SceneNode
                     {
-                        Components = new List<SceneComponentContainer>
+                        Components = new List<SceneComponent>
                         {
-                            // TRANSFROM COMPONENT
+                            // TRANSFORM COMPONENT
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            new ShaderEffectComponent
-                            {
-                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
-                            },
+                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -104,6 +102,5 @@ namespace FuseeApp
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
         }        
-
     }
 }

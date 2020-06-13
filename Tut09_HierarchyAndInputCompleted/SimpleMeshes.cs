@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 
@@ -123,25 +124,6 @@ namespace FuseeApp
             };
         }
 
-        public static ShaderEffect MakeShaderEffect(float3 diffuseColor, float3 specularColor, float shininess)
-        {
-            MaterialComponent temp = new MaterialComponent
-            {
-                Diffuse = new MatChannelContainer
-                {
-                    Color = new float4(diffuseColor, 1)
-                },
-                Specular = new SpecularChannelContainer
-                {
-                    Color = new float4(specularColor, 1),
-                    Shininess = shininess
-                }
-            };
-
-            return ShaderCodeBuilder.MakeShaderEffectFromMatComp(temp);
-        }
-
-
         public static Mesh CreateCylinder(float radius, float height, int segments)
         {
             return CreateConeFrustum(radius, radius, height, segments);
@@ -156,7 +138,6 @@ namespace FuseeApp
         {
             throw new NotImplementedException();
         }
-
 
         public static Mesh CreatePyramid(float baselen, float height)
         {

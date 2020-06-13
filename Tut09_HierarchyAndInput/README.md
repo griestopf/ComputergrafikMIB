@@ -22,7 +22,7 @@ Standes.
 > - Öffnet den Ordner Tut09_HierarchyAndInput in Visual Studio Code, 
 >   Erstellt das Projekt (Build) und lasst es im Debugger laufen.
 > - Öffnet die Source-Code-Datei HierarchyInput.cs und betrachtet die Methoden
->   `Init()` und `RenderAFrame`.
+>   `Init()` und `RenderAFrame()`.
 > - Identifiziert Änderungen zur letzten Übung.
 
 Wie in der Lektion 08 wird eine Szene, die nur aus einem Cuboid-Objekt (Quader)
@@ -43,20 +43,17 @@ erstreckt):
 ```C#
     return new SceneContainer
     {
-        Children = new List<SceneNodeContainer>
+        Children = new List<SceneNode>
         {
-            new SceneNodeContainer
+            new SceneNode
             {
-                Components = new List<SceneComponentContainer>
+                Components = new List<SceneComponent>
                 {
                     // TRANSFORM COMPONENT
                     _baseTransform,
 
                     // SHADER EFFECT COMPONENT
-                    new ShaderEffectComponent
-                    {
-                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
-                    },
+                    ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
 
                     // MESH COMPONENT
                     SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -94,7 +91,7 @@ erkennen, als im letzten Beispiel.
 ### Mehr Objekte
 
 Es soll nun Zug um Zug ein Modell aufgebaut werden, dass so aussieht, wie der 
-[Roboterarm aus der ersten Lektion](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter01/lecture01/#3-hierarchien):
+[Roboterarm aus der ersten Lektion](https://sftp.hs-furtwangen.de/~lochmann/computergrafik2019/script/chapter01/lecture01/#3-hierarchien-outliner):
 
 ![Cuboter](_images/Robot.png)
 
@@ -117,8 +114,8 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >   besteht, der in der Mitte auf dem grauen Quader steht. Dazu muss
 >   
 >   - Ein neues Feld (Klassenvariable) für die Transformationskomponente eingefügt werden
->     (`TransformComponent _bodyTransform`)
->   - Ein zweiter mit `new` erzugter `SceneNodeContainer` in die `Children` Liste der Szene eingefügt werden, der
+>     (`Transform _bodyTransform`)
+>   - Ein zweiter mit `new` erzugter `SceneNode` in die `Children` Liste der Szene eingefügt werden, der
 >     wiederum drei Komponenten enthält.
 >
 > - Versucht zunächst selbst die Stellen im o.a. Code zu finden, wo neue Stellen einzufügen sind. Falls es nicht klappt,
@@ -126,19 +123,19 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >
 
 ```C#
-    private TransformComponent _baseTransform;
-    private TransformComponent _bodyTransform;
+    private Transform _baseTransform;
+    private Transformt _bodyTransform;
 
     SceneContainer CreateScene()
     {
         // Initialize transform components that need to be changed inside "RenderAFrame"
-        _baseTransform = new TransformComponent
+        _baseTransform = new Transform
         {
             Rotation = new float3(0, 0, 0),
             Scale = new float3(1, 1, 1),
             Translation = new float3(0, 0, 0)
         };
-        _bodyTransform = new TransformComponent
+        _bodyTransform = new Transform
         {
             Rotation = new float3(0, 0, 0),
             Scale = new float3(1, 1, 1),
@@ -159,10 +156,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                         _baseTransform,
 
                         // SHADER EFFECT COMPONENT
-                        new ShaderEffectComponent
-                        {
-                            Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
-                        },
+                        ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
 
                         // MESH COMPONENT
                         SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -174,10 +168,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                     Components = new ChildList
                     {
                         _bodyTransform,
-                         new ShaderEffectComponent
-                        {
-                            Effect = SimpleMeshes.MakeShaderEffect(new float3(1, 0, 0), new float3(0.7f, 0.7f, 0.7f), 5)
-                        },
+                        ShaderCodeBuilder.MakeShaderEffect(new float4 (1, 0, 0, 1)),
                         SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                     }
                 }
@@ -212,10 +203,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
         Components = new List<SceneComponentContainer>
         {
             _bodyTransform,
-            new ShaderEffectComponent
-            {
-                Effect = SimpleMeshes.MakeShaderEffect(new float3(1, 0, 0), new float3(0.7f, 0.7f, 0.7f), 5)
-            },
+            ShaderCodeBuilder.MakeShaderEffect(new float4(1, 0, 0, 1)),
             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
         },
         Children = new ChildList
@@ -226,10 +214,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
                 Components = new List<SceneComponentContainer>
                 {
                     _upperArmTransform,
-                    new ShaderEffectComponent
-                    {
-                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 1, 0), new float3(0.7f, 0.7f, 0.7f), 5)
-                    },
+                    ShaderCodeBuilder.MakeShaderEffect(new float4(0, 1, 0, 1)),
                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                 },
             }
@@ -329,10 +314,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >                        Scale = new float3(1, 1, 1),
 >                        Translation = new float3(0, 4, 0)
 >                    },
->                    new ShaderEffectComponent
->                    {
->                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 1, 0), new float3(0.7f, 0.7f, 0.7f), 5)
->                    },
+>                    ShaderCodeBuilder.MakeShaderEffect(new float4(0, 1, 0, 1)),
 >                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
 >                }
 >            }
@@ -375,7 +357,7 @@ Schließlich fehlt noch der blaue Unterarm.
 >   Grundhaltung aufzubauen.
 >
 > - Sollte es gar nicht klappen, verwendet ***AUSNAHMSWEISE*** als Vorgriff die Implementierung im
->   [_Completed_-Projekt](../Tut09_HierarchyAndInputCompleted/HierarchyInput.cs#L27)
+>   [_Completed_-Projekt](../Tut09_HierarchyAndInputCompleted/Tut09_HierarchyAndInput.cs#L29)
 >
 
 
@@ -402,7 +384,7 @@ Mit der Anweisung
 ```C#
 using static Fusee.Engine.Core.Input;
 ```
-ganz oben in der Datei [HierarchyInput.cs](HierarchyInput.cs#L12) können wir im Code direkt auf die o.G.
+ganz oben in der Datei [Tut09_HierarchyAndInput.cs](Tut09_HierarchyAndInput.cs#L09) können wir im Code direkt auf die o.G.
 Felder für die Eingabegeräte zugreifen. 
 
 > #### TODO
@@ -466,9 +448,9 @@ Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotati
 - Fügt Steuerungen für die beiden anderen Achsen des Roboters ein.
 - Fügt eine Möglichkeit ein, dass Benutzer die Kamera mit der Maus um das Geschehen drehen können:
   - Bei gedrückter linker  Maustaste
-    ([`Mouse.LeftButton`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L176))
+    ([`Mouse.LeftButton`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L174))
     soll die X-Komponente der aktuellen Mausgeschwindigkeit 
-    ([`Mouse.Velocity.x`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L101))
+    ([`Mouse.Velocity.x`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L99))
     als Parameter der Berechnung einer Änderungsrate für '_camAngle' verwendet werden.
   -  _Für Fortgeschrittene_: Baut eine Dämpfung ein, die den üblichen "Swipe"-Effekt nachstellt: Durch Maustaste-Drücken, 
     horizontales Bewegen und Loslassen während der Bewegung soll die aktuelle Drehgeschwindigkeit
@@ -478,7 +460,7 @@ Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotati
   zu Öffnen und zu Schließen. Wie kann gewährleistet werden, dass es Zustände wie "ganz offen" und "ganz geschlossen"
   gibt, die nicht über- oder unterschritten werden können?
 - _Für Fortgeschrittene_: Schön wäre es, das Öffnen und Schließen jeweils durch einen einmaligen Tastendruck
-  ([`Keyboard.GetKey()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/KeyboardDevice.cs#L46))
+  ([`Keyboard.GetKey()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/KeyboardDevice.cs#L35))
   triggern zu können, nachdem der jeweilige Vorgang (Öffnen oder Schließen) dann selbständig abläuft.
 
 

@@ -1,14 +1,15 @@
-﻿using System;
-using Fusee.Base.Common;
+﻿using Fusee.Base.Common;
 using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
 using Fusee.Engine.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,36 +18,36 @@ namespace FuseeApp
     [FuseeApplication(Name = "Tut09_HierarchyAndInput", Description = "Yet another FUSEE App.")]
     public class Tut09_HierarchyAndInput : RenderCanvas
     {
-     private SceneContainer _scene;
+        private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private float _camAngle = 0;
-        private TransformComponent _baseTransform;
-        private TransformComponent _bodyTransform;
-        private TransformComponent _upperArmTransform;
-        private TransformComponent _foreArmTransform;
+        private Transform _baseTransform;
+        private Transform _bodyTransform;
+        private Transform _upperArmTransform;
+        private Transform _foreArmTransform;
 
         SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
-            _baseTransform = new TransformComponent
+            _baseTransform = new Transform
             {
                 Rotation = new float3(0, 0, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(0, 0, 0)
             };
-            _bodyTransform = new TransformComponent
+            _bodyTransform = new Transform
             {
                 Rotation = new float3(0, 1.2f, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(0, 6, 0)
             };
-            _upperArmTransform = new TransformComponent
+            _upperArmTransform = new Transform
             {
                 Rotation = new float3(0.8f, 0, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(2, 4, 0)
             };
-            _foreArmTransform = new TransformComponent
+            _foreArmTransform = new Transform
             {
                 Rotation = new float3(0.8f, 0, 0),
                 Scale = new float3(1, 1, 1),
@@ -56,89 +57,77 @@ namespace FuseeApp
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = new List<SceneNodeContainer>
+                Children = new List<SceneNode>
                 {
                     // GREY BASE
-                    new SceneNodeContainer
+                    new SceneNode
                     {
-                        Components = new List<SceneComponentContainer>
+                        Components = new List<SceneComponent>
                         {
                             // TRANSFROM COMPONENT
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            new ShaderEffectComponent
-                            {
-                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(0.7f, 0.7f, 0.7f), 5)
-                            },
+                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
                         }
                     },
                     // RED BODY
-                    new SceneNodeContainer
+                    new SceneNode
                     {
-                        Components = new List<SceneComponentContainer>
+                        Components = new List<SceneComponent>
                         {
                             _bodyTransform,
-                            new ShaderEffectComponent
-                            {
-                                Effect = SimpleMeshes.MakeShaderEffect(new float3(1, 0, 0), new float3(1, 1, 1), 5)
-                            },
+                            ShaderCodeBuilder.MakeShaderEffect(new float4 (1, 0, 0, 1)),
                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                         },
                         Children = new ChildList
                         {
                             // GREEN UPPER ARM
-                            new SceneNodeContainer
+                            new SceneNode
                             {
-                                Components = new List<SceneComponentContainer>
+                                Components = new List<SceneComponent>
                                 {
                                     _upperArmTransform,
                                 },
                                 Children = new ChildList
                                 {
-                                    new SceneNodeContainer
+                                    new SceneNode
                                     {
-                                        Components = new List<SceneComponentContainer>
+                                        Components = new List<SceneComponent>
                                         {
-                                            new TransformComponent
+                                            new Transform
                                             {
                                                 Rotation = new float3(0, 0, 0),
                                                 Scale = new float3(1, 1, 1),
                                                 Translation = new float3(0, 4, 0)
                                             },
-                                            new ShaderEffectComponent
-                                            {
-                                                Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 1, 0), new float3(1, 1, 1), 5)
-                                            },
+                                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 1, 0, 1)),
                                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                         }
                                     },
                                     // BLUE FOREARM
-                                    new SceneNodeContainer
+                                    new SceneNode
                                     {
-                                        Components = new List<SceneComponentContainer>
+                                        Components = new List<SceneComponent>
                                         {
                                             _foreArmTransform,
                                         },
                                         Children = new ChildList
                                         {
-                                            new SceneNodeContainer
+                                            new SceneNode
                                             {
-                                                Components = new List<SceneComponentContainer>
+                                                Components = new List<SceneComponent>
                                                 {
-                                                    new TransformComponent
+                                                    new Transform
                                                     {
                                                         Rotation = new float3(0, 0, 0),
                                                         Scale = new float3(1, 1, 1),
                                                         Translation = new float3(0, 4, 0)
                                                     },
-                                                    new ShaderEffectComponent
-                                                    {
-                                                        Effect = SimpleMeshes.MakeShaderEffect(new float3(0, 0, 1), new float3(1, 1, 1), 5)
-                                                    },
+                                                    ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 0, 1, 1)),
                                                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                                 }
                                             }
@@ -180,7 +169,7 @@ namespace FuseeApp
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 
-            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 
@@ -198,6 +187,5 @@ namespace FuseeApp
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
         }        
-
     }
 }
