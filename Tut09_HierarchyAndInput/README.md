@@ -84,7 +84,7 @@ erkennen, als im letzten Beispiel.
 >   setzt und im Watch-Fenster des Debugger die Hierarchie anschaut.
 >
 > - Lest den [Abschnitt im C# Programmierhandbuch, der die Objekt- und Auflistungsinitialisierer
->   erklärt](https://docs.microsoft.com/de-de/dotnet/articles/csharp/programming-guide/classes-and-structs/object-and-collection-initializers). Verdeutlich Euch, wie die Liste der drei Komponenten im vorigen Beispiel über Hinterinanderausführungen der
+>   erklärt](https://docs.microsoft.com/de-de/dotnet/articles/csharp/programming-guide/classes-and-structs/object-and-collection-initializers). Verdeutlicht euch, wie die Liste der drei Komponenten im vorigen Beispiel über Hinterinanderausführungen der
 >   `Add()`-Anweisungen aufgebaut wurde und wie diese nun über eine durch Komma getrennte Aufzählung realisiert wird.
 >
 
@@ -115,7 +115,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >   
 >   - Ein neues Feld (Klassenvariable) für die Transformationskomponente eingefügt werden
 >     (`Transform _bodyTransform`)
->   - Ein zweiter mit `new` erzugter `SceneNode` in die `Children` Liste der Szene eingefügt werden, der
+>   - Ein zweiter mit `new` erzeugter `SceneNode` in die `Children` Liste der Szene eingefügt werden, der
 >     wiederum drei Komponenten enthält.
 >
 > - Versucht zunächst selbst die Stellen im o.a. Code zu finden, wo neue Stellen einzufügen sind. Falls es nicht klappt,
@@ -152,7 +152,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                 {
                     Components = new List<SceneComponentContainer>
                     {
-                        // TRANSFROM COMPONENT
+                        // TRANSFORM COMPONENT
                         _baseTransform,
 
                         // SHADER EFFECT COMPONENT
@@ -179,7 +179,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 
 > #### TODO
 >
-> - Wer o.g. Code kopiert hat, sollte folgende Fragen bantworten können:
+> - Wer o.g. Code kopiert hat, sollte folgende Fragen beantworten können:
 >
 >   - Wo wird die Farbe für den roten body festgelegt? 
 >   - Wo wird die Position für den roten Cuboid festgelegt?
@@ -224,10 +224,10 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
 
 > #### TODO
 >
-> - Fügt mit Hife des obenstehenden Code den grünen Arm als Kind der roten Säule hinzu.
+> - Fügt mit Hilfe des obenstehenden Code den grünen Arm als Kind der roten Säule hinzu.
 > - erzeugt die `_upperArmTransform`-Komponente analog zu den beiden anderen Transform-Komponenten.
-> - Setzt die Koordinaten des `Translation`-Feldes der Transform-Komponte so, dass der grüne Arm
->   exakt wie in o.a. Skizze und in folgdendem Screenshot erscheint.
+> - Setzt die Koordinaten des `Translation`-Feldes der Transform-Komponente so, dass der grüne Arm
+>   exakt wie in o.a. Skizze und in folgendem Screenshot erscheint.
 >
 >   ![Grüner Arm](_images/GreenArm.png)
 > 
@@ -236,7 +236,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
 ## Pivot Point
 
 Da nun der grüne Oberarm ein Kind der roten Säule ist, müsste dieser ja alle Bewegungen des roten Armes 
-mitmachen. Das wollen wir ausprobierern
+mitmachen. Das wollen wir ausprobieren
 
 > #### TODO
 > 
@@ -272,7 +272,7 @@ Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
 >
 > - Warum ist die Angabe `1.5f` ungefähr 90°?
 
-Ergebnis? Der Roboter sieht ziemlich kapputt aus:
+Ergebnis? Der Roboter sieht ziemlich kaputt aus:
 
 ![Grüner Arm Futsch](_images/RobotBroken.png)
 
@@ -283,7 +283,7 @@ den Ursprung, so auch die Rotation. Das Rotationszentrum eines Körpers bezeichn
 Notiz am Rande: Mit dem `Translation`-Feld (`Translation = new float3(2, 8, 0)`) haben wir die Mitte des grünen
 Quaders so weit nach oben geschoben, bis wir die gewünschte Position erreicht haben. 
 
-Wir wollen nun den Pivot Point verändern. Das können wir, indem wir eine weitere Ebene in unsere Hierachie einfügen, 
+Wir wollen nun den Pivot Point verändern. Das können wir, indem wir eine weitere Ebene in unsere Hierarchie einfügen, 
 die allerdings kein Mesh (und auch kein Material enthält). Ausgehend von der Mitte der roten Säule schieben wir unser
 Koordinatensystem mit Hilfe eines "leeren" `SceneNodeContainer` zunächst so weit nach oben, dass der Ursprung des 
 neuen Koordinatensystem im Scharnier zwischen Grün und Rot liegt. In diese Node fügen wir dann eine weitere Child-Node
@@ -406,7 +406,7 @@ verwendet werden.
 Eigenschaft              | Datentyp |  Beschreibung
 -------------------------|----------|--------------------------
 `Mouse.LeftButton`       | `bool`   | Gibt an, ob die linke Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
-`Mouse.MidlleButton`     | `bool`   | Gibt an, ob die mittlere Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
+`Mouse.MiddleButton`     | `bool`   | Gibt an, ob die mittlere Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
 `Mouse.RightButton`      | `bool`   | Gibt an, ob die rechte Maustaste gerade gedrückt ist (`true`) oder nicht (`false`).
 `Mouse.Position`         | `float2` | Aktuelle Position des Maus-Cursor in Pixeln ((0, 0) = linke obere Ecke des Render-Fensters).
 `Mouse.Velocity`         | `float2` | Aktuelle Geschwindigkeit des Maus-Cursor in Pixel/Sekunde entlang X- und Y-Achse.
