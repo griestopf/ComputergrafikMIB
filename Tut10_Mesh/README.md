@@ -15,7 +15,7 @@ In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
 >
 > - Identifiziert den Teil, der die Würfelanimation (Rotation) implementiert
 >   - Was macht die Methode
->      [`M.MinAngle()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Math/Core/M.cs#L429)?
+>      [`M.MinAngle()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Math/Core/M.cs#L688)?
 >      Warum wird sie aufgerufen?
 > - An welcher Position und welcher Orientierung steht die Kamera? Die Anweisungen
 >
@@ -27,16 +27,16 @@ In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
 >   beschreiben von links nach rechts und jeweils mit negativ zu interpretierenden Parametern die Transformationen,
 >   die auf die Kamera ausgeführt werden. Ausgehend von einer Kamera im Koordinaten-Ursprung `(0, 0, 0)`,
 >   die entlang der positiven Z-Achse schaut, wird die Kamera zunächst um -40 Einheiten entlang der Z-Achse bewegt.
->   Anschließend wird die Kamera um den Winkel `Atan(15.0 / 40.0)` um die X-Achse gedreht. Rotationen beziehen
+>   Anschließend wird die Kamera um den Winkel `Math.Atan(15.0 / 40.0)` um die X-Achse gedreht. Rotationen beziehen
 >   sich dabei immer auf den Ursprung des Koordinatensystems und NICHT etwa auf den Mittelpunkt der
 >   (ggf. bereits verschobenen) Kamera.
 >
->   - Welchem Winkel in Grad entspricht [`Atan(15.0 / 40.0)`](https://msdn.microsoft.com/de-de/library/system.math.atan(v=vs.110).aspx)?
+>   - Welchem Winkel in Grad entspricht [`Math.Atan(15.0 / 40.0)`](https://msdn.microsoft.com/en-us/library/system.math.atan(v=vs.110).aspx)?
 >   - Zeichnet Position und Orientierung der Kamera und die Position des Würfels in einer Seitenansicht
 >     (Y-Z-Achsen) des Weltkoordinatensystems auf.
 
 Der Würfel wird, wie in den vorangegangenen Beispielen auch, als ein Objekt vom Typ
-[`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Serialization/Mesh.cs#L10)
+[`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10)
 in die Komponentenliste eingehängt. Diese Komponente wird, gleich mit würfelförmiger Geometrie befüllt, von der
 Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und zurückgegeben.
 Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
@@ -44,8 +44,7 @@ Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 > **TODO**
 >
 > - Schaut Euch die Implementierung von
->   [`SimpleMeshes.CreateCuboid()`](https://github.com/griestopf/ComputergrafikMIB/blob/master/10_Mesh/Core/SimpleMeshes.cs#L11
-)
+>   [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L14)
 >   an. _Tipp:_ Ihr könnte mit gedrückter `Strg`-Taste direkt im Visual Studio Code Editor auf den
 >   Methodenaufruf klicken.
 > - Seht Euch den Inhalt der Mesh-Komponente im Debugger an:
@@ -108,8 +107,8 @@ folgendermaßen interpretiert:
   Wie man sieht, liegen diese Arrayeinträge im Bereich [0..23]. Diese Zahlen sind Indizes in den `Vertices`
   Array (und in den `Normals` Array, aber dazu später mehr...).
 - Jeweils drei aufeinanderfolgende Indizes im Array bilden ein Dreieck, d.h. die ersten drei Einträge,
-  `0`, `6` und `3` bedeuten, dass die an Positionen 0, 6, und 3 im `Vertices`-Array-abgespeicherten Eckpuknte
-  ein Dreieck bilden. Dann kommen im `Triangles` array die drei Einträge `3`, `6` und `9`. Somit bilden
+  `0`, `2` und `1` bedeuten, dass die an Positionen 0, 2, und 1 im `Vertices`-Array-abgespeicherten Eckpunkte
+  ein Dreieck bilden. Dann kommen im `Triangles` array die drei Einträge `0`, `3` und `2`. Somit bilden
   die drei Punkte, die man an diesen Indizes im `Vertices`-Array findet, das nächste Dreieck.
 
   ![Triangles Array](_images/Triangles.png)
@@ -124,9 +123,9 @@ um jede der sechs quadratischen Würfelflächen darzustellen.
 
 ### Normals
 
-Wie bereits in
-[Lektion 4](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter04/lecture01/)
-klar wurde, wird die Farbgebung der Oberflächen über
+Wie in
+[Lektion 5](https://sftp.hs-furtwangen.de/~lochmann/computergrafik2019/script/chapter05/lecture01/#normal-map-node)
+angesprochen wurde, wird die Farbgebung der Oberflächen über
 Normalenvektoren beeinflusst. Diese geben die Ausrichtung der Fläche im Raum an. Um gerundete Oberflächen
 zu simulieren (indem kontinuierliche Farbverläufe wie bei gerundeten Flächen errechnet werden),
 werden Normalen nicht pro Fläche oder pro Dreieck angegeben, sondern pro Eckpunkt. Somit enthält der
@@ -160,7 +159,7 @@ SimpleMeshes.CreateCylinder(float radius, float height, int segments)
 
 implementiert werden. Diese soll eine Mesh-Komponente in Form eines Zylinders erzeugen.
 Eine Dummy-Implementierung existiert bereits in der Datei
-[SimpleMeshes.cs](SimpleMeshes.cs#L176).
+[SimpleMeshes.cs](SimpleMeshes.cs#L127).
 Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat folgende Konsequenzen:
 
 - Die Mantelfläche kann nur aus endlich vielen Segmenten bestehen. Die Anzahl der Segmente soll aber
@@ -171,9 +170,7 @@ Im Unterschied zum Würfel ist die Mantelfläche des Zylinders gerundet. Das hat
 
 ### Zylinder-Aufbau
 
-Das Bild aus
-[Lektion 4](https://sftp.hs-furtwangen.de/~mch/computergrafik/script/chapter04/lecture01/)
-verdeutlicht noch mal den Aufbau eines Zylinders.
+Das folgende Bild verdeutlicht den Aufbau eines Zylinders.
 
 ![Zylinder mit Flächen und Normalen](_images/CylinderPolysVertsNormals.png)
 
@@ -215,7 +212,7 @@ Die folgende Skizze soll uns helfen, den Algorithmus aufzubauen.
 
 ### Die zentrale Schleife
 
-Es ist klar, dass das Erstellen der Punkte in einer Schleife stattfinden muss, denn zur Compilezeit der Methode ist nicht
+Es ist klar, dass das Erstellen der Punkte in einer Schleife stattfinden muss, denn zur Compile-Zeit der Methode ist nicht
 bekannt, wie groß der Parameter `segments` sein wird. Wir verwenden eine Schleife mit einer Zählvariablen `i`, die
 nicht - wie sonst üblich - bei 0 losläuft, sondern bei 1. Der letzte Schleifendurchlauf läuft für `i == segements-1`,
 in unserem Beispiel läuft die Schleife also sieben mal, mit i von 1 bis einschließlich 7. In der Skizze ist `i` jeweils
@@ -534,7 +531,7 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 Wem der Einstieg zu schwierig ist und wer noch etwas mehr Sicherheit mit den Grundlagen benötigt, sollte zunächst mal versuchen,
 die Methode `SimpleMeshes.CreateTetrahedron()` oder `SimpleMeshes.CreatePyramid()` zu implementieren. Bei beiden
-Körpern steht, wie beim Cuboid, zur Compilezeit fest, aus wieviel Punkten und Flächen sie bestehen. Somit kann
+Körpern steht, wie beim Cuboid, zur Compile-Zeit fest, aus wieviel Punkten und Flächen sie bestehen. Somit kann
 ohne Schleifen und variable Indexberechnung gearbeitet werden. Stattdessen können, wie beim Cuboid, direkt die Punkte
 und Flächen ein die entsprechenden Arrays eingetragen werden und die Indizes direkt als Zahlenwerte eingetragen werden.
 

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Tut10_Mesh": {
+      "commandName": "Executable",
+      "executablePath": "fusee",
+      "commandLineArgs": "player $(TargetPath)"
+    }
+  }
+}

@@ -4,14 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
             "name": "Debug in FUSEE Player",
             "type": "coreclr",
             "request": "launch", 
             "preLaunchTask": "build",
             "program": "fusee.exe",
-            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_MeshCompleted.dll"],
+            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_Mesh.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal"
         }

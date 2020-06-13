@@ -1,11 +1,17 @@
-﻿using Fusee.Engine.Common;
+﻿using Fusee.Base.Common;
+using Fusee.Base.Core;
+using Fusee.Engine.Common;
 using Fusee.Engine.Core;
+using Fusee.Engine.Core.Scene;
 using Fusee.Math.Core;
 using Fusee.Serialization;
-using System.Collections.Generic;
-using static System.Math;
+using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
+using Fusee.Engine.GUI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FuseeApp
 {
@@ -14,41 +20,36 @@ namespace FuseeApp
     {
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
-        private TransformComponent _baseTransform;
+        private Transform _baseTransform;
 
         SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
-            _baseTransform = new TransformComponent
+            _baseTransform = new Transform
             {
                 Rotation = new float3(0, 0, 0),
                 Scale = new float3(1, 1, 1),
                 Translation = new float3(0, 0, 0)
             };
 
-            var effect = SimpleMeshes.MakeShaderEffect(new float3(0.7f, 0.7f, 0.7f), new float3(1, 1, 1), 5);
-
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = new List<SceneNodeContainer>
+                Children = new List<SceneNode>
                 {
-                    new SceneNodeContainer
+                    new SceneNode
                     {
-                        Components = new List<SceneComponentContainer>
+                        Components = new List<SceneComponent>
                         {
-                            // TRANSFROM COMPONENT
+                            // TRANSFORM COMPONENT
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            new ShaderEffectComponent
-                            {
-                                Effect = effect
-                            },
+                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
 
                             // MESH COMPONENT
-                            // SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
-                            SimpleMeshes.CreateCylinder(5, 10, 8)                        }
+                            SimpleMeshes.CreateCylinder(5, 10, 8)
+                        }
                     },
                 }
             };
@@ -57,11 +58,10 @@ namespace FuseeApp
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intentsity in all color channels R, G, B, A).
+            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
 
             _scene = CreateScene();
-
 
             // Create a scene renderer holding the scene above
             _sceneRenderer = new SceneRendererForward(_scene);
@@ -72,16 +72,14 @@ namespace FuseeApp
         {
             SetProjectionAndViewport();
 
-            _baseTransform.Rotation = new float3(0, 0, M.MinAngle(TimeSinceStart));
+            _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
 
             // Setup the camera 
-            RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Atan(15.0 / 40.0));
+            RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Math.Atan(15.0 / 40.0));
 
-            RC.SetRenderState(RenderState.FillMode, (uint) FillMode.Point);
-            RC.SetRenderState(RenderState.CullMode, (uint) Cull.None);
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
 

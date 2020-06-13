@@ -1,5 +1,3 @@
-# Mesh & Picking Completed
+# Hierarchy and Input Completed
 
-Enthält sämtliche **TODOs** der Lektion
-
-[**Tut10_Mesh**](../Tut10_Mesh)
+Ergebnisse sämtlicher **TODOs** der Lektion 09
