@@ -138,7 +138,7 @@ Komponenten-Typen. Die wichtigsten sind
 
 - [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
 - [`ShaderEffect`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/ShaderEffect.cs#L114) - enthalten Materialbeschreibungen und Textur-Informationen.
-- [`TransformComponent`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Transform.cs#L12) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
+- [`Transform`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Transform.cs#L12) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
 
 ### Ein Würfel
 
@@ -355,14 +355,14 @@ sinus-förmige Auf- und Ab-bewegungen durchführen
 >   darauf zugreifen können.
 >
 > ```C#
->  private TransformComponent _cubeTransform;
+>  private Transform _cubeTransform;
 > ```
 >
 > - Beim Erzeugen der Szene in `Init()`, ersetzt die lokale Variable `cubeTransform` durch
 >   das neu angelegte Feld `_cubeTransform`.
 >
 > ```C#
->   _cubeTransform = new TransformComponent {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+>   _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
 >  ...
 >  cubeNode.Components.Add(_cubeTransform);
 > ```

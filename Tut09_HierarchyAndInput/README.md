@@ -243,7 +243,7 @@ mitmachen. Das wollen wir ausprobieren
 > - Rotiert die rote Säule (`Body`) ein wenig um die Y-Achse, indem Ihr deren Transform-Komponente verändert:
 >
 >   ```C#
->      _bodyTransform = new TransformComponent
+>      _bodyTransform = new Transform
 >      {
 >          Rotation = new float3(0, 0.2f, 0),
 >          Scale = new float3(1, 1, 1),
@@ -262,7 +262,7 @@ Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
 > - Rotiert den grünen Arm (`UpperArm`) ungefähr 90° um die X-Achse, indem Ihr dessen Transform-Komponente verändert:
 >
 >   ```C#
->      _upperArmTransform = new TransformComponent
+>      _upperArmTransform = new Transform
 >      {
 >          Rotation = new float3(1.5f, 0, 0),
 >          Scale = new float3(1, 1, 1),
@@ -277,7 +277,7 @@ Ergebnis? Der Roboter sieht ziemlich kaputt aus:
 ![Grüner Arm Futsch](_images/RobotBroken.png)
 
 Der Grüne Arm scheint aus dem Gelenk gesprungen zu sein. Das liegt daran, dass der Koordinatenursprung des Cuboid-Körpers
-immer in der Mitte des Quaders liegt. Sämtliche Transformationen in der `TransformComponent` beziehen sich auf
+immer in der Mitte des Quaders liegt. Sämtliche Transformationen in der `Transform` beziehen sich auf
 den Ursprung, so auch die Rotation. Das Rotationszentrum eines Körpers bezeichnet man auch mit ***Pivot Point***.
 
 Notiz am Rande: Mit dem `Translation`-Feld (`Translation = new float3(2, 8, 0)`) haben wir die Mitte des grünen
@@ -308,7 +308,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >            {
 >                Components = new List<SceneComponentContainer>
 >                {
->                    new TransformComponent
+>                    new Transform
 >                    {
 >                        Rotation = new float3(0, 0, 0),
 >                        Scale = new float3(1, 1, 1),
@@ -322,13 +322,13 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >    }
 >   ```
 >
-> - Verändert die `TransformComponent`für den grünen Upper Arm, so dass dessen Pivot Point nun auf der Y-Achse
+> - Verändert die `Transform`für den grünen Upper Arm, so dass dessen Pivot Point nun auf der Y-Achse
 >   des Welt-Koordinatensystems bei 10 zum liegen kommt. Gemessen von der Mitte der roten Säule (die ja das 
 >   Eltern-Objekt ist und daher der Ursprung des lokalen Koordinatensystems für dessen Kinder), sind das
 >   4 Einheiten nach oben
 >
 >   ```C#
->   _upperArmTransform = new TransformComponent
+>   _upperArmTransform = new Transform
 >   {
 >       Rotation = new float3(1.5f, 0, 0),
 >       Scale = new float3(1, 1, 1),

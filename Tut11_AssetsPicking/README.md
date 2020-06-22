@@ -34,7 +34,7 @@ als FUSEE-Inhalte exportieren. Diese sind:
     - Textur-Koordinaten (`UVs`)
     - Flächen aufgeteilt in Dreicecke (`Triangles`)
   - Position, Rotation und Skalierung jeweils relativ zu den Eltern-Einstellungen und 
-    zum Koordinaten-Ursprung (Pivot-Point) als `TransformComponent`.
+    zum Koordinaten-Ursprung (Pivot-Point) als `Transform`.
   - Farben aus den Blender-Material-Einstellungen für den ***Cycles-Renderer*** als `ShaderEffectComponent`:
     - Diffuse-Farbe aus der Diffuse BSDF Node
     - Texturen als Input für den Farb-Kanal der Diffuse BSDF Node
@@ -128,7 +128,7 @@ Um Beispielsweise auf die Transformkomponente des rechten Hinterrades in o.a. Be
 zuzugreifen, kann diese über folgenden Aufruf in der Szene gesucht und im Feld `_rightRearTransform` abgespeichert werden:
 
 ```C#
-  private TransformComponent _rightRearTransform;
+  private Transform _rightRearTransform;
 ...
   _rightRearTransform = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetTransform();
 ```
