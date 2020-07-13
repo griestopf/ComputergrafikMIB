@@ -153,17 +153,17 @@ Transform-Komponente zu suchen.
 Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Export über den FUS-Exporter beim Einlesen in FUSEE eine ShaderEffectComponent. Über diese lassen sich die farbgebenden Parameter wie z.B. die Diffuse-Farbe ändern:
 
 ```C#
-  private ShaderEffectComponent _rightRearShader;
+  private ShaderEffect _rightRearShader;
 ...
-  _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffectComponent>();
-  _rightRearShader.Effect.SetEffectParam("DiffuseColor", new float3(1, 0.4f, 0.4f));
+  _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffect>();
+  _rightRearShader.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f));
 
 ```
 
 > #### TODO
 >
 > - Sucht nach oben angegebenem Muster ein vorhandenes Objekt in der geladenen FUSEE-Szene nach dessen Namen.
-> - Speichert eine Referenz auf die Transform-Komponente (`GetTransform()`) und die Shader-Effekt-Komponente (`GetComponent<ShaderEffectComponent>()`) des Objektes
+> - Speichert eine Referenz auf die Transform-Komponente (`GetTransform()`) und die Shader-Effekt-Komponente (`GetComponent<ShaderEffect>()`) des Objektes
 > - Animiert die Rotation des Objektes und die Farbe des Objektes innerhalb von `RenderAFrame()`.
 
 
@@ -173,7 +173,7 @@ Eine häufig vorkommende Aufgabe in Echtzeit-3D-Anwendungen ist es, herauszufind
 der 3D-Szene an unter einer bestimmten 2D-Pixelposition auf dem Bildschirm liegt, beispielsweise
 dort, wo ein Benutzer gerade mit der Maus hingeklickt oder mit dem Finger eine Touch-Geste vollführt
 hat. FUSEE bietet hierzu die Klasse 
-[`ScenePicker`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L108)
+[`ScenePicker`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L155)
 mit deren Hilfe diese Aufgabe bewerkstelligt werden kann.
 
 Wie der `SceneRenderer` und auch die weiter oben beschriebene `FindNodes()` Methode wird beim Picking
@@ -214,21 +214,21 @@ Welt- oder Bildschirmkoordinaten.
 >   ```
 > - Fügt folgenden Code in die Methode `RenderAFrame()` ein, NACHDEM die Kamera gesetzt wurde .
 >   ```C#
->        // Setup the camera 
->        RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Atan(15.0 / 40.0));
+>      // Setup the camera 
+>      RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(->(float) Math.Atan(15.0 / 40.0));
 >
->        if (Mouse.LeftButton)
->        {
->            float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / Height) + new float2(-1, 1);
->            _scenePicker.View = RC.View;
->            _scenePicker.Projection = RC.Projection;
->            List<PickResult> pickResults = _scenePicker.Pick(pickPosClip).ToList();
->            if (pickResults.Count > 0)
->            {
->                pickResults.Sort((a, b) => Sign(a.ClipPos.z - b.ClipPos.z));
->                Diagnostics.Log(pickResults[0].Node.Name);
->            }
->        }
+>      if (Mouse.LeftButton)
+>      {
+>          float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / >Height) + new float2(-1, 1);
+>
+>          PickResult newPick = _scenePicker.Pick(RC, pickPosClip).OrderBy(pr => pr.ClipPos.z).FirstOrDefault();
+>
+>          if (newPick != null)
+>          {
+>              Diagnostics.Debug($"Object {newPick.Node.Name} picked.")
+>          }
+>       }
+>
 >   ```
 >
 > - Lasst das Programm laufen und schaut im Visual-Studio-Output-Fenster, 
@@ -238,15 +238,15 @@ Welt- oder Bildschirmkoordinaten.
 >   - Zunächst wird die aktuelle Mausposition, die Pixel-Koordinaten enthält, in so genannte 
 >     2D-Clip-Koordinaten umgerechnet. Diese haben den Ursprung in der Mitte des Ausgabefensters und 
 >     am Fenster-Rand jeweils 1 (rechts und oben), bzw. -1 (links und unten).
->   - Der Scene-Picker bekommt die aktuelle Projection und View-Matrix mitgeteilt, damit er 
->     aus den Modell-Koordinaten gültige Screen-Koordinaten berechnen kann.
 >   - Der Aufruf von `_scenePicker.Pick()` führt die Traversierung durch und liefert eine unsortierte Liste
 >     von Pick-Ergebnissen.
->   - Falls die Liste nicht leer ist, wird diese sortiert (`pickResults.Sort()`) und zwar nach der 
->     z-Bildschirm-Koordinate der Pick-Ereignisse. Kleinere z-Werte kommen nach vorne. Das Pick
+>   - Dabei erhält `Pick()` als Parameter den RenderContext übergeben, damit er 
+>     aus den Modell-Koordinaten gültige Screen-Koordinaten berechnen kann.
+>   - Falls die Liste nicht leer ist, wird diese sortiert (`OrderBy()`) und zwar nach der 
+>     z-Bildschirm-Koordinate der Pick-Ereignisse (`pr => pr.ClipPos.z`). Kleinere z-Werte kommen nach vorne. Das Pick
 >     Ereignis mit dem kleinsten z-Wert ist das, was dem Betrachter am nächsten ist.
->   - Das Pick-Ereignis mit dem Index 0, also das vorne liegende, wird ausgegeben (bzw. der Name der
->     zugehörigen Node).
+>   - Das erste Pick-Ereignis falls vorhanden (`FirstOrDefault()`) wird in der Variablen `newPick` gespeichert.
+>   - Der der Name der zum Pick-Ereignis zugehörigen Node wird auf dem Bildschirm ausgegeben.
 
 Nun soll das gerade angeklickte Teil mit einer eigenen Farbgebung versehen werden. Dazu kann mit 
 der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verwiesen werden.
@@ -256,34 +256,34 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 > - Fügt der App-Klasse folgende zwei Felder ("Klassenvariablen") hinzu:
 >   ```C#
 >     private PickResult _currentPick;
->     private float3 _oldColor;
+>     private float4 _oldColor;
 >   ```
-> - Ersetzt den inneren `if`-Zweig (dort wo ein angeklicktes Objekt festgestellt wurde) komplett durch 
+> - Ersetzt die `if`-Anweisung der Maus-Tasten-Abfrage komplett durch 
 >   folgenden Code:
 >
 >   ```C#
->     PickResult newPick = null;
->     if (pickResults.Count > 0)
->     {
->         pickResults.Sort((a, b) => Sign(a.ClipPos.z - b.ClipPos.z));
->         newPick = pickResults[0];
->     }
->     if (newPick?.Node != _currentPick?.Node)
->     {
->         if (_currentPick != null)
->         {
->             _currentPick.Node.GetComponent<ShaderEffectComponent>().Effect.SetEffectParam("DiffuseColor", _oldColor);
->         }
->         if (newPick != null)
->         {
->             var mat = newPick.Node.GetMaterial();
->             _oldColor = mat.Diffuse.Color;
+>     if (Mouse.LeftButton)
+>      {
+>          float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / Height) + new float2(-1, 1);
 >
->              _oldColor = (float3) newPick.Node.GetComponent<ShaderEffectComponent>().Effect.GetEffectParam("DiffuseColor);
->             mat.Diffuse.Color = new float3(1, 0.4f, 0.4f);
->         }
->         _currentPick = newPick;
->     }
+>          PickResult newPick = _scenePicker.Pick(RC, pickPosClip).OrderBy(pr => pr.ClipPos.z).FirstOrDefault();
+>
+>          if (newPick?.Node != _currentPick?.Node)
+>          {
+>              if (_currentPick != null)
+>              {
+>                  ShaderEffect shaderEffect = _currentPick.Node.GetComponent<ShaderEffect>();
+>                  shaderEffect.SetEffectParam("AlbedoColor", _oldColor);
+>              }
+>              if (newPick != null)
+>              {
+>                  ShaderEffect shaderEffect = newPick.Node.GetComponent<ShaderEffect>();
+>                  _oldColor = (float4)shaderEffect.GetEffectParam("AlbedoColor");
+>                  shaderEffect.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f, 1));
+>              }
+>              _currentPick = newPick;
+>          }
+>      }
 >    ```
 >
 > - Überprüft die Lauffähigkeit, indem Ihr die Applikation startet und auf unterschiedliche
@@ -316,8 +316,7 @@ Mit diesem Modell soll dann eine erste Applikation erzeugt werden
   - Die Farbe des gerade selektierten Teils verändert
   - Pfeil- oder WASD- Eingaben (oder Teile davon) auf Bewegungen der Achsen des gerade selektierten (Teil-)Objektes legt
 
-- Das Modell soll dann in der darauffolgenden Übung (Lektion 12) mit einer Fahrzeug-Steuerung (Pfeiltasten) versehen
-  werden und der Bewegliche Aufbau soll über Picking bewegt werden können.
+
 
 
 
