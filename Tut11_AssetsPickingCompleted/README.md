@@ -1,5 +1,3 @@
-# Hierarchy & Input Completed
+# Hierarchy and Input Completed
 
-Enthält sämtliche **TODOs** der Lektion
-
-[**11_AssetsPicking**](../11_AssetsPicking)
+Ergebnisse sämtlicher **TODOs** der Lektion 11

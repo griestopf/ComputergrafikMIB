@@ -24,20 +24,18 @@ der als als `Testing` markierten Add-Ons per Häkchen aktiviert werden.
 ### Features des FUSEE-Exporters
 
 Mit dem FUSEE-Export-AddOn für Blender sich lassen einige Features, die in Blender möglich sind,
-als FUSEE-Inhalte exportieren. Diese sind:
+als FUSEE-Inhalte exportieren. Welche das genau sind, ist im [FUSEE Wiki](https://github.com/FUSEEProjectTeam/Fusee/wiki/FUSEE-Exporter-Blender-Add-on#exported-features) beschrieben - hier eine kurze Zusammenfassung: 
   
-  - Eltern-Kind-Verhältnisse von Blender-Objekten als Hierarchien von `SceneNodeContainer`-Instanzen.
-  - Die Namen der Blender-Objekte als `Name`-Eigenschaft des jeweiligen `SceneNodeContainer`-Objektes
+  - Eltern-Kind-Verhältnisse von Blender-Objekten als Hierarchien von `SceneNode`-Instanzen.
+  - Die Namen der Blender-Objekte als `Name`-Eigenschaft des jeweiligen `SceneNode`-Objektes
   - 3D-Geometrien als `Mesh`
     - Eckpunkt-Postitionen (`Vertices`)
     - Normalen (`Normals`) in Abhängigkeit der "Smooth / Flat"-Einstellung
     - Textur-Koordinaten (`UVs`)
     - Flächen aufgeteilt in Dreicecke (`Triangles`)
   - Position, Rotation und Skalierung jeweils relativ zu den Eltern-Einstellungen und 
-    zum Koordinaten-Ursprung (Pivot-Point) als `Transform`.
-  - Farben aus den Blender-Material-Einstellungen für den ***Cycles-Renderer*** als `ShaderEffectComponent`:
-    - Diffuse-Farbe aus der Diffuse BSDF Node
-    - Texturen als Input für den Farb-Kanal der Diffuse BSDF Node
+    zum Koordinaten-Ursprung (Pivot-Point) als `Transform`
+  - Farben aus den Blender-Material-Einstellungen für Principled BSDF oder  Diffuse BSDF Nodes
 
 
 ## Modelle als Assets
@@ -55,7 +53,8 @@ als .fus-Datei expotierten Blender-3D-Szenen folgendermaßen eingebunden werden.
 >   - Materialien ***entweder*** mit Diffuse- und Glossy-BSDF-Nodes ***oder*** mit dem 
 >     Principled-BSDF-Shader im Cycles-Renderer
 >
-> - Exportiert die Szene als .fus-Datei (ohne die Option "Run with Fusees Web-Application")
+> - Exportiert die Szene als .fus-Datei
+>
 > - Kopiert die .fus-Datei in den "Assets" Unterordner Eures FUSEE-Projektes
 >
 

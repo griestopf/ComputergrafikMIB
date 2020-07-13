@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Tut11_AssetsPicking": {
+      "commandName": "Executable",
+      "executablePath": "fusee",
+      "commandLineArgs": "player $(TargetPath)"
+    }
+  }
+}
