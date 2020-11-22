@@ -68,7 +68,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
+                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -80,7 +80,7 @@ namespace FuseeApp
                         Components = new List<SceneComponent>
                         {
                             _bodyTransform,
-                            ShaderCodeBuilder.MakeShaderEffect(new float4 (1, 0, 0, 1)),
+                            SimpleMeshes.MakeMaterial((float4) ColorUint.Red),
                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                         },
                         Children = new ChildList
@@ -104,7 +104,7 @@ namespace FuseeApp
                                                 Scale = new float3(1, 1, 1),
                                                 Translation = new float3(0, 4, 0)
                                             },
-                                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 1, 0, 1)),
+                                            SimpleMeshes.MakeMaterial((float4) ColorUint.Green),
                                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                         }
                                     },
@@ -127,7 +127,7 @@ namespace FuseeApp
                                                         Scale = new float3(1, 1, 1),
                                                         Translation = new float3(0, 4, 0)
                                                     },
-                                                    ShaderCodeBuilder.MakeShaderEffect(new float4 (0, 0, 1, 1)),
+                                                    SimpleMeshes.MakeMaterial((float4) ColorUint.Blue),
                                                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                                 }
                                             }

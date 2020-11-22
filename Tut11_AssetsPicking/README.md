@@ -156,7 +156,7 @@ Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Expor
   private ShaderEffect _rightRearShader;
 ...
   _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffect>();
-  _rightRearShader.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f));
+  OUTDATED!!! _rightRearShader.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f));
 
 ```
 

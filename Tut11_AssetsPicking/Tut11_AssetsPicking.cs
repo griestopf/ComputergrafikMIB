@@ -3,6 +3,7 @@ using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
 using Fusee.Engine.Core.Scene;
+using Fusee.Engine.Core.Effects;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
@@ -46,7 +47,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            ShaderCodeBuilder.MakeShaderEffect(new float4(0.7f, 0.7f, 0.7f, 1)),
+                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             // SimpleAssetsPickinges.CreateCuboid(new float3(10, 10, 10))

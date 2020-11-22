@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Fusee.Engine.Core;
 using Fusee.Engine.Core.Scene;
+using Fusee.Engine.Core.Effects;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 
@@ -122,6 +123,15 @@ namespace FuseeApp
                 },
                 BoundingBox = new AABBf(-0.5f * size, 0.5f*size)
             };
+        }
+
+        public static SurfaceEffect MakeMaterial(float4 color)
+        {
+            return MakeEffect.FromDiffuseSpecular(
+                albedoColor: color,
+                emissionColor: float4.Zero,
+                shininess: 25.0f,
+                specularStrength: 1f);
         }
 
         public static Mesh CreateCylinder(float radius, float height, int segments)

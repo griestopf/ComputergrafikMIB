@@ -45,7 +45,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            ShaderCodeBuilder.MakeShaderEffect(new float4 (0.7f, 0.7f, 0.7f, 1)),
+                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCylinder(5, 10, 8)

@@ -3,6 +3,7 @@ using Fusee.Base.Core;
 using Fusee.Engine.Common;
 using Fusee.Engine.Core;
 using Fusee.Engine.Core.Scene;
+using Fusee.Engine.Core.Effects;
 using Fusee.Math.Core;
 using Fusee.Serialization;
 using Fusee.Xene;
@@ -49,7 +50,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            ShaderCodeBuilder.MakeShaderEffect(new float4(0.7f, 0.7f, 0.7f, 1)),
+                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             // SimpleAssetsPickinges.CreateCuboid(new float3(10, 10, 10))
@@ -99,14 +100,14 @@ namespace FuseeApp
                 {
                     if (_currentPick != null)
                     {
-                        ShaderEffect shaderEffect = _currentPick.Node.GetComponent<ShaderEffect>();
-                        shaderEffect.SetEffectParam("AlbedoColor", _oldColor);
+                        SurfaceEffect surfaceEffect = _currentPick.Node.GetComponent<SurfaceEffect>();
+                        surfaceEffect.SetFxParam("AlbedoColor", _oldColor);
                     }
                     if (newPick != null)
                     {
-                        ShaderEffect shaderEffect = newPick.Node.GetComponent<ShaderEffect>();
-                        _oldColor = (float4)shaderEffect.GetEffectParam("AlbedoColor");
-                        shaderEffect.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f, 1));
+                        SurfaceEffect surfaceEffect = newPick.Node.GetComponent<SurfaceEffect>();
+                        _oldColor = (float4)surfaceEffect.GetFxParam<float4>("AlbedoColor");
+                        surfaceEffect.SetFxParam("AlbedoColor", new float4(1, 0.4f, 0.4f, 1));
                     }
                     _currentPick = newPick;
                 }
