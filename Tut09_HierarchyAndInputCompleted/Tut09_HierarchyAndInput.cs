@@ -68,7 +68,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey, float4.Zero),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -80,7 +80,7 @@ namespace FuseeApp
                         Components = new List<SceneComponent>
                         {
                             _bodyTransform,
-                            SimpleMeshes.MakeMaterial((float4) ColorUint.Red),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red, float4.Zero),
                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                         },
                         Children = new ChildList
@@ -104,7 +104,7 @@ namespace FuseeApp
                                                 Scale = new float3(1, 1, 1),
                                                 Translation = new float3(0, 4, 0)
                                             },
-                                            SimpleMeshes.MakeMaterial((float4) ColorUint.Green),
+                                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
                                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                         }
                                     },
@@ -127,7 +127,7 @@ namespace FuseeApp
                                                         Scale = new float3(1, 1, 1),
                                                         Translation = new float3(0, 4, 0)
                                                     },
-                                                    SimpleMeshes.MakeMaterial((float4) ColorUint.Blue),
+                                                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue, float4.Zero),
                                                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                                 }
                                             }

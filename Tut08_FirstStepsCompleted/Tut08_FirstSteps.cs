@@ -29,17 +29,13 @@ namespace FuseeApp
         public override void Init()
         {
             // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
-            RC.ClearColor = new float4(0.8f, 1, 0.4f, 1);
+            RC.ClearColor = new float4(1, 1, 1, 1);
 
             // Create a scene with a cube
             // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
             _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
 
-            var cubeShader = MakeEffect.FromDiffuseSpecular(
-                                    albedoColor: new float4(0, 0, 1, 1).LinearColorFromSRgb(),
-                                    emissionColor: float4.Zero,
-                                    shininess: 25.0f,
-                                    specularStrength: 1f);
+            var cubeShader = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue, float4.Zero);
 
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 

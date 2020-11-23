@@ -21,8 +21,8 @@ namespace FuseeApp
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to "greenery" ;-) (https://store.pantone.com/de/de/color-of-the-year-2017/).
-            RC.ClearColor = new float4(136f/255f, 176f/255f, 75f/255f, 1);
+            // Set the clear color for the backbuffer to "greenery"
+            RC.ClearColor = (float4) ColorUint.Greenery;
         }
 
         // RenderAFrame is called once a frame
@@ -32,8 +32,6 @@ namespace FuseeApp
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
-
-
 
            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();

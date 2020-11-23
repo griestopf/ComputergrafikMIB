@@ -125,15 +125,6 @@ namespace FuseeApp
             };
         }
 
-        public static SurfaceEffect MakeMaterial(float4 color)
-        {
-            return MakeEffect.FromDiffuseSpecular(
-                albedoColor: color,
-                emissionColor: float4.Zero,
-                shininess: 25.0f,
-                specularStrength: 1f);
-        }
-
         public static Mesh CreateCylinder(float radius, float height, int segments)
         {
             return CreateConeFrustum(radius, radius, height, segments);

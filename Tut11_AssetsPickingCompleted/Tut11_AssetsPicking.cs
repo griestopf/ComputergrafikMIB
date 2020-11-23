@@ -100,14 +100,14 @@ namespace FuseeApp
                 {
                     if (_currentPick != null)
                     {
-                        SurfaceEffect surfaceEffect = _currentPick.Node.GetComponent<SurfaceEffect>();
-                        surfaceEffect.SetFxParam("AlbedoColor", _oldColor);
+                        var ef = _currentPick.Node.GetComponent<DefaultSurfaceEffect>();
+                        ef.SurfaceInput.Albedo = _oldColor;
                     }
                     if (newPick != null)
                     {
-                        SurfaceEffect surfaceEffect = newPick.Node.GetComponent<SurfaceEffect>();
-                        _oldColor = (float4)surfaceEffect.GetFxParam<float4>("AlbedoColor");
-                        surfaceEffect.SetFxParam("AlbedoColor", new float4(1, 0.4f, 0.4f, 1));
+                        var ef = newPick.Node.GetComponent<SurfaceEffect>();
+                        _oldColor = ef.SurfaceInput.Albedo;
+                        ef.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
                     }
                     _currentPick = newPick;
                 }
