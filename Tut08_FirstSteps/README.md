@@ -92,7 +92,7 @@ für die beiden Methoden [`Init()`](Tut08_FirstSteps.cs#L22) und
 > - Öffnet den Ordner `Tut08_FirstSteps` in Visual Studio Code 
 > - Öffnet die Debug-Side-Bar und startet "Debug in FUSEE Player" wie
 >   auf der FUSEE-Homepage unter 
->   [Build and run the App](http://fusee3d.org/page/firstfuseeapp/#build-and-run-the-app)
+>   [Build and run the App](https://fusee3d.org/getting-started/firstfuseeapp.html#build-and-run-the-app)
 >   beschrieben
 
 Wie man sieht, sieht man nichts - ein Fenster in hellgrün. Das liegt daran, dass
