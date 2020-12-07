@@ -160,7 +160,7 @@ Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Expor
 
 ```
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Sucht nach oben angegebenem Muster ein vorhandenes Objekt in der geladenen FUSEE-Szene nach dessen Namen.
 > - Speichert eine Referenz auf die Transform-Komponente (`GetTransform()`) und die Shader-Effekt-Komponente (`GetComponent<ShaderEffect>()`) des Objektes

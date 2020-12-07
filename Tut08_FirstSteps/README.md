@@ -12,7 +12,7 @@
 
 ## FUSEE installieren und bauen
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Installiert FUSEE wie im auf der 
 >   [FUSEE Installation Wiki Seite](https://github.com/FUSEEProjectTeam/Fusee/wiki/Using-Fusee-in-Visual-Studio-Code) 
@@ -87,7 +87,7 @@ Die Datei [Tut08_FirstSteps.cs](Tut08_FirstSteps.cs) enthält minimale Implement
 für die beiden Methoden [`Init()`](Tut08_FirstSteps.cs#L22) und 
 [`RenderAFrame()`](Tut08_FirstSteps.cs#L29)
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Öffnet den Ordner `Tut08_FirstSteps` in Visual Studio Code 
 > - Öffnet die Debug-Side-Bar und startet "Debug in FUSEE Player" wie
@@ -105,7 +105,7 @@ tatsächlich mit der vorher gesetzten Farbe gelöscht (mit `RC.Clear(...)`) und
 schließlich das im Hintergrund gerenderte Bild, das aus nicht anderem als der 
 grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`).
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Ändert die Hintergrundfarbe in der [`Init()`-Methode](Tut08_FirstSteps.cs#L25)
 
@@ -142,7 +142,7 @@ Komponenten-Typen. Die wichtigsten sind
 
 ### Ein Würfel
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die beiden Felder
 >   - `_scene` und
@@ -209,7 +209,7 @@ Komponenten-Typen. Die wichtigsten sind
 
 Um den Code zu verstehen, ist es am besten, ein wenig damit herumzuspielen:
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Ändert die Farbe des Würfels
 > - Ändert Position, Drehung, Skalierung des Würfels
@@ -225,7 +225,7 @@ Koordinatensystem, in dem die Y-Achse die Hoch-Achse ist. Die Kamera steht im
 Zentrum des Koordinatensystems und schaut entlang der positiven Z-Achse. Der Würfel 
 steht an der Position (0, 0, 50).
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Führt Euch die Situation vor Augen. Zeichnet ein Bild der Szene mit Koordinatenachseen,
 >   Kamera-Position und Kamera-Blickrichtung.
@@ -238,7 +238,7 @@ muss.
 Im Folgenden soll der Würfel in die Mitte der Szene gebracht werden und die Kamera von schräg
 hinten auf die Szene schauen.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Ändert die Transform-Komponente des Würfels so ab, dass dieser nun im Zentrum des
 >   Koordinatensystems steht ((0, 0, 0) statt (0, 0, 50).
@@ -273,7 +273,7 @@ aus ihrer Lage im Zentrum des Koordinatensystems mit Blickrichtung in positive Z
 ihre Ziel-Position und -Orientierung. **Dies allerdings in umgekehrter Reihenfolge und in umgekehrtem Koordinaten-Sinn**. Die Anweisung ``float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(0.2f);`` erzeugt also eine Kamera-Transformation, die die Kamera 
 ZUERST um -50 Einheiten entlang der Z-Achse bewegt UND DANN um -0.2 Radiant um die (Welt-)Y-Achse dreht.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Auch das ist nur mit einer Skizze zu verstehen. Zeichnet ein Bild der Szene mit 
 >   Koordinatenachseen, Kamera-Position und Kamera-Blickrichtung und den beiden 
@@ -284,7 +284,7 @@ ZUERST um -50 Einheiten entlang der Z-Achse bewegt UND DANN um -0.2 Radiant um d
 Nun soll sich die Kamera um den Würfel drehen. Dazu muss in `RenderAFrame()` der aktuelle
 Drehwinkel für jedes Bild abgeändert werden.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Fügt der Klasse `FirstSteps` ein weiteres Feld hinzu, das den aktuellen Drehwinkel
 >   der Kamera in Radiant enthält und initialisiert den Winkel mit 0.
@@ -330,7 +330,7 @@ Werden Geschwindigkeiten (Inkremente) mit `DeltaTime` skaliert, ändert sich der
 in Wertänderung-pro-Frame gibt der Wert nun die Wertänderung-pro-Sekunde an. Dadurch ergeben sich 
 größere Werte.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Ändert den Befehl, der pro Frame die aktuelle Kamera-Drehung berechnet wie folgt:
 > ```C#
@@ -348,7 +348,7 @@ während des Renderns zu ändern, müssen Referenzen auf die jeweiligen Komponen
 werden. Im Folgenden Beispiel soll der Würfel in Abhängigkeit von der vergangenen Zeit
 sinus-förmige Auf- und Ab-bewegungen durchführen
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Fügt in die KLasse `FirstSteps` ein Feld ein, das die Transform-Komponente des Würfels
 >   speichern kann, so dass wir nicht nur aus `Init()`, sondern auch aus `RenderAFrame()`

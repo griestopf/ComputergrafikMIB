@@ -17,7 +17,7 @@
 Der Source-Code dieser Lektion enthält eine leicht abgeänderte Version des letzten
 Standes. 
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Öffnet den Ordner Tut09_HierarchyAndInput in Visual Studio Code, 
 >   Erstellt das Projekt (Build) und lasst es im Debugger laufen.
@@ -69,7 +69,7 @@ initialisieren. Das Ergebnis sieht fast ein bisschen wie eine JSON Datei aus - e
 Zumindest lässt mit dieser Schreibweise die hierarchische Struktur der Szene viel besser
 erkennen, als im letzten Beispiel.
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Zeichnet den Szenengraphen auf, der durch o.a. Code erzeugt wird. Verwendet dazu die im Unterricht verwendete 
 >   Darstellung: 
@@ -108,7 +108,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 
 ![Cuboter Zeichnung](_images/RoboBlueprint.png)
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Erzeugt ein weiteres Objekt (Node) im Szenengraphen, das aus einem roten länglichen Quader der Dimension (2, 10, 2)
 >   besteht, der in der Mitte auf dem grauen Quader steht. Dazu muss
@@ -177,7 +177,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
     }
 ```
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Wer o.g. Code kopiert hat, sollte folgende Fragen beantworten können:
 >
@@ -222,7 +222,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
     }
 ```
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Fügt mit Hilfe des obenstehenden Code den grünen Arm als Kind der roten Säule hinzu.
 > - erzeugt die `_upperArmTransform`-Komponente analog zu den beiden anderen Transform-Komponenten.
@@ -238,7 +238,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
 Da nun der grüne Oberarm ein Kind der roten Säule ist, müsste dieser ja alle Bewegungen des roten Armes 
 mitmachen. Das wollen wir ausprobieren
 
-> #### TODO
+> #### 👨‍🔧 TODO
 > 
 > - Rotiert die rote Säule (`Body`) ein wenig um die Y-Achse, indem Ihr deren Transform-Komponente verändert:
 >
@@ -257,7 +257,7 @@ mitmachen. Das wollen wir ausprobieren
 Als Ergebnis müsste die Säule jetzt inklusive dem daran hängenden Unterarm rotiert sein. Nun soll sich der grüne
 Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
 
-> #### TODO
+> #### 👨‍🔧 TODO
 > 
 > - Rotiert den grünen Arm (`UpperArm`) ungefähr 90° um die X-Achse, indem Ihr dessen Transform-Komponente verändert:
 >
@@ -289,7 +289,7 @@ Koordinatensystem mit Hilfe eines "leeren" `SceneNodeContainer` zunächst so wei
 neuen Koordinatensystem im Scharnier zwischen Grün und Rot liegt. In diese Node fügen wir dann eine weitere Child-Node
 ein, die die eigentliche Geometrie enthält und diese an die richtige (relative) Position schiebt.
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Schreibt den Teil des Szenengraphen für den grünen Oberarm so um, dass dieser nun aus zwei Hierarchiestufen
 >   besteht: Einer äußeren Node für den _Pivot Point_ und einer inneren Node für die Geometrie.
@@ -342,7 +342,7 @@ Einzelteile auseinander gerissen werden.
 
 Schließlich fehlt noch der blaue Unterarm.
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Fügt nach dem selben Schema wie oben den blauen Unterarm als Kindobjekt des grünen Arms ein.
 >   Dabei muss der blaue Arm auch aus zwei Hierarchie-Ebenen bestehen: Einer, die den Nullpunkt
@@ -387,7 +387,7 @@ using static Fusee.Engine.Core.Input;
 ganz oben in der Datei [Tut09_HierarchyAndInput.cs](Tut09_HierarchyAndInput.cs#L09) können wir im Code direkt auf die o.G.
 Felder für die Eingabegeräte zugreifen. 
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Tippt in einer neuen Zeile im Rumpf der Methode `RenderAFrame()` jeweils 
 >   - `Mouse`
@@ -428,7 +428,7 @@ implementieren, ohne aufwändige Einzelabfragen per "GetKey". Die Werte der Achs
 
 Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotation des Roboters um die rote Säule zu kontrollieren.
 
-> #### TODO
+> #### 👨‍🔧 TODO
 >
 > - Fügt folgenden Code an den Anfang des Rumpfes von `RenderAFrame()`
 >

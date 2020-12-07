@@ -11,7 +11,7 @@
 
 In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
 
-> **TODO** Zur Wiederholung/Übung/ zum Verständnis:
+> #### 👨‍🔧 TODO Zur Wiederholung/Übung/ zum Verständnis:
 >
 > - Identifiziert den Teil, der die Würfelanimation (Rotation) implementiert
 >   - Was macht die Methode
@@ -41,7 +41,7 @@ in die Komponentenliste eingehängt. Diese Komponente wird, gleich mit würfelf�
 Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und zurückgegeben.
 Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Schaut Euch die Implementierung von
 >   [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L14)
@@ -82,7 +82,7 @@ Damit liegen wohl alle Punkte an den Eckpunkten eines Würfels mit dem Zentrum i
 (jeweils von -5 bis 5 - so haben wir es ja im Aufruf von `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))`
 angegeben).
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Falls das nicht klar ist, zeichnet ein paar der Vertices in ein 3D-Koordinatensystem ein.
 
@@ -113,7 +113,7 @@ folgendermaßen interpretiert:
 
   ![Triangles Array](_images/Triangles.png)
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Zeichnet die ersten vier im `Triangles`-Array angegebenen Dreiecke (d.h. die ersten 12 Einträge verwenden!)
 >   in ein 3D-Koordinatensystem ein.
@@ -139,7 +139,7 @@ der Eckpunkte jeweils mit unterschiedlichen Normalen wieder.
 
 ![Cube Normalen](_images/VertsAndNormals.png)
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Sucht beliebige Indizes im 'Triangles'Array, findet jeweils den damit identifizierten Eckpunkt im 'Vertices'-Array
 >   und die dazugehörende Normale im `Normals`-Array und vergleicht die Zahlenwerte mit der Skizze.
@@ -187,7 +187,7 @@ Die folgende Skizze soll uns helfen, den Algorithmus aufzubauen.
 
 ![Kreisfläche](_images/CylinderCap.png)
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Vergegenwärtigt Euch mit Hilfe der Skizze folgende Sachverhalte (diese sollten verstanden sein)
 >   - Das Beispiel erzeugt acht Segmente (der Parameter `segments` wäre hier also 8.
@@ -218,7 +218,7 @@ nicht - wie sonst üblich - bei 0 losläuft, sondern bei 1. Der letzte Schleifen
 in unserem Beispiel läuft die Schleife also sieben mal, mit i von 1 bis einschließlich 7. In der Skizze ist `i` jeweils
 als weiße Zahl auf blauem Grund angegeben.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Beginnt die Implementierung von `CreateCylinder` wie folgt:
 >
@@ -247,7 +247,7 @@ wissen bereits folgendes:
   insgesamt sind es also `segments * 3` Einträge im `Triangles`-Array.
 - Schließlich muss es noch genau gleich viele Einträge im `Normals`-Array wie im `Vertices`-Array geben.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Legt am Anfang der Methode (_vor_ der Schleife) drei Arrays an, in denen die Vertices, die Triangles-Indizes
 >   und die Normalen gespeichert werden.
@@ -276,7 +276,7 @@ das jeweilige Segment füllen wollen. Für das erste Segment, das aus den Indize
 aber der Punkt mit dem Index 0 bereits bestehen. Deswegen muss _vor_ der Schleife (und _nach_ dem Erzeugen der
 Arrays), noch ein wenig Initialisierungsarbeit geleistet werden.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Errechnet zunächst vor der Schleife den Winkel δ (im Bogenmaß):
 >
@@ -318,7 +318,7 @@ Arrays), noch ein wenig Initialisierungsarbeit geleistet werden.
 Jetzt können wir in der Schleife die Koordinaten aller Punkte von 1..segements-1 (in der Skizze von 1 bis 7) errechnen
 und diese im `verts`-Array jeweils an der Stelle `i` abspeichern.
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Fügt die Berechnung der Koordinaten für Punkt `i` in den Schleifenrumpf ein
 >
@@ -337,7 +337,7 @@ die Information, welche Punkte mit welchen anderen Punkten zu Dreiecken zusammen
 
 Wir können aber mit dem Debugger überprüfen, ob soweit alles stimmt:
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - In der Methode `CreateScene()` (Datei Mesh.cs) Ersetzt den Aufruf von `SimpleMeshes.CreateCuboid()` durch
 >
@@ -376,7 +376,7 @@ gilt folgende Zuordnung
 | 7 | 8, 7, 6 |
 | `i` | 8, `i`, `i-1` |
 
-> **TODO**
+> #### 👨‍🔧 TODO
 >
 > - Erklärt Euch den Inhalt der obigen Tabelle anhand der Skizze
 >
