@@ -384,7 +384,7 @@ Mit der Anweisung
 ```C#
 using static Fusee.Engine.Core.Input;
 ```
-ganz oben in der Datei [Tut09_HierarchyAndInput.cs](Tut09_HierarchyAndInput.cs#L09) können wir im Code direkt auf die o.G.
+ganz oben in der Datei [Tut09_HierarchyAndInput.cs](Tut09_HierarchyAndInput.cs#L09) können wir im Code direkt auf die o. G.
 Felder für die Eingabegeräte zugreifen. 
 
 > #### 👨‍🔧 TODO

@@ -332,7 +332,7 @@ größere Werte.
 
 > #### 👨‍🔧 TODO
 >
-> - Ändert den Befehl, der pro Frame die aktuelle Kamera-Drehung berechnet wie folgt:
+> - Ändert den Befehl, der pro Frame die aktuelle Kamera-Drehung berechnet, wie folgt:
 > ```C#
 >   // Animate the camera angle
 >   _camAngle = _camAngle + 90.0f * M.Pi/180.0f * DeltaTime;
@@ -350,7 +350,7 @@ sinus-förmige Auf- und Ab-bewegungen durchführen
 
 > #### 👨‍🔧 TODO
 >
-> - Fügt in die KLasse `FirstSteps` ein Feld ein, das die Transform-Komponente des Würfels
+> - Fügt in die Klasse `FirstSteps` ein Feld ein, das die Transform-Komponente des Würfels
 >   speichern kann, so dass wir nicht nur aus `Init()`, sondern auch aus `RenderAFrame()`
 >   darauf zugreifen können.
 >
