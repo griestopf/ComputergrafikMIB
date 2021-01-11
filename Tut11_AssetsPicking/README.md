@@ -29,10 +29,10 @@ als FUSEE-Inhalte exportieren. Welche das genau sind, ist im [FUSEE Wiki](https:
   - Eltern-Kind-Verhältnisse von Blender-Objekten als Hierarchien von `SceneNode`-Instanzen.
   - Die Namen der Blender-Objekte als `Name`-Eigenschaft des jeweiligen `SceneNode`-Objektes
   - 3D-Geometrien als `Mesh`
-    - Eckpunkt-Postitionen (`Vertices`)
+    - Eckpunkt-Positionen (`Vertices`)
     - Normalen (`Normals`) in Abhängigkeit der "Smooth / Flat"-Einstellung
     - Textur-Koordinaten (`UVs`)
-    - Flächen aufgeteilt in Dreicecke (`Triangles`)
+    - Flächen aufgeteilt in Dreiecke (`Triangles`)
   - Position, Rotation und Skalierung jeweils relativ zu den Eltern-Einstellungen und 
     zum Koordinaten-Ursprung (Pivot-Point) als `Transform`
   - Farben aus den Blender-Material-Einstellungen für Principled BSDF oder  Diffuse BSDF Nodes
@@ -44,12 +44,12 @@ Inhalte, die nicht durch Programmierung erstellt sind, heißen in 3D-Echtzeit-Um
 (Game-Engines) meist _Assets_. In einer FUSEE-Applikation können Assets in Form von 
 als .fus-Datei expotierten Blender-3D-Szenen folgendermaßen eingebunden werden.
 
-> ***TODO***
+> #### 👨‍🔧 TODO
 > 
 > - Erzeugt eine Szene in Blender mit folgenden Features
 >
 >   - Mindestens zwei Objekte mit selbst-vergebenen Namen
->   - Eltern-Kind-Verhältnisse zwischen den Objketen
+>   - Eltern-Kind-Verhältnisse zwischen den Objekten
 >   - Materialien ***entweder*** mit Diffuse- und Glossy-BSDF-Nodes ***oder*** mit dem 
 >     Principled-BSDF-Shader im Cycles-Renderer
 >
@@ -66,9 +66,9 @@ in der Methodenparameterliste (`()`) der Name übergeben werden.
 In unserem Fall enthält eine .fus-Datei immer ein Objekt vom Typ `SceneContainer`. 
 Der Name des Assets entspricht dem Dateinamen (MIT Dateinamenerweiterung).
 
-> ***TODO***
+> #### 👨‍🔧 TODO
 > 
-> - Ersetzt den Aufruf von 
+> - Ersetzt in der `Init`-Methode den Aufruf von 
 >   ```C#
 >     _scene = CreateScene();
 >   ```
@@ -85,7 +85,8 @@ Der Name des Assets entspricht dem Dateinamen (MIT Dateinamenerweiterung).
 >     // _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
 >   ```
 >   einfach aus (`//` voranstellen).
->
+>   
+
 
 Nun besteht die Szene aus dem Inhalt der in Blender erzeugten `.fus`-Datei. 
 
@@ -94,7 +95,7 @@ Nun besteht die Szene aus dem Inhalt der in Blender erzeugten `.fus`-Datei.
 Um näher zu verstehen, wie das FUSEE-Export-AddOn für Blender die Szene erzeugt,
 schauen wir uns den Inhalt der .fus-Datei nach dem Laden in der Applikation an.
 
-> ***TODO***
+> #### 👨‍🔧 TODO
 > 
 > - Setzt einen Breakpoint HINTER die Zeile, in der das Modell geladen wird.
 >   ```C#
@@ -148,22 +149,38 @@ enthält, resultiert der gesamte Aufruf darin, dass `_rightRearTransform` den We
 bekommt und nicht etwa in einem Absturz, weil versucht wurde, in einem nicht vorhandenen Objekt eine
 Transform-Komponente zu suchen.
 
+> #### 👨‍🔧 TODO
+> 
+> - Lasst das geladene 3D-Modell des Autos rotieren (wie ursprünglich der Würfel), indem ihr die oben auskommentierte Zeile
+>   in `RenderAFrame`
+>   ```C#
+>   // _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
+>   ```
+>   wieder einkommentiert. (// am Beginn der Zeile löschen).
+> 
+> - Damit `_baseTransform` dann mit der Transform-Komponente des Objektes auf oberster Ebene aus 
+>   dem geladenen 3D-Modell ("Body") initialisiert wird, muss in `Init` *nach dem Laden der Datei "CubeCar.fus"* 
+>   folgende Zeile eingefügt werden
+>   ```C#
+>   _baseTransform = _scene.Children.FindNodes((node) => node.Name == "Body")?.FirstOrDefault()?.GetTransform();
+>   ```
+
 #### Ändern von Farben
 
-Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Export über den FUS-Exporter beim Einlesen in FUSEE eine ShaderEffectComponent. Über diese lassen sich die farbgebenden Parameter wie z.B. die Diffuse-Farbe ändern:
+Wurde einem Objekt in Blender ein Material zugewiesen, besitzt dieses beim Export über den FUS-Exporter beim Einlesen in FUSEE eine `SurfaceEffect` Komponente. Über diese lassen sich die farbgebenden Parameter wie z.B. die Diffuse-Farbe ändern:
 
 ```C#
-  private ShaderEffect _rightRearShader;
+  private SurfaceEffect _rightRearEffect;
 ...
-  _rightRearShader = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<ShaderEffect>();
-  OUTDATED!!! _rightRearShader.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f));
+  _rightRearEffect = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetComponent<SurfaceEffect>();
+  _rightRearEffect.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
 
 ```
 
 > #### 👨‍🔧 TODO
 >
 > - Sucht nach oben angegebenem Muster ein vorhandenes Objekt in der geladenen FUSEE-Szene nach dessen Namen.
-> - Speichert eine Referenz auf die Transform-Komponente (`GetTransform()`) und die Shader-Effekt-Komponente (`GetComponent<ShaderEffect>()`) des Objektes
+> - Speichert eine Referenz auf die `Transform`-Komponente (`GetTransform()`) und die `SurfaceEffect`-Komponente (`GetComponent<SurfaceEffect>()`) des Objektes
 > - Animiert die Rotation des Objektes und die Farbe des Objektes innerhalb von `RenderAFrame()`.
 
 
@@ -187,7 +204,7 @@ Wann immer dieser Test positiv ist (Punkt ist im Dreieck), werden eine Reihe von
 die dann vom Benutzer ausgewertet werden können. Zu diesen Informationen gehört:
 
 - Die gerade traversierte Node
-- Die gerade traverseirte (Mesh-)Komponente
+- Die gerade traversierte (Mesh-)Komponente
 - Der Index des ersten Punktes des Dreiecks in der `Triangles`-Liste, für das der Punkt-im-Dreieck-Test
   positiv war
 - Die so genannten baryzentrischen Koordinaten, die angeben wo exakt innerhalb des Dreiecks der 
@@ -205,7 +222,7 @@ vorne liegende Objekt herausgefunden werden kann. Zudem kann auch das Dreieck id
 getroffen wurde, sowie die exakte Position des "Auftreffpunktes" errechnet werden und zwar in Modell-
 Welt- oder Bildschirmkoordinaten.
 
-> ***TODO***
+> #### 👨‍🔧 TODO
 >
 > - Erzeugt eine Klassenvariable `private ScenePicker _scenePicker` (analog zum `SceneRenderer`) 
 >   und fügt folgenden Code in die Methode `Init()` _nach_ dem Laden der Szene ein:
@@ -251,7 +268,7 @@ Welt- oder Bildschirmkoordinaten.
 Nun soll das gerade angeklickte Teil mit einer eigenen Farbgebung versehen werden. Dazu kann mit 
 der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verwiesen werden.
 
-> ***TODO***
+> #### 👨‍🔧 TODO
 >
 > - Fügt der App-Klasse folgende zwei Felder ("Klassenvariablen") hinzu:
 >   ```C#
@@ -268,27 +285,27 @@ der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verw
 >
 >          PickResult newPick = _scenePicker.Pick(RC, pickPosClip).OrderBy(pr => pr.ClipPos.z).FirstOrDefault();
 >
->          if (newPick?.Node != _currentPick?.Node)
->          {
->              if (_currentPick != null)
->              {
->                  ShaderEffect shaderEffect = _currentPick.Node.GetComponent<ShaderEffect>();
->                  shaderEffect.SetEffectParam("AlbedoColor", _oldColor);
->              }
->              if (newPick != null)
->              {
->                  ShaderEffect shaderEffect = newPick.Node.GetComponent<ShaderEffect>();
->                  _oldColor = (float4)shaderEffect.GetEffectParam("AlbedoColor");
->                  shaderEffect.SetEffectParam("AlbedoColor", new float4(1, 0.4f, 0.4f, 1));
->              }
->              _currentPick = newPick;
->          }
+>           if (newPick?.Node != _currentPick?.Node)
+>           {
+>               if (_currentPick != null)
+>               {
+>                   var ef = _currentPick.Node.GetComponent<DefaultSurfaceEffect>();
+>                   ef.SurfaceInput.Albedo = _oldColor;
+>               }
+>               if (newPick != null)
+>               {
+>                   var ef = newPick.Node.GetComponent<SurfaceEffect>();
+>                   _oldColor = ef.SurfaceInput.Albedo;
+>                   ef.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
+>               }
+>               _currentPick = newPick;
+>            }
 >      }
 >    ```
 >
 > - Überprüft die Lauffähigkeit, indem Ihr die Applikation startet und auf unterschiedliche
 >   Objekte Eurer 3D-Szene klickt. Es müssten jeweils die angeklickten Einzelteile durch die
->   Highligt-Farbe `(1, 0.4f, 0.4f)` gekennzeichnet werden.
+>   Highlight-Farbe `(1, 0.4f, 0.4f)` gekennzeichnet werden.
 
 ## Aufgabe
 
@@ -304,8 +321,8 @@ Erstellt ein eigenes 3D-Modell in Blender mit folgenden Anforderungen:
   - Mars-Rover (beweglicher Greifarm)
   - ...
 - Der Aufbau soll über mindestens zwei hierarchisch in Eltern-Kind-Beziehung stehende Achsen beweglich sein
-- Die Hierarchie muss so aufgebaut sein, dass sich durch Drehungen oder Positonsänderungen sinvolle
-  Animationen erzugen lassen.
+- Die Hierarchie muss so aufgebaut sein, dass sich durch Drehungen oder Positionsänderungen sinnvolle
+  Animationen erzeugen lassen.
 
 Mit diesem Modell soll dann eine erste Applikation erzeugt werden
 
