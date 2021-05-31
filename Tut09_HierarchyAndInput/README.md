@@ -314,7 +314,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >                        Scale = new float3(1, 1, 1),
 >                        Translation = new float3(0, 4, 0)
 >                    },
-                     MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
+>                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
 >                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
 >                }
 >            }
