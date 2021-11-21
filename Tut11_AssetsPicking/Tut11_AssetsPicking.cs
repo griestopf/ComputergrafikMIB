@@ -9,7 +9,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;

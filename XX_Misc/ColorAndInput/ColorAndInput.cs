@@ -9,7 +9,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace FuseeApp
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private Transform _cubeTransform;
-        private DefaultSurfaceEffect _cubeEffect;
+        private SurfaceEffect _cubeEffect;
 
         // Init is called on startup. 
         public override void Init()
@@ -33,7 +33,7 @@ namespace FuseeApp
             // Create a scene with a cube
             // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
             _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
-            _cubeEffect = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue, float4.Zero);
+            _cubeEffect = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components

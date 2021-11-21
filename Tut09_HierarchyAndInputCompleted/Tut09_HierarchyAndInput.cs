@@ -8,7 +8,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +68,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey, float4.Zero),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -80,7 +80,7 @@ namespace FuseeApp
                         Components = new List<SceneComponent>
                         {
                             _bodyTransform,
-                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red, float4.Zero),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red),
                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                         },
                         Children = new ChildList
@@ -104,7 +104,7 @@ namespace FuseeApp
                                                 Scale = new float3(1, 1, 1),
                                                 Translation = new float3(0, 4, 0)
                                             },
-                                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
+                                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green),
                                             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                         }
                                     },
@@ -127,7 +127,7 @@ namespace FuseeApp
                                                         Scale = new float3(1, 1, 1),
                                                         Translation = new float3(0, 4, 0)
                                                     },
-                                                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue, float4.Zero),
+                                                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue),
                                                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                                                 }
                                             }
