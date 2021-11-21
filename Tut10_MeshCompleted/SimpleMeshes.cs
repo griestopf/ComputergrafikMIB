@@ -129,7 +129,7 @@ namespace FuseeApp
         {
             return MakeEffect.FromDiffuseSpecular(
                 albedoColor: color,
-                emissionColor: float4.Zero,
+                emissionColor: float3.Zero,
                 shininess: 25.0f,
                 specularStrength: 1f);
         }

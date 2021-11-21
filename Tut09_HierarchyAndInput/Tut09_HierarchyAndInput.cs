@@ -8,7 +8,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +47,7 @@ namespace FuseeApp
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey, float4.Zero),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCuboid(new float3(10, 2, 10))

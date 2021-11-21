@@ -8,7 +8,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace FuseeApp
             // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
             _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
 
-            var cubeShader = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue, float4.Zero);
+            var cubeShader = MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue);
 
             var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
 

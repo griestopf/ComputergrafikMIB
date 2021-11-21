@@ -9,7 +9,7 @@ using Fusee.Serialization;
 using Fusee.Xene;
 using static Fusee.Engine.Core.Input;
 using static Fusee.Engine.Core.Time;
-using Fusee.Engine.GUI;
+using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +19,15 @@ namespace FuseeApp
     [FuseeApplication(Name = "Tut11_AssetsPicking", Description = "Yet another FUSEE App.")]
     public class Tut11_AssetsPicking : RenderCanvas
     {
-         private SceneContainer _scene;
+        private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private ScenePicker _scenePicker;
         private Transform _baseTransform;
         private Transform _rightRearTransform;
         private PickResult _currentPick;
         private float4 _oldColor;
+
+        private bool _isLoaded = false;
         
         SceneContainer CreateScene()
         {
@@ -67,20 +69,31 @@ namespace FuseeApp
         {
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
 
-            _scene = AssetStorage.Get<SceneContainer>("CubeCar.fus");
+            InitAsync();
+        }
+
+        private async void InitAsync()
+        {
+            _scene = await AssetStorage.GetAsync<SceneContainer>("CubeCar.fus");
 
             _rightRearTransform = _scene.Children.FindNodes(node => node.Name == "RightRearWheel")?.FirstOrDefault()?.GetTransform();
 
             // Create a scene renderer holding the scene above
             _sceneRenderer = new SceneRendererForward(_scene);
             _scenePicker = new ScenePicker(_scene);
+
+            _isLoaded = true;
         }
+
 
         // RenderAFrame is called once a frame
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-             SetProjectionAndViewport();
+            if (!_isLoaded)
+                return;
+
+            SetProjectionAndViewport();
 
             _rightRearTransform.Rotation = new float3(M.MinAngle(TimeSinceStart), 0, 0);
 
@@ -100,7 +113,7 @@ namespace FuseeApp
                 {
                     if (_currentPick != null)
                     {
-                        var ef = _currentPick.Node.GetComponent<DefaultSurfaceEffect>();
+                        var ef = _currentPick.Node.GetComponent<SurfaceEffect>();
                         ef.SurfaceInput.Albedo = _oldColor;
                     }
                     if (newPick != null)
