@@ -15,8 +15,8 @@
 > #### 👨‍🔧 TODO
 >
 > - Installiert FUSEE wie im auf der 
->   [FUSEE Installation Wiki Seite](https://github.com/FUSEEProjectTeam/Fusee/wiki/Using-Fusee-in-Visual-Studio-Code) 
->   beschrieben
+>   [FUSEE Getting Started Seite](https://fusee3d.org/getting-started/necessary-tools.html) 
+>   beschrieben.
 
 ## Was heißt Echtzeit?
 
@@ -144,9 +144,10 @@ Komponenten-Typen. Die wichtigsten sind
 
 > #### 👨‍🔧 TODO
 >
-> - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die beiden Felder
->   - `_scene` und
->   - `_sceneRenderer` 
+> - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die drei Felder
+>   - `_scene`,
+>   - `_sceneRenderer` und
+>   - `_cubeTransform` 
 >  ein.
 
 ```C#
@@ -154,6 +155,7 @@ Komponenten-Typen. Die wichtigsten sind
     {
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
+        private Transform _cubeTransform
 ```
 > - Erweitert die Methode [`Init()`](Tut08_FirstSteps.cs#L22) wie folgt, um einen
 >   Szenengraphen erzeugt, dessen einziges Objekt ein Würfel ist. Zusätzlich wird 
@@ -167,8 +169,8 @@ Komponenten-Typen. Die wichtigsten sind
 
         // Create a scene with a cube
         // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
-        _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
-        var cubeShader = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue, float4.Zero);
+        _cubeTransform = new Transform {Translation = new float3(0, 0, 50)};
+        var cubeShader = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
         var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
         
         // Assemble the cube node containing the three components
