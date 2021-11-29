@@ -13,6 +13,7 @@ using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FuseeApp
 {
@@ -22,7 +23,6 @@ namespace FuseeApp
         private SceneContainer _scene;
         private SceneRendererForward _sceneRenderer;
         private Transform _baseTransform;
-
 
         SceneContainer CreateScene()
         {
@@ -58,7 +58,6 @@ namespace FuseeApp
             };
         }
 
-
         // Init is called on startup. 
         public override void Init()
         {
@@ -70,7 +69,11 @@ namespace FuseeApp
             _sceneRenderer = new SceneRendererForward(_scene);
         }
 
-        // RenderAFrame is called once a frame
+        public override async Task InitAsync()
+        {
+            await base.InitAsync();
+        }
+
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {

@@ -13,6 +13,7 @@ using Fusee.Engine.Gui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FuseeApp
 {
@@ -26,8 +27,6 @@ namespace FuseeApp
         private Transform _rightRearTransform;
         private PickResult _currentPick;
         private float4 _oldColor;
-
-        private bool _isLoaded = false;
         
         SceneContainer CreateScene()
         {
@@ -68,11 +67,9 @@ namespace FuseeApp
         public override void Init()
         {
             RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
-
-            InitAsync();
         }
 
-        private async void InitAsync()
+        public override async Task InitAsync()
         {
             _scene = await AssetStorage.GetAsync<SceneContainer>("CubeCar.fus");
 
@@ -82,17 +79,12 @@ namespace FuseeApp
             _sceneRenderer = new SceneRendererForward(_scene);
             _scenePicker = new ScenePicker(_scene);
 
-            _isLoaded = true;
+            await base.InitAsync();
         }
 
-
-        // RenderAFrame is called once a frame
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            if (!_isLoaded)
-                return;
-
             SetProjectionAndViewport();
 
             _rightRearTransform.Rotation = new float3(M.MinAngle(TimeSinceStart), 0, 0);
