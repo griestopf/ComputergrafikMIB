@@ -53,7 +53,7 @@ erstreckt):
                     _baseTransform,
 
                     // SHADER EFFECT COMPONENT
-                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey, float4.Zero),
+                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                     // MESH COMPONENT
                     SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -156,7 +156,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                         _baseTransform,
 
                         // SHADER EFFECT COMPONENT
-                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey, float4.Zero),
+                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                         // MESH COMPONENT
                         SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
@@ -168,7 +168,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
                     Components = new ChildList
                     {
                         _bodyTransform,
-                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red, float4.Zero),
+                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red),
                         SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                     }
                 }
@@ -203,7 +203,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
         Components = new List<SceneComponentContainer>
         {
             _bodyTransform,
-            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red, float4.Zero),
+            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red),
             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
         },
         Children = new ChildList
@@ -214,7 +214,7 @@ Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind 
                 Components = new List<SceneComponentContainer>
                 {
                     _upperArmTransform,
-                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
+                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green),
                     SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
                 },
             }
@@ -314,7 +314,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >                        Scale = new float3(1, 1, 1),
 >                        Translation = new float3(0, 4, 0)
 >                    },
->                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green, float4.Zero),
+>                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green),
 >                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
 >                }
 >            }
