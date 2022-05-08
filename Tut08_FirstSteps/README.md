@@ -96,14 +96,13 @@ für die beiden Methoden [`Init()`](Tut08_FirstSteps.cs#L22) und
 >   beschrieben
 
 Wie man sieht, sieht man nichts - ein Fenster in hellgrün. Das liegt daran, dass
-in `Init()` die so genannte _ClearColor_, also die Hintergrundfarbe, mit der
-beim Rendern zunächst mal der gesamte zu rendernde Bereich gelöscht wird, auf
-hellgrün gesetzt wird. 
+in `Init()` die _BackgroundColor_ der Kamera gesetzt wird. Das ist die Hintergrundfarbe, mit der
+beim Rendern zunächst mal der von der Kamera ausgefüllte Bildschirmbereich gefüllt wird - hier mit
+auf hellgrün. 
 
-In `RenderAFrame()` wird dann für jedes zu rendernde Bild zunächst das gesamte Bild
-tatsächlich mit der vorher gesetzten Farbe gelöscht (mit `RC.Clear(...)`) und 
-schließlich das im Hintergrund gerenderte Bild, das aus nicht anderem als der 
-grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`).
+Das eigentliche löschen/füllen des Bildschirms geschieht dann in `RenderAFrame()`, an der Stelle, 
+an der die Szene mit `_sceneRenderer.Render(RC);`  gerendert wird, denn die Szene enthält ja die Kamera.
+Schließlich wird der grün gefüllte Hintergrundberiech in den sichtbaren Bildbereich gebracht (mit `Present()`).
 
 > #### 👨‍🔧 TODO
 >
@@ -114,7 +113,7 @@ grünen Fläche besteht, in den sichtbaren Bildbereich gebracht (mit `Present()`
 Objekte, die in der Szene sichtbar sein sollen, werden in einem _Szenengraphen_ 
 zu einer Szene zusammengestellt. Einen Szenengraphen kann man sich wie die 
 Szenenbeschreibung in Blender's 
-[Outliner Editor](https://sftp.hs-furtwangen.de/~lochmann/computergrafik2019/script/chapter01/lecture01/#blender-screen-layout)
+[Outliner Editor](https://griestopf.github.io/gihupa/chapter01/lecture01/#blender-screen-layout)
 vorstellen. Das Wort _Graph_ beschreibt den hierarchischen Aufbau, manchmal spricht man auch vom Szenen-_Baum_. Da es in diesen Bäumen vorkommen kann, dass Objekte an mehreren 
 Stellen eingehängt sein können, wird der hier mathematisch passendere Begriff _Graph_ verwendet.
 
@@ -137,75 +136,59 @@ Objekten vom Typ `SceneNodeContainer`. Die eigentlichen Nutzdaten sind dann in
 Komponenten-Typen. Die wichtigsten sind
 
 - [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10) - enthalten 3D-Geometriedaten wie Punkte, Flächen, Normalen und UVs.
-- [`ShaderEffect`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/ShaderEffect.cs#L114) - enthalten Materialbeschreibungen und Textur-Informationen.
-- [`Transform`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Transform.cs#L12) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
+- [`SurfaceEffect`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Effects/SurfaceEffect.cs#L13) - enthalten Materialbeschreibungen und Textur-Informationen.
+- [`Transform`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Transform.cs#L9) - enthalten Positions-, Orientierungs- und Skalierungs-Informationen für die jeweilige Node.
 
 ### Ein Würfel
 
 > #### 👨‍🔧 TODO
 >
-> - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die drei Felder
->   - `_scene`,
->   - `_sceneRenderer` und
->   - `_cubeTransform` 
->  ein.
-
-```C#
-    public class FirstSteps : RenderCanvas
-    {
-        private SceneContainer _scene;
-        private SceneRendererForward _sceneRenderer;
-        private Transform _cubeTransform
-```
-> - Erweitert die Methode [`Init()`](Tut08_FirstSteps.cs#L22) wie folgt, um einen
->   Szenengraphen erzeugt, dessen einziges Objekt ein Würfel ist. Zusätzlich wird 
->   der so genannte `SceneRender` erzeugt, der jede beliebige Szene rendern kann.
-
-```C#
-    public override void Init()
-    {
-        // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
-        RC.ClearColor = new float4(1, 1, 1, 1);
-
-        // Create a scene with a cube
-        // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
-        _cubeTransform = new Transform {Translation = new float3(0, 0, 50)};
-        var cubeShader = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
-        var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
-        
-        // Assemble the cube node containing the three components
-        var cubeNode = new SceneNode();
-        cubeNode.Components.Add(_cubeTransform);
-        cubeNode.Components.Add(cubeShader);
-        cubeNode.Components.Add(cubeMesh);
-
-        // Create the scene containing the cube as the only object
-        _scene = new SceneContainer();
-        _scene.Children.Add(cubeNode);
-
-        // Create a scene renderer holding the scene above
-        _sceneRenderer = new SceneRendererForward(_scene);
-    }
-```
-> - Fügt in die Methode [`RenderAFrame()`](Tut08_FirstSteps.cs#L29) den Aufruf
-    `_sceneRenderer.Render(RC);` ein. Diese führt dazu, dass jeden Frame der Würfel
-    gerendert wird.
-
-```C#
-  public override void RenderAFrame()
-  {
-      SetProjectionAndViewport()
-
-      // Clear the backbuffer
-      RC.Clear(ClearFlags.Color | ClearFlags.Depth);
-
-      // Render the scene on the current render context
-      _sceneRenderer.Render(RC);
-
-      // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
-      Present();
-  }
-```
+> - Fügt in die Klasse [`Tut08_FirstSteps`](Tut08_FirstSteps.cs#L19) die zwei Felder
+>   - `_cubeTransform` und
+>   - `_cameraTransform`
+>   ein.
+>   ```C#
+>     public class Tut08_FirstSteps : RenderCanvas
+>     {
+>         private SceneContainer _scene;
+>         private SceneRendererForward _sceneRenderer;
+>         private Camera _camera;
+>         private Transform _cubeTransform;
+>    ```
+> - Erweitert die Methode `Init()` wie folgt, um den 
+>   Szenengraphen zu erweitern, so dass er neben der Kamera nun einen Würfel enthält. 
+>
+>   ```C#
+>   public override void Init()
+>   {
+>      // THE CAMERA
+>      // Two components: one Transform and one Camera component.
+>      _camera =  new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) {BackgroundColor = (float4) ColorUint.Greenery};
+>      var cameraNode = new SceneNode();
+>      cameraNode.Components.Add(_camera);
+>
+>      // THE CUBE
+>      // Three components: one Transform, one SurfaceEffect (blue material) and the Mesh
+>      _cubeTransform = new Transform {Translation = new float3(0, 0, 50)};
+>      var cubeEffect = MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue);
+>      var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+>
+>      // Assemble the cube node containing the three components
+>      var cubeNode = new SceneNode();
+>      cubeNode.Components.Add(_cubeTransform);
+>      cubeNode.Components.Add(cubeEffect);
+>      cubeNode.Components.Add(cubeMesh);
+>
+>      // Create the scene containing the cube as the only object
+>      _scene = new SceneContainer();
+>      _scene.Children.Add(cameraNode);
+>      _scene.Children.Add(cubeNode);
+>
+>      // Create a scene renderer holding the scene above
+>      _sceneRenderer = new SceneRendererForward(_scene);
+>  }
+>
+>  ```
 > - Lasst das Programm laufen: Es sollte die Seitenansicht eines blauen Würfels
 >   auf grünem Untergrund erscheinen.
 
@@ -232,10 +215,6 @@ steht an der Position (0, 0, 50).
 > - Führt Euch die Situation vor Augen. Zeichnet ein Bild der Szene mit Koordinatenachseen,
 >   Kamera-Position und Kamera-Blickrichtung.
 
-In vielen Anwendungen soll die Kamera in der Szene bewegt werden. Dazu muss in FUSEE die so
-genannte _View-Matrix_ verändert werden. Glücklicherweise lässt sich die View-Matrix mit einigen 
-sehr komfortablen Methoden ändern, ohne dass sehr tief in die Matrix-Rechnung eingetaucht werden
-muss.
 
 Im Folgenden soll der Würfel in die Mitte der Szene gebracht werden und die Kamera von schräg
 hinten auf die Szene schauen.
@@ -245,45 +224,18 @@ hinten auf die Szene schauen.
 > - Ändert die Transform-Komponente des Würfels so ab, dass dieser nun im Zentrum des
 >   Koordinatensystems steht ((0, 0, 0) statt (0, 0, 50).
 >    
-> ```C#
-> var cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
-> ```
-> - Fügt VOR dem Rendern der Szene Code ein, der die View-Matrix des RenderContext verändert,
->   und somit die Kamera platziert und rotiert:
-
-```C#
-  public override void RenderAFrame()
-  {
-      SetProjectionAndViewport();
-
-      // Clear the backbuffer
-      RC.Clear(ClearFlags.Color | ClearFlags.Depth);
-
-      // Setup the camera 
-      RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(0.2f);
-
-      // Render the scene on the current render context
-      _sceneRenderer.Render(RC);
-
-      // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
-      Present();
-  }
-```
-
-Nun erscheint der Würfel leicht gedreht. Die View-Matrix enthält die Transformationen der Kamera
-aus ihrer Lage im Zentrum des Koordinatensystems mit Blickrichtung in positive Z-Achse an
-ihre Ziel-Position und -Orientierung. **Dies allerdings in umgekehrter Reihenfolge und in umgekehrtem Koordinaten-Sinn**. Die Anweisung ``float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(0.2f);`` erzeugt also eine Kamera-Transformation, die die Kamera 
-ZUERST um -50 Einheiten entlang der Z-Achse bewegt UND DANN um -0.2 Radiant um die (Welt-)Y-Achse dreht.
-
-> #### 👨‍🔧 TODO
+>   ```C#
+>   _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
+>   ```
+> - Fügt in der Camera-Node _vor_ der Camera-Component eine Transform-Komponente ein. 
+>   Legt die Kamera-Transform-Komponente (`_cameraTransform`) analog zur Cube-Transform-Komponente als Feld der 
+>   Klasse `FirstSteps` außerhalb der Methoden `Init()` und `RenderAFrame()` an. 
 >
-> - Auch das ist nur mit einer Skizze zu verstehen. Zeichnet ein Bild der Szene mit 
->   Koordinatenachseen, Kamera-Position und Kamera-Blickrichtung und den beiden 
->   Transformationen.
+> - Ändert die Position der Kamera, so dass sie nun 50 Einheiten entlang der negativen Z-Achse steht.
 
 ## Animation
 
-Nun soll sich die Kamera um den Würfel drehen. Dazu muss in `RenderAFrame()` der aktuelle
+Nun soll sich der Würfel drehen. Dazu muss in `RenderAFrame()` der aktuelle
 Drehwinkel für jedes Bild abgeändert werden.
 
 > #### 👨‍🔧 TODO
@@ -291,15 +243,15 @@ Drehwinkel für jedes Bild abgeändert werden.
 > - Fügt der Klasse `FirstSteps` ein weiteres Feld hinzu, das den aktuellen Drehwinkel
 >   der Kamera in Radiant enthält und initialisiert den Winkel mit 0.
 >  ```C#
->   private float _camAngle = 0;
+>   private float _cubeAngle = 0;
 >  ``` 
 > - Ändert in der Methode `RenderAFrame()` das Setzen der Kamera-Matrix folgendermaßen ab:
 >  ```C#
 >   // Animate the camera angle
->   _camAngle = _camAngle + 0.01f;
+>   _cubeAngle = _cubeAngle + 0.01f;
 >
->   // Setup the camera 
->   RC.View = float4x4.CreateTranslation(0, 0, 50) * float4x4.CreateRotationY(_camAngle);
+>   // Animate the cube
+>   _cubeTransform.Rotation = new float3(0, _cubeAngle, 0);
 >  ``` 
 >
 >  - Lasst Euch den aktuellen Drehwinkel mit der Methode `Diagnistics.Log()` auf der 
@@ -337,38 +289,14 @@ größere Werte.
 > - Ändert den Befehl, der pro Frame die aktuelle Kamera-Drehung berechnet, wie folgt:
 > ```C#
 >   // Animate the camera angle
->   _camAngle = _camAngle + 90.0f * M.Pi/180.0f * DeltaTime;
+>   _cubeAngle = _cubeAngle + 90.0f * M.Pi/180.0f * DeltaTime;
 > ```
 
 Dadurch dreht sich der Würfel exakt mit einer Vierteldrehung (= 90°) pro Sekunde, egal
 mit wieviel Frames die Animation läuft.
 
-## Ändern von Szenen-Eigenschaften
+## Ändern von weiteren Szenen-Eigenschaften
 
-Um die Eigenschaften von Objekten wie z.B. Positionen, Skalierungen, Rotation und Farben
-während des Renderns zu ändern, müssen Referenzen auf die jeweiligen Komponenten gespeichert
-werden. Im Folgenden Beispiel soll der Würfel in Abhängigkeit von der vergangenen Zeit
-sinus-förmige Auf- und Ab-bewegungen durchführen
-
-> #### 👨‍🔧 TODO
->
-> - Fügt in die Klasse `FirstSteps` ein Feld ein, das die Transform-Komponente des Würfels
->   speichern kann, so dass wir nicht nur aus `Init()`, sondern auch aus `RenderAFrame()`
->   darauf zugreifen können.
->
-> ```C#
->  private Transform _cubeTransform;
-> ```
->
-> - Beim Erzeugen der Szene in `Init()`, ersetzt die lokale Variable `cubeTransform` durch
->   das neu angelegte Feld `_cubeTransform`.
->
-> ```C#
->   _cubeTransform = new Transform {Scale = new float3(1, 1, 1), Translation = new float3(0, 0, 0)};
->  ...
->  cubeNode.Components.Add(_cubeTransform);
-> ```
->
 > - In `RenderAFrame()` ändert die Position des Würfels in der Transform-Komponente als 
 >   Funktion der Zeit. Da wir diesmal die Zeit seit Beginn der Applikation (und nicht die
 >   Delta-Zeit seit dem letzten Frame) verwenden wollen, greifen wir auf `TimeSinceStart` zu.

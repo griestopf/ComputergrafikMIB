@@ -18,39 +18,48 @@ namespace FuseeApp
     [FuseeApplication(Name = "Tut08_FirstSteps", Description = "Yet another FUSEE App.")]
     public class Tut08_FirstSteps : RenderCanvas
     {
+        private SceneContainer _scene;
+        private SceneRendererForward _sceneRenderer;
+
+        private Camera _camera;
+
+
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to "greenery"
-            RC.ClearColor = (float4) ColorUint.Greenery;
+            // Create a scene tree containing the camera :
+            // _scene---+
+            //          |
+            //          +---cameraNode-----_camera
+
+            // THE CAMERA
+            // A node containing one Camera component.
+            _camera =  new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+            {
+                BackgroundColor = (float4) ColorUint.Greenery
+            };
+
+            var cameraNode = new SceneNode();
+            cameraNode.Components.Add(_camera);
+
+            // Create the scene containing the cube as the only object
+            _scene = new SceneContainer();
+            _scene.Children.Add(cameraNode);
+
+            // Create a scene renderer holding the scene above
+            _sceneRenderer = new SceneRendererForward(_scene);
         }
 
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            SetProjectionAndViewport();
 
-            // Clear the backbuffer
-            RC.Clear(ClearFlags.Color | ClearFlags.Depth);
+            // Render the scene tree
+            _sceneRenderer.Render(RC);
 
-           // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
-
-        public void SetProjectionAndViewport()
-        {
-            // Set the rendering area to the entire window size
-            RC.Viewport(0, 0, Width, Height);
-
-            // Create a new projection matrix generating undistorted images on the new aspect ratio.
-            var aspectRatio = Width / (float)Height;
-
-            // 0.25*PI Rad -> 45° Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
-            // Front clipping happens at 1 (Objects nearer than 1 world unit get clipped)
-            // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
-            var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
-            RC.Projection = projection;
-        }        
 
     }
 }
