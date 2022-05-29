@@ -9,37 +9,12 @@
 
 ## Meshes
 
-In der Solution Mesh.sln wird ein einzelner rotierender Würfel wird angezeigt.
-
-> #### 👨‍🔧 TODO Zur Wiederholung/Übung/ zum Verständnis:
->
-> - Identifiziert den Teil, der die Würfelanimation (Rotation) implementiert
->   - Was macht die Methode
->      [`M.MinAngle()`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Math/Core/M.cs#L688)?
->      Warum wird sie aufgerufen?
-> - An welcher Position und welcher Orientierung steht die Kamera? Die Anweisungen
->
->   ```C#
->   // Setup the camera
->   RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Atan(15.0 / 40.0));
->   ```
->
->   beschreiben von links nach rechts und jeweils mit negativ zu interpretierenden Parametern die Transformationen,
->   die auf die Kamera ausgeführt werden. Ausgehend von einer Kamera im Koordinaten-Ursprung `(0, 0, 0)`,
->   die entlang der positiven Z-Achse schaut, wird die Kamera zunächst um -40 Einheiten entlang der Z-Achse bewegt.
->   Anschließend wird die Kamera um den Winkel `Math.Atan(15.0 / 40.0)` um die X-Achse gedreht. Rotationen beziehen
->   sich dabei immer auf den Ursprung des Koordinatensystems und NICHT etwa auf den Mittelpunkt der
->   (ggf. bereits verschobenen) Kamera.
->
->   - Welchem Winkel in Grad entspricht [`Math.Atan(15.0 / 40.0)`](https://msdn.microsoft.com/en-us/library/system.math.atan(v=vs.110).aspx)?
->   - Zeichnet Position und Orientierung der Kamera und die Position des Würfels in einer Seitenansicht
->     (Y-Z-Achsen) des Weltkoordinatensystems auf.
+Im aktuellen Projekt wird ein einzelner rotierender Würfel wird angezeigt.
 
 Der Würfel wird, wie in den vorangegangenen Beispielen auch, als ein Objekt vom Typ
 [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10)
-in die Komponentenliste eingehängt. Diese Komponente wird, gleich mit würfelförmiger Geometrie befüllt, von der
-Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und zurückgegeben.
-Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
+in die Komponentenliste eingehängt. Diese Komponente wird von der
+Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und gleich mit würfelförmiger Geometrie befüllt. Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 
 > #### 👨‍🔧 TODO
 >

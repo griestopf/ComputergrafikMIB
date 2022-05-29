@@ -25,6 +25,7 @@ namespace FuseeApp
         SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
+
             _baseTransform = new Transform
             {
                 Rotation = new float3(0, 0, 0),
@@ -35,17 +36,34 @@ namespace FuseeApp
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = new List<SceneNode>
+                Children = 
                 {
+                    new SceneNode 
+                    {
+                        Name = "Camera",
+                        Components = 
+                        {
+                            new Transform
+                            {
+                                Translation = new float3(0, 10, -30),
+                                Rotation = new float3(0.25f, 0, 0)
+                            },
+                            new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+                            {
+                                BackgroundColor =  (float4) ColorUint.Greenery
+                            }
+                        }
+                    },
+
                     new SceneNode
                     {
-                        Components = new List<SceneComponent>
+                        Components =
                         {
                             // TRANSFORM COMPONENT
                             _baseTransform,
 
                             // SHADER EFFECT COMPONENT
-                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
                             SimpleMeshes.CreateCylinder(5, 10, 8)
@@ -58,9 +76,6 @@ namespace FuseeApp
         // Init is called on startup. 
         public override void Init()
         {
-            // Set the clear color for the backbuffer to white (100% intensity in all color channels R, G, B, A).
-            RC.ClearColor = new float4(0.8f, 0.9f, 0.7f, 1);
-
             _scene = CreateScene();
 
             // Create a scene renderer holding the scene above
@@ -70,15 +85,10 @@ namespace FuseeApp
         // RenderAFrame is called once a frame
         public override void RenderAFrame()
         {
-            SetProjectionAndViewport();
-
             _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
 
             // Clear the backbuffer
             RC.Clear(ClearFlags.Color | ClearFlags.Depth);
-
-            // Setup the camera 
-            RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(-(float) Math.Atan(15.0 / 40.0));
 
             // Render the scene on the current render context
             _sceneRenderer.Render(RC);
@@ -87,19 +97,5 @@ namespace FuseeApp
             Present();
         }
 
-        public void SetProjectionAndViewport()
-        {
-            // Set the rendering area to the entire window size
-            RC.Viewport(0, 0, Width, Height);
-
-            // Create a new projection matrix generating undistorted images on the new aspect ratio.
-            var aspectRatio = Width / (float)Height;
-
-            // 0.25*PI Rad -> 45° Opening angle along the vertical direction. Horizontal opening angle is calculated based on the aspect ratio
-            // Front clipping happens at 1 (Objects nearer than 1 world unit get clipped)
-            // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
-            var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
-            RC.Projection = projection;
-        }        
     }
 }
