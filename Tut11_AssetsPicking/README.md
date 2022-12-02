@@ -16,9 +16,7 @@ Hierarchien im bereits bekannten FUSEE-Szenengraphen-Format (bestehend aus Nodes
 können als `.fus`-Dateien gespeichert und geladen werden. Um mit Blender erstellte 3D-Modelle als .fus-Datei 
 zur Verwendung in FUSEE-Applikationen zu verwenden, muss das FUSEE-Export-AddOn für Blender installiert sein.
 
-Wenn Blender standardmäßig installiert wurde, kann mit dem Befehl `fusee install --blender` das Blender-Add-On 
-an die richtige Stelle kopiert werden. Es muss dann in Blender noch unter Preferences -> Add-Ons in der Liste
-der als als `Testing` markierten Add-Ons per Häkchen aktiviert werden.
+Die Installation des FUSEE-Export-AddOn für Blender ist auf der [FUSEE-Installationsseite](https://fusee3d.org/getting-started/install-fusee.html#installenable-the-fusee-blender-add-on-within-blender) beschrieben. 
 
 
 ### Features des FUSEE-Exporters
@@ -149,21 +147,6 @@ enthält, resultiert der gesamte Aufruf darin, dass `_rightRearTransform` den We
 bekommt und nicht etwa in einem Absturz, weil versucht wurde, in einem nicht vorhandenen Objekt eine
 Transform-Komponente zu suchen.
 
-> #### 👨‍🔧 TODO
-> 
-> - Lasst das geladene 3D-Modell des Autos rotieren (wie ursprünglich der Würfel), indem ihr die oben auskommentierte Zeile
->   in `RenderAFrame`
->   ```C#
->   // _baseTransform.Rotation = new float3(0, M.MinAngle(TimeSinceStart), 0);
->   ```
->   wieder einkommentiert. (// am Beginn der Zeile löschen).
-> 
-> - Damit `_baseTransform` dann mit der Transform-Komponente des Objektes auf oberster Ebene aus 
->   dem geladenen 3D-Modell ("Body") initialisiert wird, muss in `Init` *nach dem Laden der Datei "CubeCar.fus"* 
->   folgende Zeile eingefügt werden
->   ```C#
->   _baseTransform = _scene.Children.FindNodes((node) => node.Name == "Body")?.FirstOrDefault()?.GetTransform();
->   ```
 
 #### Ändern von Farben
 
@@ -190,17 +173,16 @@ Eine häufig vorkommende Aufgabe in Echtzeit-3D-Anwendungen ist es, herauszufind
 der 3D-Szene an unter einer bestimmten 2D-Pixelposition auf dem Bildschirm liegt, beispielsweise
 dort, wo ein Benutzer gerade mit der Maus hingeklickt oder mit dem Finger eine Touch-Geste vollführt
 hat. FUSEE bietet hierzu die Klasse 
-[`ScenePicker`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L155)
-mit deren Hilfe diese Aufgabe bewerkstelligt werden kann.
+[`SceneRayCaster`](https://github.com/FUSEEProjectTeam/Fusee/blob/master/src/Engine/Core/SceneRayCaster.cs#L99)
+mit deren Hilfe diese Aufgabe bewerkstelligt werden kann. Wie der Name der Klasse sagt, wird ein Strahl (Ray) in die Szene geschossen und sämtliche Auftreffpunkte mit Objekten in der Szene werden als `RayCastResult` in einer Liste zurückgegeben. Dabei kann der Strahl, der in die Szene geschossen wird, einfach als Pixel-Position des Ausgabefensters angegeben werden. Der RayCaster generiert dann selbständig einen Strahl aus der Kameraposition durch das angegebene Pixel in die Szene.
 
 Wie der `SceneRenderer` und auch die weiter oben beschriebene `FindNodes()` Methode wird beim Picking
 eine Traversierung des Szenengraphs durchgeführt, d.h. alle Nodes und alle notwendigen Komponenten
 werden besucht. Während beim Rendern der Besuch dazu führt, dass jede Komponente ihren Beitrag am
 zu rendernden Bild leistet und beim Suchen beim Besuch ein Suchkriterium überprüft wird, werden beim 
-Picking - ähnlich wie beim Rendern - die Eckpunkte jedes Dreieck der Geometrie in Bildschirm-Koordinaten
-umgewandelt, so dass dann ein Punkt-im-Dreieck-Test durchgeführt werden kann.
+RayCast jedes Dreieck von jedem Objekt darauf hin untersucht, ob es vom Strahl getroffen wird.
 
-Wann immer dieser Test positiv ist (Punkt ist im Dreieck), werden eine Reihe von Informationen gesammelt,
+Wann immer dieser Test positiv ist, werden eine Reihe von Informationen gesammelt,
 die dann vom Benutzer ausgewertet werden können. Zu diesen Informationen gehört:
 
 - Die gerade traversierte Node
@@ -213,7 +195,7 @@ die dann vom Benutzer ausgewertet werden können. Zu diesen Informationen gehör
   Bildschirmkoordinaten stattfand.
 
 Diese Informationen sind in der Klasse
-[`PickResult`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/ScenePicker.cs#L8)
+[`RayCastResult`](https://github.com/FUSEEProjectTeam/Fusee/blob/master/src/Engine/Core/SceneRayCaster.cs#L13)
 zusammengefasst.
 
 Mit diesen Informationen lassen sich nicht nur die unter einem Bildschirm-Pixel liegenden 3D-Objekte
@@ -224,88 +206,43 @@ Welt- oder Bildschirmkoordinaten.
 
 > #### 👨‍🔧 TODO
 >
-> - Erzeugt eine Klassenvariable `private ScenePicker _scenePicker` (analog zum `SceneRenderer`) 
->   und fügt folgenden Code in die Methode `Init()` _nach_ dem Laden der Szene ein:
+> - Erzeugt eine Klassenvariable `private SceneRayCaster _sceneRayCaster` (analog zum `SceneRenderer`) 
+>   und fügt folgenden Code in die Methode `InitAsync()` _nach_ dem Laden der Szene ein:
 >   ```C#
 >     _scenePicker = new ScenePicker(_scene);
 >   ```
 > - Fügt folgenden Code in die Methode `RenderAFrame()` ein, NACHDEM die Kamera gesetzt wurde .
 >   ```C#
->      // Setup the camera 
->      RC.View = float4x4.CreateTranslation(0, 0, 40) * float4x4.CreateRotationX(->(float) Math.Atan(15.0 / 40.0));
+>           _camTransform.RotateAround(float3.Zero, new float3(0, Keyboard.LeftRightAxis * DeltaTime, 0));
 >
->      if (Mouse.LeftButton)
->      {
->          float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / >Height) + new float2(-1, 1);
+>            if (Mouse.LeftButton)
+>            {
+>                float2 pickPos = Mouse.Position;
 >
->          PickResult newPick = _scenePicker.Pick(RC, pickPosClip).OrderBy(pr => pr.ClipPos.z).FirstOrDefault();
+>                RayCastResult newPick = _sceneRayCaster.RayPick(RC, pickPos).OrderBy(rr => rr.DistanceFromOrigin).FirstOrDefault();
 >
->          if (newPick != null)
->          {
->              Diagnostics.Debug($"Object {newPick.Node.Name} picked.")
->          }
->       }
->
->   ```
->
-> - Lasst das Programm laufen und schaut im Visual-Studio-Output-Fenster, 
->   wie die Namen der Objekte beim Anklicken durch die `Diagnostics.Log()` Anweisung angezeigt werden.
-> - Setzt einen Breakpoint innerhalb des `if`-Zweigs, geht schrittweise mit `F10` durch den Code
->   und versucht, den Code zu verstehen. Hinweise:
->   - Zunächst wird die aktuelle Mausposition, die Pixel-Koordinaten enthält, in so genannte 
->     2D-Clip-Koordinaten umgerechnet. Diese haben den Ursprung in der Mitte des Ausgabefensters und 
->     am Fenster-Rand jeweils 1 (rechts und oben), bzw. -1 (links und unten).
->   - Der Aufruf von `_scenePicker.Pick()` führt die Traversierung durch und liefert eine unsortierte Liste
->     von Pick-Ergebnissen.
->   - Dabei erhält `Pick()` als Parameter den RenderContext übergeben, damit er 
->     aus den Modell-Koordinaten gültige Screen-Koordinaten berechnen kann.
->   - Falls die Liste nicht leer ist, wird diese sortiert (`OrderBy()`) und zwar nach der 
->     z-Bildschirm-Koordinate der Pick-Ereignisse (`pr => pr.ClipPos.z`). Kleinere z-Werte kommen nach vorne. Das Pick
->     Ereignis mit dem kleinsten z-Wert ist das, was dem Betrachter am nächsten ist.
->   - Das erste Pick-Ereignis falls vorhanden (`FirstOrDefault()`) wird in der Variablen `newPick` gespeichert.
->   - Der der Name der zum Pick-Ereignis zugehörigen Node wird auf dem Bildschirm ausgegeben.
-
-Nun soll das gerade angeklickte Teil mit einer eigenen Farbgebung versehen werden. Dazu kann mit 
-der Methode `GetMaterial()` auf die Material-Node des angeklickten Objektes verwiesen werden.
-
-> #### 👨‍🔧 TODO
->
-> - Fügt der App-Klasse folgende zwei Felder ("Klassenvariablen") hinzu:
->   ```C#
->     private PickResult _currentPick;
->     private float4 _oldColor;
->   ```
-> - Ersetzt die `if`-Anweisung der Maus-Tasten-Abfrage komplett durch 
->   folgenden Code:
->
->   ```C#
->     if (Mouse.LeftButton)
->      {
->          float2 pickPosClip = Mouse.Position * new float2(2.0f / Width, -2.0f / Height) + new float2(-1, 1);
->
->          PickResult newPick = _scenePicker.Pick(RC, pickPosClip).OrderBy(pr => pr.ClipPos.z).FirstOrDefault();
->
->           if (newPick?.Node != _currentPick?.Node)
->           {
->               if (_currentPick != null)
->               {
->                   var ef = _currentPick.Node.GetComponent<DefaultSurfaceEffect>();
->                   ef.SurfaceInput.Albedo = _oldColor;
->               }
->               if (newPick != null)
->               {
->                   var ef = newPick.Node.GetComponent<SurfaceEffect>();
->                   _oldColor = ef.SurfaceInput.Albedo;
->                   ef.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
->               }
->               _currentPick = newPick;
+>                if (newPick?.Node != _currentPick?.Node)
+>                {
+>                    if (_currentPick != null)
+>                    {
+>                        var ef = _currentPick.Node.GetComponent<SurfaceEffect>();
+>                        ef.SurfaceInput.Albedo = _oldColor;
+>                    }
+>                    if (newPick != null)
+>                    {
+>                        var ef = newPick.Node.GetComponent<SurfaceEffect>();
+>                        _oldColor = ef.SurfaceInput.Albedo;
+>                        ef.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
+>                    }
+>                    _currentPick = newPick;
+>                }
 >            }
->      }
->    ```
+>   ```
+>
 >
 > - Überprüft die Lauffähigkeit, indem Ihr die Applikation startet und auf unterschiedliche
 >   Objekte Eurer 3D-Szene klickt. Es müssten jeweils die angeklickten Einzelteile durch die
->   Highlight-Farbe `(1, 0.4f, 0.4f)` gekennzeichnet werden.
+>   Highlight-Farbe `ColorUint.OrangeRed` gekennzeichnet werden.
 
 ## Aufgabe
 

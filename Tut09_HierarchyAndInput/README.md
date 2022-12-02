@@ -25,7 +25,7 @@ Standes.
 >   `Init()` und `RenderAFrame()`.
 > - Identifiziert Änderungen zur letzten Übung.
 
-Wie in der Lektion 08 wird eine Szene, die nur aus einem Cuboid-Objekt (Quader)
+Wie in der Lektion 08 wird eine Szene, die nur aus einer Kamera und einem Cuboid-Objekt (Quader)
 besteht, erzeugt und gerendert. Allerdings ist der Quader nun grau und nicht mehr nicht würfelförmig.
 
 Was hat sich noch gegenüber der letzten Lektion 08 geändert?: 
@@ -37,17 +37,34 @@ Was hat sich noch gegenüber der letzten Lektion 08 geändert?:
 
 Aber auch das Zusammensetzen der Szene aus Node und Komponenten innerhalb der Methode
 `CreateScene()` sieht anders aus als beim letzten mal. Der Code, der die Szene erzeugt,
-besteht nur aus einer einzelnen Anweisung (die sich allerding über mehrere Zeilen
+besteht nur aus einer einzelnen Anweisung (die sich allerdings über mehrere Zeilen
 erstreckt):
 
 ```C#
     return new SceneContainer
     {
-        Children = new List<SceneNode>
+        Children = 
         {
+            new SceneNode 
+            {
+                Name = "Camera",
+                Components = 
+                {
+                    new Transform
+                    {
+                        Translation = new float3(0, 10, -50),
+                    },
+                    new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+                    {
+                        BackgroundColor =  (float4) ColorUint.Greenery
+                    }
+                }
+            },
+
             new SceneNode
             {
-                Components = new List<SceneComponent>
+                Name = Base (grey),
+                Components = 
                 {
                     // TRANSFORM COMPONENT
                     _baseTransform,
@@ -84,14 +101,14 @@ erkennen, als im letzten Beispiel.
 >   setzt und im Watch-Fenster des Debugger die Hierarchie anschaut.
 >
 > - Lest den [Abschnitt im C# Programmierhandbuch, der die Objekt- und Auflistungsinitialisierer
->   erklärt](https://docs.microsoft.com/de-de/dotnet/articles/csharp/programming-guide/classes-and-structs/object-and-collection-initializers). Verdeutlicht euch, wie die Liste der drei Komponenten im vorigen Beispiel über Hinterinanderausführungen der
+>   erklärt](https://docs.microsoft.com/de-de/dotnet/articles/csharp/programming-guide/classes-and-structs/object-and-collection-initializers). Verdeutlicht euch, wie die Liste der zwei Nodes und die jeweilige Liste der Komponenten im vorigen Beispiel über Hintereinanderausführungen der
 >   `Add()`-Anweisungen aufgebaut wurde und wie diese nun über eine durch Komma getrennte Aufzählung realisiert wird.
 >
 
 ### Mehr Objekte
 
 Es soll nun Zug um Zug ein Modell aufgebaut werden, dass so aussieht, wie der 
-[Roboterarm aus der ersten Lektion](https://sftp.hs-furtwangen.de/~lochmann/computergrafik2019/script/chapter01/lecture01/#3-hierarchien-outliner):
+[Roboterarm aus der ersten Lektion](https://griestopf.github.io/gihupa/chapter01/lecture01/#3-hierarchien-outliner):
 
 ![Cuboter](_images/Robot.png)
 
@@ -115,110 +132,112 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >   
 >   - Ein neues Feld (Klassenvariable) für die Transformationskomponente eingefügt werden
 >     (`Transform _bodyTransform`)
->   - Ein zweiter mit `new` erzeugter `SceneNode` in die `Children` Liste der Szene eingefügt werden, der
+>   - Ein zweiter mit `new` erzeugter `SceneNode` in als Kind in die  `Children` Liste der grauen Basis eingefügt werden, der
 >     wiederum drei Komponenten enthält.
 >
 > - Versucht zunächst selbst die Stellen im o.a. Code zu finden, wo neue Stellen einzufügen sind. Falls es nicht klappt,
 >   verwendet folgenden Code:
 >
+> 
+> ```C#
+>     private Transform _baseTransform;
+>     private Transform _bodyTransform;
+> 
+> 
+>     SceneContainer CreateScene()
+>     {
+>         // Initialize transform components that need to be changed inside "RenderAFrame"
+>         _baseTransform = new Transform
+>         {
+>             Translation = new float3(0, 0, 0)
+>         };
+> 
+>         _bodyTransform = new Transform
+>         {
+>             Translation = new float3(0, 6, 0)
+>         };
+> 
+>         // Setup the scene graph
+>         return new SceneContainer
+>         {
+>             Children = 
+>             {
+>                 new SceneNode 
+>                 {
+>                     Name = "Camera",
+>                     Components = 
+>                     {
+>                         new Transform
+>                         {
+>                             Translation = new float3(0, 10, -50),
+>                         },
+>                         new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+>                         {
+>                             BackgroundColor =  (float4) ColorUint.Greenery
+>                         }
+>                     }
+>                 },
+> 
+>                 new SceneNode
+>                 {
+>                     Name = "Base (grey)",
+>                     Components = 
+>                     {
+>                         _baseTransform,
+>                         MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
+>                         SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+>                     },
+>                     Children =
+>                     {
+>                         new SceneNode
+>                         {
+>                             Name = "Body (red)",
+>                             Components = 
+>                             {
+>                                 _bodyTransform,
+>                                 MakeEffect.FromDiffuseSpecular((float4) ColorUint.IndianRed),
+>                                 SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+>                             }
+>                         }
+>                     }
+>                 }
+>             }
+>         };
+>     }
+> ```
 
-```C#
-    private Transform _baseTransform;
-    private Transformt _bodyTransform;
-
-    SceneContainer CreateScene()
-    {
-        // Initialize transform components that need to be changed inside "RenderAFrame"
-        _baseTransform = new Transform
-        {
-            Rotation = new float3(0, 0, 0),
-            Scale = new float3(1, 1, 1),
-            Translation = new float3(0, 0, 0)
-        };
-        _bodyTransform = new Transform
-        {
-            Rotation = new float3(0, 0, 0),
-            Scale = new float3(1, 1, 1),
-            Translation = new float3(0, 6, 0)
-        };
-
-        // Setup the scene graph
-        return new SceneContainer
-        {
-            Children = new List<SceneComponentContainer>
-            {
-                // GREY BASE
-                new SceneNodeContainer
-                {
-                    Components = new List<SceneComponentContainer>
-                    {
-                        // TRANSFORM COMPONENT
-                        _baseTransform,
-
-                        // SHADER EFFECT COMPONENT
-                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
-
-                        // MESH COMPONENT
-                        SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
-                    }
-                },
-                // RED BODY
-                new SceneNodeContainer
-                {
-                    Components = new ChildList
-                    {
-                        _bodyTransform,
-                        MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red),
-                        SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
-                    }
-                }
-            }
-        };
-    }
-```
 
 > #### 👨‍🔧 TODO
 >
-> - Wer o.g. Code kopiert hat, sollte folgende Fragen beantworten können:
+> - Wer o.g. Code nur kopiert hat, sollte folgende Fragen beantworten können:
 >
 >   - Wo wird die Farbe für den roten body festgelegt? 
 >   - Wo wird die Position für den roten Cuboid festgelegt?
 >   - Warum ist dort festgelegt, dass der rote Cuboid 6 Einheiten entlang der Y-Achse transliert werden soll?
+>   - Was passiert mit dem roten Body, wenn die `Translation`-Eigenschaft der grauen Base verändert wird?
 >   
 
 ## Kindeskinder
 
-Nun soll der grüne Oberarm (`UpperArm`) folgen. Dieser könnte nun als weiteres Kind in die Szenenliste eingefügt werden.
+Nun soll der grüne Oberarm (`UpperArm`) folgen. 
 Später wollen wir aber den Roboter bewegen. Dabei soll der grüne Arm allen Bewegungen der roten Säule (`Body`) folgen.
 Wie bereits in Blender kann dieses Verhalten durch Eltern-Kind-Beziehungen erreicht werden. Solche können wir aufbauen,
 weil alle `SceneNodeContainer`-Objekte ebenfalls die Möglichkeit haben, eine `Children`-Liste zu enthalten. 
 
-Somit sollten wir den neu einzufügenden grünen Oberarm nicht als drittes Kind in die Szenen-Liste einfügen, sondern als 
-(einziges) Kind der roten Säule. Folgender Code zeigt wie es geht: 
+Somit sollten wir den neu einzufügenden grünen Oberarm als 
+Kind der roten Säule. Folgender Code zeigt wie es geht: 
 
 ```C#
-    // RED BODY
-    new SceneNodeContainer
+    new SceneNode
     {
-        Components = new List<SceneComponentContainer>
+        Name = "Body (red)",
+        Components = 
         {
             _bodyTransform,
-            MakeEffect.FromDiffuseSpecular((float4) ColorUint.Red),
+            MakeEffect.FromDiffuseSpecular((float4) ColorUint.IndianRed),
             SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
         },
-        Children = new ChildList
-        {
-            // GREEN UPPER ARM
-            new SceneNodeContainer
-            {
-                Components = new List<SceneComponentContainer>
-                {
-                    _upperArmTransform,
-                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green),
-                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
-                },
-            }
-        }
+
     }
 ```
 
@@ -243,12 +262,11 @@ mitmachen. Das wollen wir ausprobieren
 > - Rotiert die rote Säule (`Body`) ein wenig um die Y-Achse, indem Ihr deren Transform-Komponente verändert:
 >
 >   ```C#
->      _bodyTransform = new Transform
->      {
->          Rotation = new float3(0, 0.2f, 0),
->          Scale = new float3(1, 1, 1),
->          Translation = new float3(0, 6, 0)
->      };
+>    _bodyTransform = new Transform
+>    {
+>        Translation = new float3(0, 6, 0),
+>        Rotation = new float3(0, 0.2f, 0)
+>    };
 >   ```
 >
 > - Um wieviel Grad wird mit o. a. Transform-Komponente die rote Säule um Y rotiert?
@@ -264,9 +282,8 @@ Arm um seine lokale X-Achse gegenüber der roten Säule verdrehen lassen.
 >   ```C#
 >      _upperArmTransform = new Transform
 >      {
->          Rotation = new float3(1.5f, 0, 0),
->          Scale = new float3(1, 1, 1),
->          Translation = new float3(2, 8, 0)
+>          Translation = new float3(2, 8, 0),
+>          Rotation = new float3(1.5f, 0, 0)
 >      };
 >   ```
 >
@@ -295,26 +312,21 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >   besteht: Einer äußeren Node für den _Pivot Point_ und einer inneren Node für die Geometrie.
 >
 >   ```C#
->    // GREEN UPPER ARM
->    new SceneNodeContainer
+>    new SceneNode
 >    {
->        Components = new List<SceneComponentContainer>
+>        Name = "Upper Arm (green)",
+>        Components = 
 >        {
 >            _upperArmTransform,
 >        },
->        Children = new ChildList
+>        Children = 
 >        {
->            new SceneNodeContainer
+>            new SceneNode
 >            {
->                Components = new List<SceneComponentContainer>
+>                Components =
 >                {
->                    new Transform
->                    {
->                        Rotation = new float3(0, 0, 0),
->                        Scale = new float3(1, 1, 1),
->                        Translation = new float3(0, 4, 0)
->                    },
->                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.Green),
+>                    new Transform { Translation = new float3(0, 4, 0)},
+>                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.ForestGreen),
 >                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
 >                }
 >            }
@@ -328,38 +340,18 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >   4 Einheiten nach oben
 >
 >   ```C#
->   _upperArmTransform = new Transform
->   {
->       Rotation = new float3(1.5f, 0, 0),
->       Scale = new float3(1, 1, 1),
->       Translation = new float3(2, 4, 0)
->   };
+>    _upperArmTransform = new Transform
+>    {
+>        Translation = new float3(2, 4, 0),
+>        Rotation = new float3(1.5f, 0, 0)
+>    };
 >   ```
 
 Damit sollten die Bestandteile des Roboters (noch immer ohne blauen Unterarm) mit beliebigen Drehungen
 der roten Säule um die Y-Achse und des grünen Arms um die X-Achse glaubhaft aussehen, ohne dass die 
 Einzelteile auseinander gerissen werden.
 
-Schließlich fehlt noch der blaue Unterarm.
-
-> #### 👨‍🔧 TODO
->
-> - Fügt nach dem selben Schema wie oben den blauen Unterarm als Kindobjekt des grünen Arms ein.
->   Dabei muss der blaue Arm auch aus zwei Hierarchie-Ebenen bestehen: Einer, die den Nullpunkt
->   in das Scharnier zwischen Grün und Blau setzt und einer Kind-Ebene, die die Geometrie mit ihrem
->   Nullpunkt in der Mitte an die richtige Stelle setzt.
->
-> - Macht Skizzen: 
->   - Zeichnet den gewünschten  Szenengraphen in der üblichen Knoten-Komponenten-Darstellung auf 
->   - Zeichnet die Ursprünge der lokalen Koordinatensysteme in o.A. Zeichnung ein. 
->
-> - Bei Schwierigkeiten: Setzt alle Drehwinkel auf 0 zurück, um den Roboter in der nach oben gestreckten
->   Grundhaltung aufzubauen.
->
-> - Sollte es gar nicht klappen, verwendet ***AUSNAHMSWEISE*** als Vorgriff die Implementierung im
->   [_Completed_-Projekt](../Tut09_HierarchyAndInputCompleted/Tut09_HierarchyAndInput.cs#L29)
->
-
+Schließlich fehlt noch der blaue Unterarm. Siehe Aufgabe unten.
 
 
 Als Ergebnis sollte der Roboter mit allen Armen so konstruiert sein, dass Drehung der roten Säule um die
@@ -444,9 +436,21 @@ Wir wollen nun den aktuellen Wert der `LeftRightAxis` dazu verwenden, die Rotati
 
 ## Aufgabe
 
+
+- Fügt den blauen Unterarm als Kindobjekt des grünen Arms ein.
+  Dabei muss der blaue Arm auch aus zwei Hierarchie-Ebenen bestehen: Einer, die den Nullpunkt
+  in das Scharnier zwischen Grün und Blau setzt und einer Kind-Ebene, die die Geometrie mit ihrem
+  Nullpunkt in der Mitte an die richtige Stelle setzt.
+
+  Zu eurer eigenen Unterstützung: Macht Skizzen!
+    - Zeichnet den gewünschten  Szenengraphen in der üblichen Knoten-Komponenten-Darstellung auf 
+    - Zeichnet die Ursprünge der lokalen Koordinatensysteme in o.A. Zeichnung ein. 
+    - Bei Schwierigkeiten: Setzt alle Drehwinkel auf 0 zurück, um den Roboter in der nach oben gestreckten
+    Grundhaltung aufzubauen.
+
 - Macht die Bewegung des Roboters unabhängig von der Framerate.
-- Fügt Steuerungen für die beiden anderen Achsen des Roboters ein.
-- Fügt eine Möglichkeit ein, dass Benutzer die Kamera mit der Maus um das Geschehen drehen können:
+- Fügt Steuerungen für die anderen Achsen des Roboters ein.
+- Fügt eine Möglichkeit ein, dass Benutzer die Kamera mit der Maus um das Geschehen drehen können. Verwendet dazu ähnlich wie bei den grünen und roten Armen eine Eltern-Node, die um den Nullpunkt gedreht werden kann und eine Kind-Node, die die eigentliche Kamera enthält und um 50 Einheiten entlang der Z-Achse in ihrer Eltern-Node:
   - Bei gedrückter linker  Maustaste
     ([`Mouse.LeftButton`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/MouseDevice.cs#L174))
     soll die X-Komponente der aktuellen Mausgeschwindigkeit 

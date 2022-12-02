@@ -7,5 +7,6 @@
         ".vs": true,
         "*.sln": true
     },
-    "omnisharp.disableMSBuildDiagnosticWarning": true
+    "omnisharp.disableMSBuildDiagnosticWarning": true,
+    "cSpell.language": "en,de-DE"
 }
