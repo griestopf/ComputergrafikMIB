@@ -14,12 +14,12 @@ Im aktuellen Projekt wird ein einzelner rotierender Würfel wird angezeigt.
 Der Würfel wird, wie in den vorangegangenen Beispielen auch, als ein Objekt vom Typ
 [`Mesh`](https://github.com/FUSEEProjectTeam/Fusee/blob/develop/src/Engine/Core/Scene/Mesh.cs#L10)
 in die Komponentenliste eingehängt. Diese Komponente wird von der
-Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und gleich mit würfelförmiger Geometrie befüllt. Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
+Methode `new CuboidMesh(new float3(10, 10, 10))` erstellt und gleich mit würfelförmiger Geometrie befüllt. Wir wollen uns ansehen, woraus die Würfel-Geometrie besteht.
 
 > #### 👨‍🔧 TODO
 >
 > - Schaut Euch die Implementierung von
->   [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L14)
+>   [`new CuboidMesh()`](SimpleMeshes.cs#L14)
 >   an. _Tipp:_ Ihr könnte mit gedrückter `Strg`-Taste direkt im Visual Studio Code Editor auf den
 >   Methodenaufruf klicken.
 > - Seht Euch den Inhalt der Mesh-Komponente im Debugger an:
@@ -42,7 +42,7 @@ Methode `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))` erstellt und gleich 
 >   - Diese enthält diverse Arrays, u.A: `Vertices`, `Normals` und `Triangles`. Klappt
 >     die Arrays im Watch-Fenster auf und seht Euch die Inhalte an. Macht euch klar, dass dies
 >     das Resultat des Aufrufs von
->     [`SimpleMeshes.CreateCuboid()`](SimpleMeshes.cs#L11
+>     [`new CuboidMesh()`](SimpleMeshes.cs#L11
 )
 >     ist.
 
@@ -54,7 +54,7 @@ aufgehängt sind. Wie wir sehen, sind dort 3D-Positionen angegeben und diese lie
 in jeweils beide möglichen Richtungen entlang jeder Hauptachse (x, Y und Z) vom Ursprung entfernt.
 
 Damit liegen wohl alle Punkte an den Eckpunkten eines Würfels mit dem Zentrum in `(0, 0, 0)` und der Kantenlänge 10
-(jeweils von -5 bis 5 - so haben wir es ja im Aufruf von `SimpleMeshes.CreateCuboid(new float3(10, 10, 10))`
+(jeweils von -5 bis 5 - so haben wir es ja im Aufruf von `new CuboidMesh(new float3(10, 10, 10))`
 angegeben).
 
 > #### 👨‍🔧 TODO
@@ -129,7 +129,7 @@ Lektion spielen Texturkoordinaten keine Rolle.
 In der Aufgabe am Ende soll die Methode
 
 ```C#
-SimpleMeshes.CreateCylinder(float radius, float height, int segments)
+new CylinderMesh(float radius, float height, int segments)
 ```
 
 implementiert werden. Diese soll eine Mesh-Komponente in Form eines Zylinders erzeugen.
@@ -314,11 +314,11 @@ Wir können aber mit dem Debugger überprüfen, ob soweit alles stimmt:
 
 > #### 👨‍🔧 TODO
 >
-> - In der Methode `CreateScene()` (Datei Mesh.cs) Ersetzt den Aufruf von `SimpleMeshes.CreateCuboid()` durch
+> - In der Methode `CreateScene()` (Datei Mesh.cs) Ersetzt den Aufruf von `new CuboidMesh()` durch
 >
 >   ```C#
 >      // MESH COMPONENT
->      SimpleMeshes.CreateCylinder(5, 10, 8)
+>      new CylinderMesh(5, 10, 8)
 >   ```
 >
 >   _Kontrollfrage_: Wenn durch diesen Aufruf bereits ein sichtbarer Zylinder erzeugt würde, wie groß wäre dieser?
@@ -504,12 +504,6 @@ Hier zunächst ein paar beachtenswerte Tatsachen und Hinweise:
 
 ### Alternativen / Ausblick / Für Fortgeschrittene
 
-Wem der Einstieg zu schwierig ist und wer noch etwas mehr Sicherheit mit den Grundlagen benötigt, sollte zunächst mal versuchen,
-die Methode `SimpleMeshes.CreateTetrahedron()` oder `SimpleMeshes.CreatePyramid()` zu implementieren. Bei beiden
-Körpern steht, wie beim Cuboid, zur Compile-Zeit fest, aus wieviel Punkten und Flächen sie bestehen. Somit kann
-ohne Schleifen und variable Indexberechnung gearbeitet werden. Stattdessen können, wie beim Cuboid, direkt die Punkte
-und Flächen ein die entsprechenden Arrays eingetragen werden und die Indizes direkt als Zahlenwerte eingetragen werden.
+Wem der Einstieg zu schwierig ist und wer noch etwas mehr Sicherheit mit den Grundlagen benötigt, sollte zunächst mal versuchen, `new TetrahedronMesh()` oder `new PyramidMesh()` zu implementieren. Bei beiden Körpern steht, wie beim Cuboid, zur Compile-Zeit fest, aus wieviel Punkten und Flächen sie bestehen. Somit kann ohne Schleifen und variable Indexberechnung gearbeitet werden. Stattdessen können, wie beim Cuboid, direkt die Punkte und Flächen ein die entsprechenden Arrays eingetragen werden und die Indizes direkt als Zahlenwerte eingetragen werden.
 
-Wer mit dem Zylinder gut zurecht kam, kann sich überlegen, wie aus den dabei gewonnenen Erkenntnissen die Methoden
-`SimpleMeshes.CreateConeFrustum()` (leicht) oder auch die Methode `SimpleMeshes.CreateTorus()` (schwerer) implementiert
-werden können.
+Wer mit dem Zylinder gut zurecht kam, kann sich überlegen, wie aus den dabei gewonnenen Erkenntnissen `new ConeFrustumMesh()` (leicht) oder auch `new TorusMesh()` (schwerer) implementiert werden können.

@@ -73,7 +73,7 @@ erstreckt):
                     MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                     // MESH COMPONENT
-                    SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+                    new CuboidMesh(new float3(10, 2, 10))
                 }
             }
         }
@@ -185,7 +185,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >                     {
 >                         _baseTransform,
 >                         MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
->                         SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+>                         new CuboidMesh(new float3(10, 2, 10))
 >                     },
 >                     Children =
 >                     {
@@ -196,7 +196,7 @@ betragen, die langen Kanten sollen zehn Einheiten messen. Die Arme sollen sich j
 >                             {
 >                                 _bodyTransform,
 >                                 MakeEffect.FromDiffuseSpecular((float4) ColorUint.IndianRed),
->                                 SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+>                                 new CuboidMesh(new float3(2, 10, 2))
 >                             }
 >                         }
 >                     }
@@ -235,7 +235,7 @@ Kind der roten Säule. Folgender Code zeigt wie es geht:
         {
             _bodyTransform,
             MakeEffect.FromDiffuseSpecular((float4) ColorUint.IndianRed),
-            SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+            new CuboidMesh(new float3(2, 10, 2))
         },
 
     }
@@ -327,7 +327,7 @@ ein, die die eigentliche Geometrie enthält und diese an die richtige (relative)
 >                {
 >                    new Transform { Translation = new float3(0, 4, 0)},
 >                    MakeEffect.FromDiffuseSpecular((float4) ColorUint.ForestGreen),
->                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+>                    new CuboidMesh(new float3(2, 10, 2))
 >                }
 >            }
 >        }
