@@ -45,11 +45,10 @@ namespace FuseeApp
                             new Transform(),
 
                             // SHADER EFFECT COMPONENT
-                            SimpleMeshes.MakeMaterial((float4) ColorUint.LightGrey),
+                            MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
-                            // SimpleAssetsPickinges.CreateCuboid(new float3(10, 10, 10))
-                            SimpleMeshes.CreateCuboid(new float3(10, 10, 10))
+                            new CuboidMesh(new float3(10, 10, 10))
                         }
                     },
                 }

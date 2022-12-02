@@ -50,7 +50,7 @@ namespace FuseeApp
 
             var cubeEffect = MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue);
 
-            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+            var cubeMesh = new CuboidMesh(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNode();

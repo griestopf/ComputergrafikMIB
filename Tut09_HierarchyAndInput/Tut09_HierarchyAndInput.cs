@@ -67,7 +67,7 @@ namespace FuseeApp
                             MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+                            new CuboidMesh(new float3(10, 2, 10))
                         }
                     }
                 }

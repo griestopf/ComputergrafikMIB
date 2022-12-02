@@ -34,7 +34,7 @@ namespace FuseeApp
             // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
             _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
             _cubeEffect = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
-            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+            var cubeMesh = new CuboidMesh(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNode();

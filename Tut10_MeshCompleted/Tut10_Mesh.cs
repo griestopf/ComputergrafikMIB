@@ -66,7 +66,7 @@ namespace FuseeApp
                             MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCylinder(5, 10, 8)
+                            new CylinderMesh(5, 10, 8)
                         }
                     },
                 }

@@ -74,7 +74,7 @@ namespace FuseeApp
                         {
                             _baseTransform,
                             MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
-                            SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+                            new CuboidMesh(new float3(10, 2, 10))
                         },
                         Children =
                         {
@@ -85,7 +85,7 @@ namespace FuseeApp
                                 {
                                     _bodyTransform,
                                     MakeEffect.FromDiffuseSpecular((float4) ColorUint.IndianRed),
-                                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+                                    new CuboidMesh(new float3(2, 10, 2))
                                 },
                                 Children =
                                 {
@@ -104,7 +104,7 @@ namespace FuseeApp
                                                 {
                                                     new Transform { Translation = new float3(0, 4, 0)},
                                                     MakeEffect.FromDiffuseSpecular((float4) ColorUint.ForestGreen),
-                                                    SimpleMeshes.CreateCuboid(new float3(2, 10, 2))
+                                                    new CuboidMesh(new float3(2, 10, 2))
                                                 }
                                             },
                                         }
