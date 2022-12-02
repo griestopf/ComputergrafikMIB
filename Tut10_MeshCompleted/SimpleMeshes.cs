@@ -119,9 +119,9 @@ namespace FuseeApp
     {
         public CylinderMesh(float radius, float height, int segments)
         {
-            float3[] verts = new float3[segments+1];
-            float3[] norms = new float3[segments+1];
-            uint[] tris  = new uint[segments * 3];
+            float3[] verts = new float3[segments + 1];
+            float3[] norms = new float3[segments + 1];
+            uint[] tris = new uint[segments * 3];
 
             float delta = 2 * M.Pi / segments;
 
@@ -140,9 +140,9 @@ namespace FuseeApp
                 norms[i] = float3.UnitY;
 
                 // Stitch the current segment (using the center, the current and the previous point)
-                tris[3*i - 1] = (ushort) segments; // center point
-                tris[3*i - 2] = (ushort) i;        // current segment point
-                tris[3*i - 3] = (ushort) (i-1);    // previous segment point
+                tris[3 * i - 1] = (ushort)segments; // center point
+                tris[3 * i - 2] = (ushort)i;        // current segment point
+                tris[3 * i - 3] = (ushort)(i - 1);    // previous segment point
             }
 
             // Move everything to the proper mesh variables
@@ -154,7 +154,7 @@ namespace FuseeApp
 
     public class ConeMesh : ConeFrustumMesh
     {
-        public ConeMesh(float radius, float height, int segments) : base(radius, 0.0f, height, segments) {}
+        public ConeMesh(float radius, float height, int segments) : base(radius, 0.0f, height, segments) { }
     }
 
     public class ConeFrustumMesh : Mesh

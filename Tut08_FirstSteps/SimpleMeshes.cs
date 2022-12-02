@@ -117,12 +117,12 @@ namespace FuseeApp
 
     public class CylinderMesh : ConeFrustumMesh
     {
-        public CylinderMesh(float radius, float height, int segments) : base(radius, radius, height, segments) {}
+        public CylinderMesh(float radius, float height, int segments) : base(radius, radius, height, segments) { }
     }
 
     public class ConeMesh : ConeFrustumMesh
     {
-        public ConeMesh(float radius, float height, int segments) : base(radius, 0.0f, height, segments) {}
+        public ConeMesh(float radius, float height, int segments) : base(radius, 0.0f, height, segments) { }
     }
 
     public class ConeFrustumMesh : Mesh

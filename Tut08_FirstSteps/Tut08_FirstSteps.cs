@@ -34,9 +34,9 @@ namespace FuseeApp
 
             // THE CAMERA
             // A node containing one Camera component.
-            _camera =  new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+            _camera = new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4)
             {
-                BackgroundColor = (float4) ColorUint.Greenery
+                BackgroundColor = (float4)ColorUint.Greenery
             };
 
             var cameraNode = new SceneNode();

@@ -25,7 +25,7 @@ namespace FuseeApp
         private Transform _rightRearTransform;
         private RayCastResult _currentPick;
         private float4 _oldColor;
-        
+
 
 
         // Init is called on startup. 
@@ -37,16 +37,17 @@ namespace FuseeApp
         public override async Task InitAsync()
         {
             _scene = await AssetStorage.GetAsync<SceneContainer>("CubeCar.fus");
-            _camTransform = new Transform{
+            _camTransform = new Transform
+            {
                 Translation = new float3(0, 5, -40),
             };
             SceneNode cam = new SceneNode
             {
                 Name = "Camera",
                 Components =
-                { 
+                {
                     _camTransform,
-                    new Camera(ProjectionMethod.Perspective, 5, 500, M.PiOver4) 
+                    new Camera(ProjectionMethod.Perspective, 5, 500, M.PiOver4)
                     {
                         BackgroundColor =  (float4) ColorUint.Greenery,
                     }
@@ -91,7 +92,7 @@ namespace FuseeApp
                     {
                         var ef = newPick.Node.GetComponent<SurfaceEffect>();
                         _oldColor = ef.SurfaceInput.Albedo;
-                        ef.SurfaceInput.Albedo = (float4) ColorUint.OrangeRed;
+                        ef.SurfaceInput.Albedo = (float4)ColorUint.OrangeRed;
                     }
                     _currentPick = newPick;
                 }
@@ -102,6 +103,6 @@ namespace FuseeApp
 
             // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
             Present();
-        }     
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace FuseeApp
         private SceneRendererForward _sceneRenderer;
         private Transform _camTransform;
         private float4 _oldColor;
-        
+
 
         // Init is called on startup. 
         public override void Init()
@@ -60,16 +60,17 @@ namespace FuseeApp
         {
             _scene = CreateScene();
 
-            _camTransform = new Transform{
+            _camTransform = new Transform
+            {
                 Translation = new float3(0, 5, -40),
             };
             SceneNode cam = new SceneNode
             {
                 Name = "Camera",
                 Components =
-                { 
+                {
                     _camTransform,
-                    new Camera(ProjectionMethod.Perspective, 5, 500, M.PiOver4) 
+                    new Camera(ProjectionMethod.Perspective, 5, 500, M.PiOver4)
                     {
                         BackgroundColor =  (float4) ColorUint.Greenery,
                     }
@@ -80,7 +81,7 @@ namespace FuseeApp
 
             // Create a scene renderer holding the scene above
             _sceneRenderer = new SceneRendererForward(_scene);
-            
+
             await base.InitAsync();
         }
 
@@ -98,6 +99,6 @@ namespace FuseeApp
 
             // Swap buffers: Show the contents of the backbuffer (containing the currently rendered farame) on the front buffer.
             Present();
-        }     
+        }
     }
 }
