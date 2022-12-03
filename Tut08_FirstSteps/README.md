@@ -171,7 +171,7 @@ Komponenten-Typen. Die wichtigsten sind
 >      // Three components: one Transform, one SurfaceEffect (blue material) and the Mesh
 >      _cubeTransform = new Transform {Translation = new float3(0, 0, 50)};
 >      var cubeEffect = MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue);
->      var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+>      var cubeMesh = new CuboidMesh(new float3(10, 10, 10));
 >
 >      // Assemble the cube node containing the three components
 >      var cubeNode = new SceneNode();

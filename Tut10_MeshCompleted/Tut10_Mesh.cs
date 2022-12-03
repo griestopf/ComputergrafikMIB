@@ -36,19 +36,19 @@ namespace FuseeApp
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = 
+                Children =
                 {
-                    new SceneNode 
+                    new SceneNode
                     {
                         Name = "Camera",
-                        Components = 
+                        Components =
                         {
                             new Transform
                             {
                                 Translation = new float3(0, 10, -30),
                                 Rotation = new float3(0.25f, 0, 0)
                             },
-                            new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+                            new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4)
                             {
                                 BackgroundColor =  (float4) ColorUint.Greenery
                             }
@@ -66,7 +66,7 @@ namespace FuseeApp
                             MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCylinder(5, 10, 8)
+                            new CylinderMesh(5, 10, 8)
                         }
                     },
                 }

@@ -38,19 +38,19 @@ namespace FuseeApp
 
             // THE CAMERA
             // Two components: one Transform and one Camera component.
-            _camera =  new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) {BackgroundColor = (float4) ColorUint.Greenery};
-            _cameraTransform = new Transform{Translation = new float3(0, 0, -50)};
+            _camera = new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) { BackgroundColor = (float4)ColorUint.Greenery };
+            _cameraTransform = new Transform { Translation = new float3(0, 0, -50) };
             var cameraNode = new SceneNode();
             cameraNode.Components.Add(_cameraTransform);
             cameraNode.Components.Add(_camera);
 
             // THE CUBE
             // Three components: one Transform, one SurfaceEffect (blue material) and the Mesh
-            _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
+            _cubeTransform = new Transform { Translation = new float3(0, 0, 0) };
 
-            var cubeEffect = MakeEffect.FromDiffuseSpecular((float4) ColorUint.Blue);
+            var cubeEffect = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
 
-            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+            var cubeMesh = new CuboidMesh(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNode();
@@ -71,7 +71,7 @@ namespace FuseeApp
         public override void RenderAFrame()
         {
             // Animate the camera angle
-            _cubeAngle = _cubeAngle + 90.0f * M.Pi/180.0f * DeltaTime ;
+            _cubeAngle = _cubeAngle + 90.0f * M.Pi / 180.0f * DeltaTime;
 
             // Animate the cube
             _cubeTransform.Rotation = new float3(0, _cubeAngle, 0);

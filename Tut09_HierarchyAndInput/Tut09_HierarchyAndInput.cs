@@ -24,7 +24,7 @@ namespace FuseeApp
         private Transform _baseTransform;
 
 
-       SceneContainer CreateScene()
+        SceneContainer CreateScene()
         {
             // Initialize transform components that need to be changed inside "RenderAFrame"
             _baseTransform = new Transform
@@ -37,18 +37,18 @@ namespace FuseeApp
             // Setup the scene graph
             return new SceneContainer
             {
-                Children = 
+                Children =
                 {
-                    new SceneNode 
+                    new SceneNode
                     {
                         Name = "Camera",
-                        Components = 
+                        Components =
                         {
                             new Transform
                             {
                                 Translation = new float3(0, 10, -50),
                             },
-                            new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4) 
+                            new Camera(ProjectionMethod.Perspective, 5, 100, M.PiOver4)
                             {
                                 BackgroundColor =  (float4) ColorUint.Greenery
                             }
@@ -58,7 +58,7 @@ namespace FuseeApp
                     new SceneNode
                     {
                         Name = "Robot",
-                        Components = 
+                        Components =
                         {
                             // TRANSFORM COMPONENT
                             _baseTransform,
@@ -67,7 +67,7 @@ namespace FuseeApp
                             MakeEffect.FromDiffuseSpecular((float4) ColorUint.LightGrey),
 
                             // MESH COMPONENT
-                            SimpleMeshes.CreateCuboid(new float3(10, 2, 10))
+                            new CuboidMesh(new float3(10, 2, 10))
                         }
                     }
                 }
@@ -99,5 +99,5 @@ namespace FuseeApp
             // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
-   }
+    }
 }

@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch", 
             "preLaunchTask": "build",
-            "program": "fusee.exe",
+            "program": "fusee",
             "args": ["player", "${workspaceRoot}/bin/Debug/ColorAndInput.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal"

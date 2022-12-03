@@ -28,13 +28,13 @@ namespace FuseeApp
         public override void Init()
         {
             // Set the clear color for the backbuffer to "greenery" ;-) (https://store.pantone.com/de/de/color-of-the-year-2017/).
-            RC.ClearColor = new float4(136f/255f, 176f/255f, 75f/255f, 1);
+            RC.ClearColor = new float4(136f / 255f, 176f / 255f, 75f / 255f, 1);
 
             // Create a scene with a cube
             // The three components: one Transform, one ShaderEffect (blue material) and the Mesh
-            _cubeTransform = new Transform {Translation = new float3(0, 0, 0)};
+            _cubeTransform = new Transform { Translation = new float3(0, 0, 0) };
             _cubeEffect = MakeEffect.FromDiffuseSpecular((float4)ColorUint.Blue);
-            var cubeMesh = SimpleMeshes.CreateCuboid(new float3(10, 10, 10));
+            var cubeMesh = new CuboidMesh(new float3(10, 10, 10));
 
             // Assemble the cube node containing the three components
             var cubeNode = new SceneNode();
@@ -74,7 +74,7 @@ namespace FuseeApp
 
             _sceneRenderer.Render(RC);
 
-           // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
+            // Swap buffers: Show the contents of the backbuffer (containing the currently rendered frame) on the front buffer.
             Present();
         }
 
@@ -91,7 +91,7 @@ namespace FuseeApp
             // Back clipping happens at 2000 (Anything further away from the camera than 2000 world units gets clipped, polygons will be cut)
             var projection = float4x4.CreatePerspectiveFieldOfView(M.PiOver4, aspectRatio, 1, 20000);
             RC.Projection = projection;
-        }        
+        }
 
     }
 }
