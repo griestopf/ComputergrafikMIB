@@ -63,7 +63,7 @@ erstreckt):
 
             new SceneNode
             {
-                Name = Base (grey),
+                Name = "Base (grey)",
                 Components = 
                 {
                     // TRANSFORM COMPONENT
