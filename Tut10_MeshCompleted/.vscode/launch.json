@@ -10,7 +10,7 @@
             "request": "launch", 
             "preLaunchTask": "build",
             "program": "fusee",
-            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_Mesh.dll"],
+            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_MeshCompleted.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal",
             "justMyCode": true
@@ -21,7 +21,7 @@
             "request": "launch", 
             "preLaunchTask": "build",
             "program": "fusee",
-            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_Mesh.dll"],
+            "args": ["player", "${workspaceRoot}/bin/Debug/Tut10_MeshCompleted.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal",
             "justMyCode": false,

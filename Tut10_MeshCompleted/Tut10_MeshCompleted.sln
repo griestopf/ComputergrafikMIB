@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tut10_MeshCompleted", "Tut10_MeshCompleted.csproj", "{500712EE-5510-41B0-A00E-D1F81A371DAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{500712EE-5510-41B0-A00E-D1F81A371DAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500712EE-5510-41B0-A00E-D1F81A371DAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500712EE-5510-41B0-A00E-D1F81A371DAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500712EE-5510-41B0-A00E-D1F81A371DAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D6B989F-3BB3-4DDD-A86D-455FBE0F3919}
+	EndGlobalSection
+EndGlobal

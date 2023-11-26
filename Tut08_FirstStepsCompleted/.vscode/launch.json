@@ -10,7 +10,7 @@
             "request": "launch", 
             "preLaunchTask": "build",
             "program": "fusee",
-            "args": ["player", "${workspaceRoot}/bin/Debug/Tut08_FirstSteps.dll"],
+            "args": ["player", "${workspaceRoot}/bin/Debug/Tut08_FirstStepsCompleted.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal",
             "justMyCode": true
@@ -21,7 +21,7 @@
             "request": "launch", 
             "preLaunchTask": "build",
             "program": "fusee",
-            "args": ["player", "${workspaceRoot}/bin/Debug/Tut08_FirstSteps.dll"],
+            "args": ["player", "${workspaceRoot}/bin/Debug/Tut08_FirstStepsCompleted.dll"],
             "stopAtEntry": false,
             "console": "externalTerminal",
             "justMyCode": false,
